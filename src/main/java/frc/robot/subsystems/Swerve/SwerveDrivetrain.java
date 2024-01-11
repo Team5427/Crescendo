@@ -145,9 +145,9 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Velocity Theta", getVelocityVector().omegaRadiansPerSecond);
 
         modules.get(0).log("FRONT LEFT");
-        // modules.get(1).log("FRONT RIGHT");
-        // modules.get(2).log("BACK LEFT");
-        // modules.get(3).log("BACK RIGHT");
+        modules.get(1).log("FRONT RIGHT");
+        modules.get(2).log("BACK LEFT");
+        modules.get(3).log("BACK RIGHT");
     }
 
     public Command getDriveCommand() {
