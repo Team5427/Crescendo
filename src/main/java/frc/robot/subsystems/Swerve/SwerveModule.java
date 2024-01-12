@@ -42,15 +42,22 @@ public class SwerveModule {
     }
 
     public void setModuleState(SwerveModuleState state) {
-        double velocitySetpoint = state.speedMetersPerSecond;
-        Rotation2d rotSetpoint = state.angle;
-        if (velocitySetpoint > DrivetrainConstants.THRESHOLD_STOPPING_M_S) {
+        SwerveModuleState newState = SwerveModuleState.optimize(state, canCoderRot());
+        // SwerveModuleState.optimize(state, null)
+        // SwerveModuleState newState = state;
+        double velocitySetpoint = newState.speedMetersPerSecond;
+        Rotation2d rotSetpoint = newState.angle;
+        if (Math.abs(velocitySetpoint) > DrivetrainConstants.THRESHOLD_STOPPING_M_S) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
             driveMotor.setSetpoint(velocitySetpoint, 0);
         } else {
             steerMotor.forceStop();
             driveMotor.forceStop();
         }
+    }
+
+    public Rotation2d canCoderRot() {
+        return Rotation2d.fromRotations(canCoder.getAbsolutePosition().getValueAsDouble());
     }
 
     public void resetController() {
@@ -61,7 +68,7 @@ public class SwerveModule {
         SteelTalonsLogger.post(name + " velocity", getModuleState().speedMetersPerSecond);
         SteelTalonsLogger.post(name + " position", getModulePosition().distanceMeters);
         SteelTalonsLogger.post(name + " angle", getModuleState().angle.getRadians());
-        SteelTalonsLogger.post(name + " absolute angle", canCoder.getAbsolutePosition());
+        SteelTalonsLogger.post(name + " absolute angle", canCoder.getAbsolutePosition().getValueAsDouble());
         // steerMotor.log();
     }
 }

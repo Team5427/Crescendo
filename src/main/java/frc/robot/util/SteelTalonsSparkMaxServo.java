@@ -36,7 +36,7 @@ public class SteelTalonsSparkMaxServo {
         smaxEnc.setPositionConversionFactor(positionConv);
         smaxEnc.setVelocityConversionFactor(positionConv / 60.0);
         smaxEnc.setPosition(0);
-        smaxController = new ProfiledPIDController(config.kP, config.kD, config.kI, 
+        smaxController = new ProfiledPIDController(config.kP, config.kI, config.kD, 
             new Constraints(config.maxVel, config.maxAccel)
         );
         if (config.isRotational) {

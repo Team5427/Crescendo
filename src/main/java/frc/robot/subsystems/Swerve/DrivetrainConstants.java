@@ -24,10 +24,10 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = Units.feetToMeters(16.2);
+    public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = Units.feetToMeters(15.5);
     public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = 8 * Math.PI;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (5676 * (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
+    public static final double MAX_PHYSICAL_SPEED_M_S = (5676 * (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * 0.098552 * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5;
     public static final double THRESHOLD_STOPPING_M_S = 0.3;
 
@@ -36,10 +36,10 @@ public class DrivetrainConstants {
     public static final int BACK_LEFT_CANCODER_ID = 14;
     public static final int BACK_RIGHT_CANCODER_ID = 15;
 
-    public static final double FRONT_LEFT_OFFSET = 0.0;
-    public static final double FRONT_RIGHT_OFFSET = 0.0;
-    public static final double BACK_LEFT_OFFSET = 0.0;
-    public static final double BACK_RIGHT_OFFSET = 0.0;
+    public static final double FRONT_LEFT_OFFSET = 0.48;
+    public static final double FRONT_RIGHT_OFFSET = 0.255;
+    public static final double BACK_LEFT_OFFSET = -0.38;
+    public static final double BACK_RIGHT_OFFSET = 0.278;
 
     public static final STSmaxConfig FRONT_LEFT_DRIVE = new STSmaxConfig();
     public static final STSmaxConfig FRONT_RIGHT_DRIVE = new STSmaxConfig();
@@ -66,6 +66,12 @@ public class DrivetrainConstants {
         FRONT_RIGHT_DRIVE.id = 3;
         BACK_LEFT_DRIVE.id = 9;
         BACK_RIGHT_DRIVE.id = 7;
+
+        FRONT_RIGHT_DRIVE.inverted = true;
+        BACK_RIGHT_DRIVE.inverted = true;
+        FRONT_LEFT_DRIVE.inverted = false;
+        BACK_LEFT_DRIVE.inverted = false;
+
 
         FRONT_LEFT_STEER.id = 6;
         FRONT_RIGHT_STEER.id = 4;
@@ -102,7 +108,8 @@ public class DrivetrainConstants {
 
     public static STSmaxConfig configureDriveNeo(STSmaxConfig config) {
         
-        config.kP = 0.05;
+        config.kP = 0.02;
+        config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
         config.kD = 0.0;
 
         config.currentLimit = 80;
@@ -122,20 +129,20 @@ public class DrivetrainConstants {
         config.currentLimit = 20;
         config.gearing = (1.0 / (150.0/7.0));
         config.isRotational = true;
-        config.kP = 2;
-        config.kD = 0.0;
-        // config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
-        config.maxVel = 4800;
-        config.maxAccel = config.maxVel * 4;
+        config.kP = 7.0;
+        config.kD = 0.05; //1.6
+        config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
+        // config.maxVel = 4800;
+        config.maxAccel = config.maxVel * 1000;
         config.inverted = true;
-        config.idleMode = IdleMode.kCoast;
+        config.idleMode = IdleMode.kBrake;
         return config;
     }
 
     public static void configureCanCoder(CANcoder encoder, double offset) {
         CANcoderConfiguration config = new CANcoderConfiguration();
         config.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
-        config.MagnetSensor.SensorDirection = SensorDirectionValue.Clockwise_Positive;
+        config.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
         config.MagnetSensor.MagnetOffset = offset;
 
         encoder.getConfigurator().apply(config);
