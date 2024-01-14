@@ -13,9 +13,13 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.util.MiscUtil;
+import frc.robot.util.SteelTalonsLogger;
 
 public class SteelTalonsLocalization extends SubsystemBase {
 
@@ -29,6 +33,8 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private final Transform3d rightRobotToCam = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
 
     private SwerveDrivePoseEstimator poseEstimator;
+
+    private Field2d field;
 
     public SteelTalonsLocalization() {
         instance = this;
@@ -49,6 +55,8 @@ public class SteelTalonsLocalization extends SubsystemBase {
             VecBuilder.fill(0.5, 0.5, 0), 
             VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
         );
+
+        field = new Field2d();
     }
 
     public static SteelTalonsLocalization getInstance() {
@@ -61,6 +69,9 @@ public class SteelTalonsLocalization extends SubsystemBase {
         Rotation2d gyroAngle = SwerveDrivetrain.getInstance().getRotation();
         poseEstimator.update(gyroAngle, dtWheelPositions);
         Pose2d refPose = poseEstimator.getEstimatedPosition();
+
+        field.setRobotPose(getPose());
+        SmartDashboard.putData(field);
 
         if (camList != null) {
             for (ApriltagCam cam : camList) {
@@ -79,6 +90,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
     }
 
     public void resetPose(Pose2d newPose) {
+        // Pose2d resetPose = MiscUtil.isBlue() ? newPose : MiscUtil.flip(newPose);
         poseEstimator.resetPosition(
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 

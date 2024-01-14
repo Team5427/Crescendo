@@ -1,6 +1,8 @@
 package frc.robot.util;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.ReplanningConfig;
 
@@ -18,7 +20,7 @@ public class AutonUtil extends SubsystemBase {
             SwerveDrivetrain.getInstance()::setSpeedsAuton, 
             new HolonomicPathFollowerConfig(
                 DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S, 
-                Math.hypot(DrivetrainConstants.TRACKWIDTH, DrivetrainConstants.WHEELBASE), 
+                Math.hypot(DrivetrainConstants.TRACKWIDTH, DrivetrainConstants.WHEELBASE)/2.0, 
                 new ReplanningConfig()
             ), 
             () -> {
@@ -26,6 +28,10 @@ public class AutonUtil extends SubsystemBase {
             },
             SwerveDrivetrain.getInstance()
         );
+
+    }
+
+    public static void registerCommands() {
 
     }
 }

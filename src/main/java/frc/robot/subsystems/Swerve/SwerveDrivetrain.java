@@ -66,6 +66,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         return gyro.getRotation2d();
     }
 
+    public void resetGyro(Rotation2d rot) {
+        gyro.setYaw(rot.getDegrees());
+    }
+
     public SwerveDriveWheelPositions getWheelPositions() {
         return new SwerveDriveWheelPositions(new SwerveModulePosition[] {
             modules.get(0).getModulePosition(),
@@ -128,10 +132,10 @@ public class SwerveDrivetrain extends SubsystemBase {
             -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; //FIXME may need to negate
 
-        if (!MiscUtil.isBlue()) {
-            cv[0] = -cv[0];
-            cv[1] = -cv[1];
-        }
+        // if (!MiscUtil.isBlue()) {
+        //     cv[0] = -cv[0];
+        //     cv[1] = -cv[1];
+        // }
 
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
@@ -150,8 +154,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         modules.get(3).log("BACK RIGHT");
     }
 
-    public Command getDriveCommand() {
-        return new DriveCommand(getInstance(), new CommandXboxController(0));
+    public Command getDriveCommand(CommandXboxController joy) {
+        return new DriveCommand(getInstance(), joy);
     }
 
 
