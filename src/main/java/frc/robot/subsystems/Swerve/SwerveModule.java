@@ -5,6 +5,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -19,6 +20,8 @@ public class SwerveModule {
     private SteelTalonsSparkMaxServo steerMotor;
     private CANcoder canCoder;
 
+    private SlewRateLimiter xLimiter, yLimiter, thetaLimiter;
+
     public SwerveModule(STSmaxConfig driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
         DrivetrainConstants.configureMotors();
 
@@ -31,6 +34,9 @@ public class SwerveModule {
 
         driveMotor.setPosition(0);
         steerMotor.setPosition(canCoder.getAbsolutePosition().getValueAsDouble() * 2 * Math.PI);
+
+        xLimiter = new SlewRateLimiter(DrivetrainConstants.SLEW_RATE_LIMIT);
+        thetaLimiter = new SlewRateLimiter(DrivetrainConstants.SLEW_RATE_LIMIT);
     }
 
     public SwerveModulePosition getModulePosition() {
@@ -45,10 +51,15 @@ public class SwerveModule {
         SwerveModuleState newState = SwerveModuleState.optimize(state, canCoderRot());
         // SwerveModuleState.optimize(state, null)
         // SwerveModuleState newState = state;
+
         double velocitySetpoint = newState.speedMetersPerSecond;
         Rotation2d rotSetpoint = newState.angle;
+
+        // double velocitySetpoint = xLimiter.calculate(newState.speedMetersPerSecond);
+        // double rotSetpoint = thetaLimiter.calculate(newState.angle.getRadians());
         if (Math.abs(velocitySetpoint) > DrivetrainConstants.THRESHOLD_STOPPING_M_S) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
+            // steerMotor.setSetpoint(rotSetpoint, 0);
             driveMotor.setSetpoint(velocitySetpoint, 0);
         } else {
             steerMotor.forceStop();

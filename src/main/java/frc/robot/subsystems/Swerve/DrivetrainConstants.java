@@ -29,7 +29,7 @@ public class DrivetrainConstants {
 
     public static final double MAX_PHYSICAL_SPEED_M_S = (5676 * (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * 0.098552 * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5;
-    public static final double THRESHOLD_STOPPING_M_S = 0.3;
+    public static final double THRESHOLD_STOPPING_M_S = 0.25;
 
     public static final int FRONT_LEFT_CANCODER_ID = 12;
     public static final int FRONT_RIGHT_CANCODER_ID = 13;
@@ -40,6 +40,8 @@ public class DrivetrainConstants {
     public static final double FRONT_RIGHT_OFFSET = 0.255;
     public static final double BACK_LEFT_OFFSET = -0.38;
     public static final double BACK_RIGHT_OFFSET = 0.278;
+
+    public static final double SLEW_RATE_LIMIT = 1.0;
 
     public static final STSmaxConfig FRONT_LEFT_DRIVE = new STSmaxConfig();
     public static final STSmaxConfig FRONT_RIGHT_DRIVE = new STSmaxConfig();

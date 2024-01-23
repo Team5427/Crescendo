@@ -38,6 +38,7 @@ public class MiscUtil {
     public static boolean isBlue() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
+            System.err.println("returning value is present");
             return alliance.get().equals(DriverStation.Alliance.Blue);
         } else {
             return false;

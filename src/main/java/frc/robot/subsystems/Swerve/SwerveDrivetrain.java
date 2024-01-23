@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -110,6 +111,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public void setSpeedsAuton(ChassisSpeeds speeds) {
         SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(speeds, Units.millisecondsToSeconds(20)));
+        this.setPoint = speeds;
         SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
         for (int i = 0; i < modules.size(); i++) {
             modules.get(i).setModuleState(states[i]);
@@ -137,6 +139,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         //     cv[1] = -cv[1];
         // }
 
+        // cv[0] = Math.abs(cv[0]) < 0.1 ? 0: cv[0];
+        // cv[1] = Math.abs(cv[1]) < 0.1 ? 0: cv[1];
+        // cv[2] = Math.abs(cv[2]) < 0.1 ? 0: cv[2];
+
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
 
@@ -144,14 +150,14 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Setpoint X", setPoint.vxMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Y", setPoint.vyMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Theta", setPoint.omegaRadiansPerSecond);
-        SteelTalonsLogger.post("Drivetrain Velocity X", getVelocityVector().vxMetersPerSecond);
-        SteelTalonsLogger.post("Drivetrain Velocity Y", getVelocityVector().vyMetersPerSecond);
-        SteelTalonsLogger.post("Drivetrain Velocity Theta", getVelocityVector().omegaRadiansPerSecond);
+        // SteelTalonsLogger.post("Drivetrain Velocity X", getVelocityVector().vxMetersPerSecond);
+        // SteelTalonsLogger.post("Drivetrain Velocity Y", getVelocityVector().vyMetersPerSecond);
+        // SteelTalonsLogger.post("Drivetrain Velocity Theta", getVelocityVector().omegaRadiansPerSecond);
 
-        modules.get(0).log("FRONT LEFT");
-        modules.get(1).log("FRONT RIGHT");
-        modules.get(2).log("BACK LEFT");
-        modules.get(3).log("BACK RIGHT");
+        // modules.get(0).log("FRONT LEFT");
+        // modules.get(1).log("FRONT RIGHT");
+        // modules.get(2).log("BACK LEFT");
+        // modules.get(3).log("BACK RIGHT");
     }
 
     public Command getDriveCommand(CommandXboxController joy) {

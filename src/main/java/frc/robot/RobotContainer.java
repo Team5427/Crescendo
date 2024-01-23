@@ -7,6 +7,8 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,7 +25,7 @@ public class RobotContainer {
   private CommandXboxController joy;
 
   private SwerveDrivetrain drivetrain;
-  private Intake intake;
+  // private Intake intake;
   private SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
@@ -32,18 +34,19 @@ public class RobotContainer {
     drivetrain = new SwerveDrivetrain();
     drivetrain.setDefaultCommand(drivetrain.getDriveCommand(joy));
 
-    intake = new Intake();
-    intake.setDefaultCommand(intake.getCommand(joy));
+    // intake = new Intake();
+    // intake.setDefaultCommand(intake.getCommand(joy));
 
     new SteelTalonsLocalization(); //has to be after drivetrain
     new SteelTalonsLogger();
+    // SteelTalonsLocalization.getInstance().resetPose(new Pose2d(1, 1, new Rotation2d()));
     new AutonUtil(); //has to be last
 
     autoChooser = AutoBuilder.buildAutoChooser();
     // autoChooser.addOption("WrkPlease", new PathPlannerAuto("Test"));
     // autoChooser.setDefaultOption("WrkPlease", new PathPlannerAuto("Test"));
     // autoChooser.addOption("MyAuto", new PathPlannerAuto("MyAuto"));
-    // autoChooser.setDefaultOption("Test", new PathPlannerAuto("New Auto"));
+    // autoChooser.setDefaultOption("Test", new PathPlannerAuto("Test"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     new PilotingControls(new CommandXboxController(0));

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 3.0
+      "x": 2,
+      "y": 5
     },
-    "rotation": 0
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "abcd"
+            "pathName": "EasyTest"
           }
         }
       ]
     }
   },
   "folder": null,
-  "choreoAuto": false
+  "choreoAuto": true
 }

@@ -71,7 +71,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         Pose2d refPose = poseEstimator.getEstimatedPosition();
 
         field.setRobotPose(getPose());
-        SmartDashboard.putData(field);
+        SteelTalonsLogger.postComplex("Field 2d", field);
 
         if (camList != null) {
             for (ApriltagCam cam : camList) {
@@ -91,6 +91,8 @@ public class SteelTalonsLocalization extends SubsystemBase {
 
     public void resetPose(Pose2d newPose) {
         // Pose2d resetPose = MiscUtil.isBlue() ? newPose : MiscUtil.flip(newPose);
+        // SteelTalonsLogger.post("ran reset pose", true);
+        // System.err.println("ran method");
         poseEstimator.resetPosition(
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
