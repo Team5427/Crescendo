@@ -1,44 +1,94 @@
 package frc.robot.subsystems.Intake;
 
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.CANSparkLowLevel.MotorType;
-
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.util.SteelTalonsLogger;
+import frc.robot.util.SteelTalonsSparkMaxFlywheel;
+import frc.robot.util.SteelTalonsSparkMaxServo;
 
-public class Intake extends SubsystemBase{
+public class Intake extends SubsystemBase {
 
-    private CANSparkMax upperRoller;
-    private CANSparkMax lowerRoller;
+    private SteelTalonsSparkMaxFlywheel roller;
+    private SteelTalonsSparkMaxServo pivot;
+    private ArmFeedforward pivotFF;
 
-    private static Intake m_instance;
+    private double rollerSetpoint;
+    private Rotation2d setpoint;
 
-    public Intake() {
-        upperRoller = new CANSparkMax(IntakeConstants.UPPER_ROLLER_ID, MotorType.kBrushless);
-        lowerRoller = new CANSparkMax(IntakeConstants.LOWER_ROLLER_ID, MotorType.kBrushless);
+    private static Intake instance;
 
-        upperRoller.setInverted(IntakeConstants.UPPER_INVERTED);
-        // lowerRoller.setInverted(IntakeConstants.LOWER_INVERTED);
-        lowerRoller.follow(upperRoller);
-
-        m_instance = this;
+    public Intake () {
+        IntakeConstants.configureIntake();
+        roller = new SteelTalonsSparkMaxFlywheel(IntakeConstants.ROLLER_CONFIG);
+        pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
+        pivotFF = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG, IntakeConstants.kV, IntakeConstants.kA);
+        instance = this;
     }
 
     public static Intake getInstance() {
-        return m_instance;
+        return instance;
     }
 
-    public void setMotors(double speed) {
-        upperRoller.set(speed);
+    public void setPivotSetpoint(Rotation2d setpoint) {
+        this.setpoint = setpoint;
     }
 
-    public void stopMotors() {
-        upperRoller.set(0);
+    public void setRollerSetpoint(double speed) {
+        this.rollerSetpoint = speed;       
     }
 
-    public Command getCommand(CommandXboxController joy) {
-        return new IntakeCommand(joy);
+    public SteelTalonsSparkMaxFlywheel getRoller() {
+        return roller;
     }
-    
+
+    public SteelTalonsSparkMaxServo getPivot() {
+        return pivot;
+    }
+
+    public void stopRoller() {
+        roller.forceStop();
+    }
+
+    public void hardSetPivot(double percent) {
+        pivot.setRaw(percent);
+    }
+
+    public void hardSetRoller(double percent) {
+        roller.setRaw(percent);
+    }
+
+    public void resetPivotEncoder(Rotation2d resetPoint) {
+        pivot.setPosition(resetPoint.getRadians());
+    }
+
+    public boolean atGoal() {
+        return Math.abs(pivot.getError()) < IntakeConstants.PIVOT_TOLERANCE_RAD;
+    }
+
+    @Override
+    public void periodic() {
+        // pivot.setSetpoint(setpoint.getRadians(), pivotFF.calculate(pivot.getPosition(), pivot.getSetpointVelocity(), rollerSetpoint));
+        // roller.setSetpoint(rollerSetpoint, 0.0);
+        CommandXboxController controller = new CommandXboxController(0);
+        hardSetPivot(controller.getLeftY());
+        hardSetRoller(controller.getRightY());
+    }
+
+    public Command getCommand(CommandXboxController controller) {
+        return new IntakeCommand(controller);
+    }
+
+    public void log() {
+        SteelTalonsLogger.post("Intake pivot angle", pivot.getPosition());
+        SteelTalonsLogger.post("Intake pivot setpoint", setpoint.getRadians());
+        SteelTalonsLogger.post("Intake pivot error", pivot.getError());
+
+        SteelTalonsLogger.post("Intake roller angle", roller.getVelocity());
+        SteelTalonsLogger.post("Intake roller setpoint", roller.getSetPoint());
+        SteelTalonsLogger.post("Intake roller angle", roller.getError());
+    }
+
 }

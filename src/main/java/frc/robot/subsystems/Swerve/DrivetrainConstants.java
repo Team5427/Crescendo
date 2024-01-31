@@ -27,9 +27,9 @@ public class DrivetrainConstants {
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = Units.feetToMeters(16);
     public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = 4 * Math.PI;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (5676 * (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * 0.098552 * Math.PI) / (60.0);
+    public static final double MAX_PHYSICAL_SPEED_M_S = (5676 * (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5;
-    public static final double THRESHOLD_STOPPING_M_S = 0.25;
+    public static final double THRESHOLD_STOPPING_M_S = 0.07;
 
     public static final int FRONT_LEFT_CANCODER_ID = 12;
     public static final int FRONT_RIGHT_CANCODER_ID = 13;
@@ -120,8 +120,8 @@ public class DrivetrainConstants {
 
         config.gearing = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
         config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
-        // config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
-        // config.maxAccel = config.maxVel * 4;
+        config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
+        config.maxAccel = config.maxVel * 4;
 
         config.idleMode = IdleMode.kBrake;
         return config;

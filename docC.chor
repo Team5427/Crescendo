@@ -780,21 +780,21 @@
                         "first"
                     ],
                     "type": "StopPoint",
-                    "uuid": "65927817-262a-4928-a5eb-4c83cb803d2a"
+                    "uuid": "651dafa0-05cc-45c4-880d-d945b44262ed"
                 },
                 {
                     "scope": [
                         "last"
                     ],
                     "type": "StopPoint",
-                    "uuid": "cc32c96c-ccc8-44e0-90ea-cfedb33ebc68"
+                    "uuid": "6d1be1a2-ee76-4e60-80b4-186de62d2a78"
                 },
                 {
                     "scope": [
                         3
                     ],
                     "type": "WptZeroVelocity",
-                    "uuid": "78b7ffba-0fc1-494f-a053-d736074c2e19"
+                    "uuid": "28ac3c67-0268-4fbe-87b9-fe455c9b90d3"
                 },
                 {
                     "scope": [
@@ -802,8 +802,32 @@
                         3
                     ],
                     "type": "MaxVelocity",
-                    "uuid": "02145e80-8a70-4078-9716-cf896926d949",
+                    "uuid": "dd53b38a-6022-4ba0-9f71-f448f31597fa",
                     "velocity": 0
+                }
+            ],
+            "usesControlIntervalGuessing": true,
+            "defaultControlIntervalCount": 40,
+            "usesDefaultFieldObstacles": true,
+            "circleObstacles": []
+        },
+        "New Path": {
+            "waypoints": [],
+            "trajectory": [],
+            "constraints": [
+                {
+                    "scope": [
+                        "first"
+                    ],
+                    "type": "StopPoint",
+                    "uuid": "4fcdb143-9cb8-492a-8760-ee3e5d2920bb"
+                },
+                {
+                    "scope": [
+                        "last"
+                    ],
+                    "type": "StopPoint",
+                    "uuid": "c3ba0fe9-079e-47e8-9c92-965544379c68"
                 }
             ],
             "usesControlIntervalGuessing": true,
