@@ -15,8 +15,8 @@ public class Intake extends SubsystemBase {
     private SteelTalonsSparkMaxServo pivot;
     private ArmFeedforward pivotFF;
 
-    private double rollerSetpoint;
-    private Rotation2d setpoint;
+    private double rollerSetpoint = 0.0;
+    private Rotation2d setpoint = new Rotation2d();
 
     private static Intake instance;
 
@@ -24,7 +24,9 @@ public class Intake extends SubsystemBase {
         IntakeConstants.configureIntake();
         roller = new SteelTalonsSparkMaxFlywheel(IntakeConstants.ROLLER_CONFIG);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
+        pivot.disableContinuousInput();
         pivotFF = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG, IntakeConstants.kV, IntakeConstants.kA);
+        resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
         instance = this;
     }
 
@@ -70,11 +72,16 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // pivot.setSetpoint(setpoint.getRadians(), pivotFF.calculate(pivot.getPosition(), pivot.getSetpointVelocity(), rollerSetpoint));
+        pivot.setSetpoint(setpoint.getRadians(), 
+        // pivotFF.calculate(pivot.getPosition(), pivot.getSetpointVelocity())
+        0.0
+        );
+
         // roller.setSetpoint(rollerSetpoint, 0.0);
         CommandXboxController controller = new CommandXboxController(0);
-        hardSetPivot(controller.getLeftY());
+        // hardSetPivot(controller.getLeftY());
         hardSetRoller(controller.getRightY());
+        log();
     }
 
     public Command getCommand(CommandXboxController controller) {
@@ -87,8 +94,10 @@ public class Intake extends SubsystemBase {
         SteelTalonsLogger.post("Intake pivot error", pivot.getError());
 
         SteelTalonsLogger.post("Intake roller angle", roller.getVelocity());
-        SteelTalonsLogger.post("Intake roller setpoint", roller.getSetPoint());
-        SteelTalonsLogger.post("Intake roller angle", roller.getError());
+        SteelTalonsLogger.post("Intake roller setpoint", this.rollerSetpoint);
+        SteelTalonsLogger.post("Intake roller error", roller.getError());
+
+        SteelTalonsLogger.post("setpoint velocity", pivot.getSetpointVelocity());
     }
 
 }

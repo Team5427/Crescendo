@@ -29,7 +29,7 @@ public class RobotContainer {
     joy = new CommandXboxController(0);
 
     drivetrain = new SwerveDrivetrain();
-    drivetrain.setDefaultCommand(drivetrain.getDriveCommand(joy));
+    // drivetrain.setDefaultCommand(drivetrain.getDriveCommand(joy));
 
     intake = new Intake();
 

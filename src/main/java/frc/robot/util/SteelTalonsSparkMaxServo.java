@@ -65,6 +65,10 @@ public class SteelTalonsSparkMaxServo {
         smax.setVoltage(0);
     }
 
+    public void disableContinuousInput() {
+        smaxController.disableContinuousInput();
+    }
+
     public double getPosition() {
         return smaxEnc.getPosition();
     }
