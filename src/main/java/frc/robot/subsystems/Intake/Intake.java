@@ -1,7 +1,7 @@
 package frc.robot.subsystems.Intake;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -13,21 +13,25 @@ public class Intake extends SubsystemBase {
 
     private SteelTalonsSparkMaxFlywheel roller;
     private SteelTalonsSparkMaxServo pivot;
-    private ArmFeedforward pivotFF;
+    private DigitalInput beamBreaker;
 
     private double rollerSetpoint = 0.0;
     private Rotation2d setpoint = new Rotation2d();
 
     private static Intake instance;
 
+    private boolean isHoming;
+
     public Intake () {
         IntakeConstants.configureIntake();
         roller = new SteelTalonsSparkMaxFlywheel(IntakeConstants.ROLLER_CONFIG);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
         pivot.disableContinuousInput();
-        pivotFF = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG, IntakeConstants.kV, IntakeConstants.kA);
         resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
         instance = this;
+
+        beamBreaker = new DigitalInput(IntakeConstants.BEAM_BREAKER_PORT);
+        isHoming = false;
     }
 
     public static Intake getInstance() {
@@ -66,25 +70,40 @@ public class Intake extends SubsystemBase {
         pivot.setPosition(resetPoint.getRadians());
     }
 
+    public void setHoming(boolean homing) {
+        isHoming = homing;
+    }
+
+    public boolean sensorCovered() {
+        return !beamBreaker.get();
+    }
+
     public boolean atGoal() {
         return Math.abs(pivot.getError()) < IntakeConstants.PIVOT_TOLERANCE_RAD;
     }
 
-    @Override
-    public void periodic() {
-        pivot.setSetpoint(setpoint.getRadians(), 
-        // pivotFF.calculate(pivot.getPosition(), pivot.getSetpointVelocity())
-        0.0
-        );
-
-        // roller.setSetpoint(rollerSetpoint, 0.0);
-        CommandXboxController controller = new CommandXboxController(0);
-        // hardSetPivot(controller.getLeftY());
-        hardSetRoller(controller.getRightY());
-        log();
+    public boolean getHoming() {
+        return isHoming;
     }
 
-    public Command getCommand(CommandXboxController controller) {
+    @Override
+    public void periodic() {
+        if (!isHoming) {
+            pivot.setSetpoint(setpoint.getRadians(), 
+            0.0
+            );
+
+            roller.setSetpoint(rollerSetpoint, 0.0);
+        }
+
+        CommandXboxController controller = new CommandXboxController(1);
+        if (controller.getHID().getRightBumper()) {
+            hardSetRoller(controller.getRightTriggerAxis() > 0.1 ? controller.getRightTriggerAxis() : 0.0);
+        }
+        // log();
+    }
+
+    public Command getBasicIntakeCommand(CommandXboxController controller) {
         return new IntakeCommand(controller);
     }
 
@@ -98,6 +117,8 @@ public class Intake extends SubsystemBase {
         SteelTalonsLogger.post("Intake roller error", roller.getError());
 
         SteelTalonsLogger.post("setpoint velocity", pivot.getSetpointVelocity());
+
+        SteelTalonsLogger.post("Beam Broken", beamBreaker.get());
     }
 
 }

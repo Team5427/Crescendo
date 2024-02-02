@@ -13,19 +13,16 @@ public class IntakeConstants {
     private static final int ROLLER_MOTOR_ID = 17;
     private static final int PIVOT_MOTOR_ID = 18;
 
-    public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-20.0));
-    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-210.0));
+    public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-22.0));
+    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-205.0)); //-210
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
 
-    public static final double INTAKE_SPEED_INTAKING = 6.0;
+    public static final double INTAKE_SPEED_INTAKING = 17.0;
     public static final double INTAKE_SPEED_STOPPED = 0.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(1));
 
-    public static final double kS = 0.02; //FIXME
-    public static final double kG = 0.58;
-    public static final double kV = 0.55;
-    public static final double kA = 0.01;
+    public static final int BEAM_BREAKER_PORT = 0;
 
     public static void configureIntake() {
         ROLLER_CONFIG.name = "Intake Roller";
@@ -56,6 +53,6 @@ public class IntakeConstants {
 
         ROLLER_CONFIG.kP = 0.0;
         ROLLER_CONFIG.kFF = 1.0 / ROLLER_CONFIG.maxVel;
-        PIVOT_CONFIG.kP = 9.0;
+        PIVOT_CONFIG.kP = 5.0; // 7
     }
 }

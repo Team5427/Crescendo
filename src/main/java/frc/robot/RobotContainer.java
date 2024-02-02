@@ -35,14 +35,9 @@ public class RobotContainer {
 
     new SteelTalonsLocalization(); //has to be after drivetrain
     new SteelTalonsLogger();
-    // SteelTalonsLocalization.getInstance().resetPose(new Pose2d(1, 1, new Rotation2d()));
     new AutonUtil(); //has to be last
 
     autoChooser = AutoBuilder.buildAutoChooser();
-    // autoChooser.addOption("WrkPlease", new PathPlannerAuto("Test"));
-    // autoChooser.setDefaultOption("WrkPlease", new PathPlannerAuto("Test"));
-    // autoChooser.addOption("MyAuto", new PathPlannerAuto("MyAuto"));
-    // autoChooser.setDefaultOption("Test", new PathPlannerAuto("Test"));
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     new PilotingControls(new CommandXboxController(0));
