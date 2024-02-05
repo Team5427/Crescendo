@@ -5,8 +5,10 @@ import frc.robot.subsystems.Intake.Intake;
 
 public class OperatingControls {
     public OperatingControls(CommandXboxController operatingController) {
-        operatingController.rightTrigger(0.1).whileTrue(
+        operatingController.leftTrigger(0.1).whileTrue(
             Intake.getInstance().getBasicIntakeCommand(operatingController)
         );
+
+        operatingController.leftBumper().onTrue(Intake.getInstance().getHomingCommand());
     }
 }

@@ -18,7 +18,7 @@ public class HomeIntake extends Command {
         addRequirements(intake);
 
         timer = new Timer();
-        homingTargetDegrees = 5.0;
+        homingTargetDegrees = 1.0;
         homingSecondsToFinish = 0.25;
     }
 

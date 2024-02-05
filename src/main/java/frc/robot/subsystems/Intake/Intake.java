@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Intake;
 
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,6 +15,7 @@ public class Intake extends SubsystemBase {
     private SteelTalonsSparkMaxFlywheel roller;
     private SteelTalonsSparkMaxServo pivot;
     private DigitalInput beamBreaker;
+    private ArmFeedforward pivotFF;
 
     private double rollerSetpoint = 0.0;
     private Rotation2d setpoint = new Rotation2d();
@@ -30,6 +32,7 @@ public class Intake extends SubsystemBase {
         resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
         instance = this;
 
+        pivotFF = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG, IntakeConstants.kV, IntakeConstants.kA);
         beamBreaker = new DigitalInput(IntakeConstants.BEAM_BREAKER_PORT);
         isHoming = false;
     }
@@ -91,20 +94,27 @@ public class Intake extends SubsystemBase {
         if (!isHoming) {
             pivot.setSetpoint(setpoint.getRadians(), 
             0.0
+            // pivotFF.calculate(getPivot().getPosition(), pivot.getSetpointVelocity())
             );
 
             roller.setSetpoint(rollerSetpoint, 0.0);
+        } else {
+            hardSetPivot(0.05);
         }
 
         CommandXboxController controller = new CommandXboxController(1);
-        if (controller.getHID().getRightBumper()) {
-            hardSetRoller(controller.getRightTriggerAxis() > 0.1 ? controller.getRightTriggerAxis() : 0.0);
+        if (controller.getRightTriggerAxis() > 0.1) {
+            hardSetRoller(controller.getRightTriggerAxis() > 0.1 ? -controller.getRightTriggerAxis() : 0.0);
         }
-        // log();
+        log();
     }
 
     public Command getBasicIntakeCommand(CommandXboxController controller) {
         return new IntakeCommand(controller);
+    }
+
+    public Command getHomingCommand() {
+        return new HomeIntake();
     }
 
     public void log() {

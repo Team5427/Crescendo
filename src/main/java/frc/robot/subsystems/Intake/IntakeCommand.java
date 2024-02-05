@@ -17,15 +17,13 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        if (controller.getHID().getLeftBumper()) {
             intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
             intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING);
-        }
     }
 
     @Override
     public boolean isFinished() {
-        return !controller.getHID().getLeftBumper();
+        return intake.sensorCovered() && intake.atGoal();
     }
 
     @Override

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
@@ -19,17 +20,14 @@ import frc.robot.util.Localization.SteelTalonsLocalization;
 
 public class RobotContainer {
 
-  private CommandXboxController joy;
-
   private SwerveDrivetrain drivetrain;
   private Intake intake;
   private SendableChooser<Command> autoChooser;
 
   public RobotContainer() {
-    joy = new CommandXboxController(0);
 
     drivetrain = new SwerveDrivetrain();
-    // drivetrain.setDefaultCommand(drivetrain.getDriveCommand(joy));
+    drivetrain.setDefaultCommand(drivetrain.getDriveCommand(new CommandXboxController(0)));
 
     intake = new Intake();
 
@@ -41,6 +39,7 @@ public class RobotContainer {
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
     new PilotingControls(new CommandXboxController(0));
+    new OperatingControls(new CommandXboxController(1));
   }
 
   public Command getAutonomousCommand() {
