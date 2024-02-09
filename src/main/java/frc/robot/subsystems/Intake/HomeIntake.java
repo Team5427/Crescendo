@@ -19,7 +19,7 @@ public class HomeIntake extends Command {
 
         timer = new Timer();
         homingTargetDegrees = 1.0;
-        homingSecondsToFinish = 0.25;
+        homingSecondsToFinish = 1.0;
     }
 
     private void timerContinueHoming() {

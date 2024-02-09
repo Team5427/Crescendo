@@ -13,8 +13,8 @@ public class IntakeConstants {
     private static final int ROLLER_MOTOR_ID = 17;
     private static final int PIVOT_MOTOR_ID = 18;
 
-    public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-25.0));
-    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-211.0)); //-210
+    public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-26.0));
+    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-209.5)); //-210
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
 
     public static final double INTAKE_SPEED_INTAKING = 17.0;
@@ -48,7 +48,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.maxVel = (5676 * ROLLER_CONFIG.gearing * ROLLER_CONFIG.finalDiameterMeters * 2 * Math.PI) / (60.0);
         ROLLER_CONFIG.maxAccel = ROLLER_CONFIG.maxVel * 4;
         PIVOT_CONFIG.maxVel = (5676 * PIVOT_CONFIG.gearing * 2 * Math.PI) / (60.0);
-        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 3;
+        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 2.5;
 
         ROLLER_CONFIG.inverted = false;
         PIVOT_CONFIG.inverted = true;

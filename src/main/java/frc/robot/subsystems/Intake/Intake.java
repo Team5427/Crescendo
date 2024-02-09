@@ -91,6 +91,7 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
+        CommandXboxController controller = new CommandXboxController(1);
         if (!isHoming) {
             pivot.setSetpoint(setpoint.getRadians(), 
             0.0
@@ -98,23 +99,25 @@ public class Intake extends SubsystemBase {
             );
 
             roller.setSetpoint(rollerSetpoint, 0.0);
+            if (rollerSetpoint == 0 && controller.getRightTriggerAxis() < 0.1) {
+                hardSetRoller(0.1);
+            }
         } else {
             hardSetPivot(0.05);
-        }
-
-        CommandXboxController controller = new CommandXboxController(1);
-        if (controller.getRightTriggerAxis() > 0.1) {
-            hardSetRoller(controller.getRightTriggerAxis() > 0.1 ? -controller.getRightTriggerAxis() : 0.0);
         }
         log();
     }
 
-    public Command getBasicIntakeCommand(CommandXboxController controller) {
-        return new IntakeCommand(controller);
+    public Command getBasicIntakeCommand() {
+        return new IntakeCommand();
     }
 
     public Command getHomingCommand() {
         return new HomeIntake();
+    }
+
+    public Command getIntakeEjaculation() {
+        return new TempIntakeEjaculation();
     }
 
     public void log() {

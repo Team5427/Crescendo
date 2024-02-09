@@ -6,19 +6,17 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class IntakeCommand extends Command {
 
     private Intake intake;
-    private CommandXboxController controller;
 
-    public IntakeCommand (CommandXboxController controller) {
+    public IntakeCommand () {
         this.intake = Intake.getInstance();
-        this.controller = controller;
 
         addRequirements(intake);
     }
 
     @Override
     public void execute() {
-            intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
-            intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING);
+        intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
+        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING);
     }
 
     @Override
