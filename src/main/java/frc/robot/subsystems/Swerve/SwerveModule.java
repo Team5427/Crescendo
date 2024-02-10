@@ -6,6 +6,8 @@ import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SteelTalonsSparkMaxFlywheel;
@@ -16,6 +18,8 @@ public class SwerveModule {
     private SteelTalonsSparkMaxFlywheel driveMotor;
     private SteelTalonsSparkMaxServo steerMotor;
     private CANcoder canCoder;
+    
+    private SendableChooser<Double> deadzone;
 
     private SlewRateLimiter xLimiter, yLimiter, thetaLimiter;
 
@@ -34,6 +38,11 @@ public class SwerveModule {
 
         xLimiter = new SlewRateLimiter(DrivetrainConstants.SLEW_RATE_LIMIT);
         thetaLimiter = new SlewRateLimiter(DrivetrainConstants.SLEW_RATE_LIMIT);
+
+        deadzone = new SendableChooser<Double>();
+        deadzone.setDefaultOption("Competition", DrivetrainConstants.THRESHOLD_STOPPING_M_S_COMPETITION);
+        deadzone.addOption("Tuning", DrivetrainConstants.THRESHOLD_STOPPING_M_S_TUNING);
+        SmartDashboard.putData("Deadzone", deadzone);
     }
 
     public SwerveModulePosition getModulePosition() {
@@ -54,7 +63,7 @@ public class SwerveModule {
 
         // double velocitySetpoint = xLimiter.calculate(newState.speedMetersPerSecond);
         // double rotSetpoint = thetaLimiter.calculate(newState.angle.getRadians());
-        if (Math.abs(velocitySetpoint) > DrivetrainConstants.THRESHOLD_STOPPING_M_S) {
+        if (Math.abs(velocitySetpoint) > deadzone.getSelected()) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
             // steerMotor.setSetpoint(rotSetpoint, 0);
             driveMotor.setSetpoint(velocitySetpoint, 0);

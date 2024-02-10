@@ -29,7 +29,8 @@ public class DrivetrainConstants {
 
     public static final double MAX_PHYSICAL_SPEED_M_S = (5676 * (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5;
-    public static final double THRESHOLD_STOPPING_M_S = 0.07;
+    public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.07;
+    public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.5;
 
     public static final int FRONT_LEFT_CANCODER_ID = 12;
     public static final int FRONT_RIGHT_CANCODER_ID = 13;
