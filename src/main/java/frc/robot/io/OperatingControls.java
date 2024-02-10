@@ -6,7 +6,11 @@ import frc.robot.subsystems.Intake.Intake;
 public class OperatingControls {
     public OperatingControls(CommandXboxController operatingController) {
         operatingController.leftTrigger(0.1).whileTrue(
-            Intake.getInstance().getBasicIntakeCommand(operatingController)
+            Intake.getInstance().getBasicIntakeCommand()
+        );
+
+        operatingController.rightTrigger(0.1).whileTrue(
+            Intake.getInstance().getIntakeEjaculation()
         );
 
         operatingController.leftBumper().onTrue(Intake.getInstance().getHomingCommand());

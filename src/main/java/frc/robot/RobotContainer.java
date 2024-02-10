@@ -5,10 +5,13 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
@@ -31,6 +34,8 @@ public class RobotContainer {
 
     intake = new Intake();
 
+    registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
+
     new SteelTalonsLocalization(); //has to be after drivetrain
     new SteelTalonsLogger();
     new AutonUtil(); //has to be last
@@ -40,6 +45,11 @@ public class RobotContainer {
 
     new PilotingControls(new CommandXboxController(0));
     new OperatingControls(new CommandXboxController(1));
+  }
+
+  private void registerNamedCommands() {
+    NamedCommands.registerCommand("Use Intake", Intake.getInstance().getBasicIntakeCommand());
+    NamedCommands.registerCommand("Eject Note", Intake.getInstance().getIntakeEjaculation());
   }
 
   public Command getAutonomousCommand() {
