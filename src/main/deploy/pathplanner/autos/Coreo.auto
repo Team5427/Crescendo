@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.593207597732544,
-      "y": 3.90462875366211
+      "x": 1.402464509010315,
+      "y": 5.381168365478516
     },
-    "rotation": -2.4189435483127345e-32
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SendHelp"
+            "pathName": "DamnLookAtThoseCurves"
           }
         }
       ]
