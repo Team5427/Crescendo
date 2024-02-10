@@ -10,15 +10,18 @@ public class IntakeConstants {
     public static STSmaxConfig ROLLER_CONFIG = new STSmaxConfig();
     public static STSmaxConfig PIVOT_CONFIG = new STSmaxConfig();
 
-    private static final int ROLLER_MOTOR_ID = 17;
-    private static final int PIVOT_MOTOR_ID = 18;
+    public static final int ROLLER_MOTOR_ID = 17;
+    public static final int PIVOT_MOTOR_ID = 18;
+
+    public static final double MAX_KRAKEN_ROLLER_SPEED_M_S = (6000 * Math.PI * Units.inchesToMeters(2)) / 60;
 
     public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-26.0));
     public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-209.5)); //-210
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
 
-    public static final double INTAKE_SPEED_INTAKING = 17.0;
-    public static final double INTAKE_SPEED_STOPPED = 0.0;
+    public static final double INTAKE_SPEED_INTAKING = 15.5;
+    public static final double INTAKE_SPEED_HOLD = 1.0;
+    public static final double INTAKE_SPEED_EJECTING = -13.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2));
 
