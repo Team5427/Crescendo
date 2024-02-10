@@ -13,6 +13,9 @@ public class STSmaxConfig {
     public double kP, kD, kI, kFF;
     public double maxAccel, maxVel;
     public IdleMode idleMode;
+
+    private final double NEO_MAX_RPM = 5676.0;
+
     public STSmaxConfig() {
         name = "NOT CONSTRUCUTED";
         id = 0;
@@ -24,5 +27,11 @@ public class STSmaxConfig {
         maxAccel = 0.0;
         maxVel = 0.0;
         idleMode = IdleMode.kBrake;
+    }
+
+    public double getStandardMaxVelocity() {
+        if (!isRotational)
+            return (NEO_MAX_RPM * gearing * finalDiameterMeters * 2 * Math.PI) / (60.0);
+        return (NEO_MAX_RPM * gearing * 2 * Math.PI) / (60.0);
     }
 }
