@@ -1,8 +1,11 @@
 package frc.robot.subsystems.Intake;
 
+import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -13,6 +16,7 @@ import frc.robot.util.SteelTalonsSparkMaxServo;
 public class Intake extends SubsystemBase {
 
     private SteelTalonsSparkMaxFlywheel roller;
+    private TalonFX rollerTalon;
     private SteelTalonsSparkMaxServo pivot;
     private DigitalInput beamBreaker;
     private ArmFeedforward pivotFF;
@@ -27,6 +31,7 @@ public class Intake extends SubsystemBase {
     public Intake () {
         IntakeConstants.configureIntake();
         roller = new SteelTalonsSparkMaxFlywheel(IntakeConstants.ROLLER_CONFIG);
+        rollerTalon = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
         pivot.disableContinuousInput();
         resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
@@ -49,8 +54,8 @@ public class Intake extends SubsystemBase {
         this.rollerSetpoint = speed;       
     }
 
-    public SteelTalonsSparkMaxFlywheel getRoller() {
-        return roller;
+    public TalonFX getRoller() {
+        return rollerTalon;
     }
 
     public SteelTalonsSparkMaxServo getPivot() {
@@ -58,7 +63,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void stopRoller() {
-        roller.forceStop();
+        rollerTalon.stopMotor();
     }
 
     public void hardSetPivot(double percent) {
@@ -66,7 +71,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void hardSetRoller(double percent) {
-        roller.setRaw(percent);
+        rollerTalon.set(percent);
     }
 
     public void resetPivotEncoder(Rotation2d resetPoint) {
@@ -98,10 +103,7 @@ public class Intake extends SubsystemBase {
             // pivotFF.calculate(getPivot().getPosition(), pivot.getSetpointVelocity())
             );
 
-            roller.setSetpoint(rollerSetpoint, 0.0);
-            if (rollerSetpoint == 0 && controller.getRightTriggerAxis() < 0.1) {
-                hardSetRoller(0.1);
-            }
+            hardSetRoller(rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S);
         } else {
             hardSetPivot(0.05);
         }

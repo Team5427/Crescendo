@@ -121,9 +121,6 @@ public class DrivetrainConstants {
 
         config.gearing = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
         config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
-        config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
-        config.maxAccel = config.maxVel * 4;
-
         config.idleMode = IdleMode.kBrake;
         return config;
     }
@@ -135,7 +132,6 @@ public class DrivetrainConstants {
         config.kP = 7.0;
         config.kD = 0.15; //1.6
         config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
-        // config.maxVel = 4800;
         config.maxAccel = config.maxVel * 1000;
         config.inverted = true;
         config.idleMode = IdleMode.kBrake;

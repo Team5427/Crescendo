@@ -27,7 +27,7 @@ public class IntakeCommand extends Command {
     @Override
     public void end(boolean interrupted) {
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_STOPPED);
+        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
     }
 
 }
