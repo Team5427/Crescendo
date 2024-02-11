@@ -26,4 +26,5 @@ public class ApriltagCam extends SubsystemBase {
     public Optional<EstimatedRobotPose> getUpdate(Pose2d refPose) {
         return estimator.update();
     }
+
 }
