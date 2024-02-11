@@ -48,9 +48,9 @@ public class IntakeConstants {
         ROLLER_CONFIG.finalDiameterMeters = Units.inchesToMeters(2);
         PIVOT_CONFIG.gearing = (12.0/52.0) * (16.0/52.0) * (16.0/32.0);
 
-        ROLLER_CONFIG.maxVel = (5676 * ROLLER_CONFIG.gearing * ROLLER_CONFIG.finalDiameterMeters * 2 * Math.PI) / (60.0);
+        ROLLER_CONFIG.maxVel = ROLLER_CONFIG.getStandardMaxVelocity();
         ROLLER_CONFIG.maxAccel = ROLLER_CONFIG.maxVel * 4;
-        PIVOT_CONFIG.maxVel = (5676 * PIVOT_CONFIG.gearing * 2 * Math.PI) / (60.0);
+        PIVOT_CONFIG.maxVel = PIVOT_CONFIG.getStandardMaxVelocity();
         PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 2.5;
 
         ROLLER_CONFIG.inverted = false;
