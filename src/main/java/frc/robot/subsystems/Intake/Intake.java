@@ -96,7 +96,6 @@ public class Intake extends SubsystemBase {
 
     @Override
     public void periodic() {
-        CommandXboxController controller = new CommandXboxController(1);
         if (!isHoming) {
             pivot.setSetpoint(setpoint.getRadians(), 
             0.0
