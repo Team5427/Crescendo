@@ -131,16 +131,7 @@ public class SwerveDrivetrain extends SubsystemBase {
             -controller.getRightY() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
             -controller.getRightX() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
             -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
-        }; //FIXME may need to negate
-
-        // if (!MiscUtil.isBlue()) {
-        //     cv[0] = -cv[0];
-        //     cv[1] = -cv[1];
-        // }
-
-        // cv[0] = Math.abs(cv[0]) < 0.1 ? 0: cv[0];
-        // cv[1] = Math.abs(cv[1]) < 0.1 ? 0: cv[1];
-        // cv[2] = Math.abs(cv[2]) < 0.1 ? 0: cv[2];
+        }; 
 
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
@@ -149,14 +140,6 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Setpoint X", setPoint.vxMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Y", setPoint.vyMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Theta", setPoint.omegaRadiansPerSecond);
-        // SteelTalonsLogger.post("Drivetrain Velocity X", getVelocityVector().vxMetersPerSecond);
-        // SteelTalonsLogger.post("Drivetrain Velocity Y", getVelocityVector().vyMetersPerSecond);
-        // SteelTalonsLogger.post("Drivetrain Velocity Theta", getVelocityVector().omegaRadiansPerSecond);
-
-        // modules.get(0).log("FRONT LEFT");
-        // modules.get(1).log("FRONT RIGHT");
-        // modules.get(2).log("BACK LEFT");
-        // modules.get(3).log("BACK RIGHT");
     }
 
     public Command getDriveCommand(CommandXboxController joy) {

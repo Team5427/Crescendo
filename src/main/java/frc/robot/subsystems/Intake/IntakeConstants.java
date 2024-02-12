@@ -25,11 +25,6 @@ public class IntakeConstants {
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2));
 
-    public static final double kS = 0.00; //FIXME
-    public static final double kG = 0.58;
-    public static final double kV = 0.55;
-    public static final double kA = 0.01;
-
     public static final int BEAM_BREAKER_PORT = 0;
 
     public static void configureIntake() {
