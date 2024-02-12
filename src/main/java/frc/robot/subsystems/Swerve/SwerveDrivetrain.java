@@ -96,7 +96,8 @@ public class SwerveDrivetrain extends SubsystemBase {
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).resetController();
             }
-        }
+        } 
+
         log();
     }
 

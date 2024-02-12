@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SteelTalonsSparkMaxFlywheel;
-import frc.robot.util.SteelTalonsSparkMaxServo;
+import frc.robot.util.SteelTalonsSparkMaxSimpleServo;
 
 public class SwerveModule {
     // private TalonFX driveMotor;
     private SteelTalonsSparkMaxFlywheel driveMotor;
-    private SteelTalonsSparkMaxServo steerMotor;
+    private SteelTalonsSparkMaxSimpleServo steerMotor;
     private CANcoder canCoder;
     
     private SendableChooser<Double> deadzone;
@@ -28,7 +28,7 @@ public class SwerveModule {
 
         driveMotor = new SteelTalonsSparkMaxFlywheel(DrivetrainConstants.configureDriveNeo(driveConfig));
     
-        steerMotor = new SteelTalonsSparkMaxServo(DrivetrainConstants.configureSteerNeo(steerConfig));
+        steerMotor = new SteelTalonsSparkMaxSimpleServo(DrivetrainConstants.configureSteerNeo(steerConfig));
 
         canCoder = new CANcoder(canCoderID);
         DrivetrainConstants.configureCanCoder(canCoder, offset);
@@ -78,7 +78,7 @@ public class SwerveModule {
     }
 
     public void resetController() {
-        steerMotor.resetController();
+        driveMotor.resetLimiter();
     } 
 
     public void log(String name) {

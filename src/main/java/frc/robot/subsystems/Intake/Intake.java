@@ -3,13 +3,10 @@ package frc.robot.subsystems.Intake;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SteelTalonsSparkMaxFlywheel;
 import frc.robot.util.SteelTalonsSparkMaxServo;
@@ -20,7 +17,6 @@ public class Intake extends SubsystemBase {
     private TalonFX rollerTalon;
     private SteelTalonsSparkMaxServo pivot;
     private DigitalInput beamBreaker;
-    private ArmFeedforward pivotFF;
 
     private double rollerSetpoint = IntakeConstants.INTAKE_SPEED_HOLD;
     private Rotation2d setpoint = new Rotation2d();
@@ -31,7 +27,6 @@ public class Intake extends SubsystemBase {
 
     public Intake () {
         IntakeConstants.configureIntake();
-        roller = new SteelTalonsSparkMaxFlywheel(IntakeConstants.ROLLER_CONFIG);
         rollerTalon = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID);
 
         TalonFXConfiguration config = new TalonFXConfiguration();
@@ -42,11 +37,10 @@ public class Intake extends SubsystemBase {
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
         pivot.disableContinuousInput();
         resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
-        instance = this;
-
-        pivotFF = new ArmFeedforward(IntakeConstants.kS, IntakeConstants.kG, IntakeConstants.kV, IntakeConstants.kA);
         beamBreaker = new DigitalInput(IntakeConstants.BEAM_BREAKER_PORT);
         isHoming = false;
+
+        instance = this;    
     }
 
     public static Intake getInstance() {
