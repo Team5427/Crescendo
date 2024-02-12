@@ -39,7 +39,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
     public SteelTalonsLocalization() {
         instance = this;
         try {
-            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
         } catch (IOException ex) {
             System.err.println("Couldn't load field");
         }
