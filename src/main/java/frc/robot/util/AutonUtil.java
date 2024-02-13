@@ -15,8 +15,8 @@ public class AutonUtil extends SubsystemBase {
     private double PATHPLANNER_TRANSLATION_KP = 10.0;
     private double PATHPLANNER_ROTATION_KP = 10.65;
 
-    private double CHOREO_TRANSLATION_KP = 36.0;
-    private double CHOREO_ROTATION_KP = 20.0;
+    private double CHOREO_TRANSLATION_KP = 32.0;
+    private double CHOREO_ROTATION_KP = 18.0;
 
     public AutonUtil() {
         AutoBuilder.configureHolonomic(

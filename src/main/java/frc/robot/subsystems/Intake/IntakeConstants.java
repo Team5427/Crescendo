@@ -20,8 +20,8 @@ public class IntakeConstants {
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
 
     public static final double INTAKE_SPEED_INTAKING = 15.5;
-    public static final double INTAKE_SPEED_HOLD = 1.0;
-    public static final double INTAKE_SPEED_EJECTING = -13.0;
+    public static final double INTAKE_SPEED_HOLD = 1.5;
+    public static final double INTAKE_SPEED_EJECTING = -25.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2));
 
