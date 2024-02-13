@@ -35,7 +35,7 @@ public class AutoAlignIntake {
     }
 
     public double calculateAngleMovement(double limelightAngle){
-        
+        return 0.0;
     }
     public boolean moveRobot(){
         int posValue = noteOutOfBound();
