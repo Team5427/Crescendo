@@ -13,6 +13,12 @@ public class OperatingControls {
             Intake.getInstance().getIntakeEjaculation()
         );
 
+        operatingController.a().toggleOnTrue(
+            Intake.getInstance().getBasicIntakeCommand()
+            // autoalign
+            
+        );
+
         operatingController.leftBumper().onTrue(Intake.getInstance().getHomingCommand());
     }
 }
