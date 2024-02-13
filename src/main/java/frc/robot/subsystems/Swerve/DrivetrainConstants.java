@@ -122,6 +122,7 @@ public class DrivetrainConstants {
         config.gearing = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
         config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
         config.idleMode = IdleMode.kBrake;
+
         return config;
     }
 

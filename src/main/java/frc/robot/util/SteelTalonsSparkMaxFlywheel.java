@@ -57,8 +57,10 @@ public class SteelTalonsSparkMaxFlywheel {
     }
 
     public void setSetpoint(double setPoint, double arbFF) {
-        this.setPoint = accelLimiter.calculate(setPoint);
-        smaxPID.setReference(this.setPoint, ControlType.kVelocity, 0, arbFF);
+        this.setPoint = setPoint;
+        smaxPID.setReference(setPoint, ControlType.kVelocity, 0, arbFF);
+        // this.setPoint = accelLimiter.calculate(setPoint);
+        // smaxPID.setReference(this.setPoint, ControlType.kVelocity, 0, arbFF);
     }
 
     public double getSetPoint() {
@@ -91,7 +93,7 @@ public class SteelTalonsSparkMaxFlywheel {
     }
 
     public void resetLimiter() {
-        accelLimiter.reset(getVelocity());
+        // accelLimiter.reset(getVelocity());
     }
 
     public void log() {
