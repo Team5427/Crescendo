@@ -19,7 +19,7 @@ public class ShooterConstants {
     private static final int SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID = 0;
     private static final int AMP_PIVOT_MOTOR_ID = 0;
 
-    private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(2.0);
+    private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.0);
     private static final double SHOOTER_FLYWHEEL_DIAMETER_METERS = Units.inchesToMeters(4.0);
 
     public static void configureShooter() {
@@ -35,6 +35,12 @@ public class ShooterConstants {
         shooterRightFlywheelConfig.id = SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID;
         ampPivotConfig.id = AMP_PIVOT_MOTOR_ID;
 
+        shooterPivotConfig.currentLimit = 30;
+        feederRollerConfig.currentLimit = 60;
+        shooterLeftFlywheelConfig.currentLimit = 40;
+        shooterRightFlywheelConfig.currentLimit = 40;
+        ampPivotConfig.currentLimit = 30;
+
         shooterPivotConfig.inverted = false;
         feederRollerConfig.inverted = false;
         shooterLeftFlywheelConfig.inverted = true;
@@ -47,26 +53,30 @@ public class ShooterConstants {
         shooterRightFlywheelConfig.isRotational = false;
         ampPivotConfig.isRotational = true;
 
-        shooterPivotConfig.gearing = 1.0 / 1.0;
-        feederRollerConfig.gearing = 1.0 / 1.0;
-        shooterLeftFlywheelConfig.gearing = 1.0 / 1.0;
-        shooterRightFlywheelConfig.gearing = 1.0 / 1.0;
-        ampPivotConfig.gearing = 1.0 / 1.0;
+        shooterPivotConfig.gearing = (1.0 / 9.0) * (30.0 / 64.0) * (12.0 / 58.0);
+        feederRollerConfig.gearing = 1.0 / 9.0;
+        shooterLeftFlywheelConfig.gearing = 1.0;
+        shooterRightFlywheelConfig.gearing = 1.0;
+        ampPivotConfig.gearing = 1.0 / 100.0; //FIXME
 
         feederRollerConfig.finalDiameterMeters = FEEDER_ROLLER_DIAMETER_METERS;
         shooterLeftFlywheelConfig.finalDiameterMeters = SHOOTER_FLYWHEEL_DIAMETER_METERS;
         shooterRightFlywheelConfig.finalDiameterMeters = SHOOTER_FLYWHEEL_DIAMETER_METERS;
 
         shooterPivotConfig.maxVel = shooterPivotConfig.getStandardMaxVelocity();
-        shooterPivotConfig.maxAccel = shooterPivotConfig.maxVel * 3.0;
-        feederRollerConfig.maxVel = feederRollerConfig.getStandardMaxVelocity();
+        shooterPivotConfig.maxAccel = shooterPivotConfig.maxVel * 2;
+
+        feederRollerConfig.maxVel = feederRollerConfig.getStandardMaxVelocity() * (11000.0 / 5676.0);
         feederRollerConfig.maxAccel = feederRollerConfig.maxVel * 4.0;
+
         shooterLeftFlywheelConfig.maxVel = shooterLeftFlywheelConfig.getStandardMaxVelocity();
         shooterLeftFlywheelConfig.maxAccel = shooterLeftFlywheelConfig.maxVel * 4.0;
+
         shooterRightFlywheelConfig.maxVel = shooterRightFlywheelConfig.getStandardMaxVelocity();
         shooterRightFlywheelConfig.maxAccel = shooterRightFlywheelConfig.maxVel * 4.0;
-        ampPivotConfig.maxVel = ampPivotConfig.getStandardMaxVelocity();
-        ampPivotConfig.maxAccel = ampPivotConfig.maxVel * 3.0;
+        
+        ampPivotConfig.maxVel = ampPivotConfig.getStandardMaxVelocity() * (11000.0 / 5676.0);
+        ampPivotConfig.maxAccel = ampPivotConfig.maxVel * 4.0;
 
         shooterPivotConfig.idleMode = IdleMode.kBrake;
         feederRollerConfig.idleMode = IdleMode.kCoast;
@@ -76,8 +86,11 @@ public class ShooterConstants {
 
         shooterPivotConfig.kP = 0.0;
         feederRollerConfig.kP = 0.0;
+        feederRollerConfig.kFF = 1.0 / feederRollerConfig.getStandardMaxVelocity();
         shooterLeftFlywheelConfig.kP = 0.0;
+        shooterLeftFlywheelConfig.kFF = 0.9 / shooterLeftFlywheelConfig.getStandardMaxVelocity();
         shooterRightFlywheelConfig.kP = 0.0;
+        shooterRightFlywheelConfig.kFF = 0.9 / shooterRightFlywheelConfig.getStandardMaxVelocity();
         ampPivotConfig.kP = 0.0;
     }
 

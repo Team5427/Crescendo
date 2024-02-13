@@ -31,7 +31,7 @@ public class STSmaxConfig {
 
     public double getStandardMaxVelocity() {
         if (!isRotational)
-            return (NEO_MAX_RPM * gearing * finalDiameterMeters * 2 * Math.PI) / (60.0);
+            return (NEO_MAX_RPM * gearing * finalDiameterMeters * Math.PI) / (60.0);
         return (NEO_MAX_RPM * gearing * 2 * Math.PI) / (60.0);
     }
 }

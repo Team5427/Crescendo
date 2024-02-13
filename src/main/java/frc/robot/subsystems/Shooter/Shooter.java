@@ -14,10 +14,10 @@ public class Shooter extends SubsystemBase {
   private SteelTalonsSparkMaxServo pivotMaster;
   private SteelTalonsSparkMaxServo pivotSlave;
 
-  private double flywheelSetpoint;
-  private double feederSetpoint;
-  private Rotation2d ampSetpoint;
-  private Rotation2d pivotSetpoint;
+  private double flywheelSetpoint = 0.0;
+  private double feederSetpoint = 0.0;
+  private Rotation2d ampSetpoint = new Rotation2d();
+  private Rotation2d pivotSetpoint = new Rotation2d();
 
   private static Shooter instance;
 
@@ -32,7 +32,7 @@ public class Shooter extends SubsystemBase {
 
     pivotMaster = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig);
     pivotSlave = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig);
-    pivotSlave.getSmax().follow(pivotMaster.getSmax());
+    pivotSlave.getSmax().follow(pivotMaster.getSmax(), true);
 
     instance = this;
     

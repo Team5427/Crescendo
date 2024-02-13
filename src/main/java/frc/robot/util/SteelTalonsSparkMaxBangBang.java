@@ -7,22 +7,22 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 
+import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 
-public class SteelTalonsSparkMaxFlywheel {
+public class SteelTalonsSparkMaxBangBang {
 
     private CANSparkMax smax;
     private RelativeEncoder smaxEnc;
-    private SparkPIDController smaxPID;
+    // private SparkPIDController smaxPID;
+    private BangBangController controller;
     private STSmaxConfig config;
     private double setPoint = 0;
-    private SlewRateLimiter accelLimiter;
-    private boolean disableLimiter = false;
 
 
-    public SteelTalonsSparkMaxFlywheel(STSmaxConfig config) {
+    public SteelTalonsSparkMaxBangBang(STSmaxConfig config) {
         config.isRotational = false;
         this.config = config;
         smax = new CANSparkMax(config.id, MotorType.kBrushless);
@@ -32,24 +32,18 @@ public class SteelTalonsSparkMaxFlywheel {
         smax.setIdleMode(config.idleMode);
         smaxEnc = smax.getEncoder();
         smaxEnc.setMeasurementPeriod(10);
-        double positionConv = (config.gearing * config.finalDiameterMeters * Math.PI);
         //M - M/s
-        smaxEnc.setPositionConversionFactor(positionConv);
-        smaxEnc.setVelocityConversionFactor(positionConv / 60);
+        smaxEnc.setPositionConversionFactor(1.0);
+        smaxEnc.setVelocityConversionFactor(1.0);
         smaxEnc.setPosition(0);
-        smaxPID = smax.getPIDController();
-        smaxPID.setP(config.kP);
-        smaxPID.setD(config.kD);
-        smaxPID.setFF(config.kFF);
-        smaxPID.setI(config.kI);
         smax.burnFlash();
-        accelLimiter = new SlewRateLimiter(config.maxAccel);
+
+        controller = new BangBangController(100); //tolerance in RPM
         Timer.delay(0.15);
 
     }
 
     public void setRaw(double percent) {
-        resetLimiter();
         smax.setVoltage(percent * smax.getBusVoltage());
     }
 
@@ -58,8 +52,8 @@ public class SteelTalonsSparkMaxFlywheel {
     }
 
     public void setSetpoint(double setPoint, double arbFF) {
-        this.setPoint = !disableLimiter ? accelLimiter.calculate(setPoint) : setPoint;
-        smaxPID.setReference(this.setPoint, ControlType.kVelocity, 0, arbFF);
+        this.setPoint = setPoint;
+        smax.setVoltage(controller.calculate(getVelocity(), this.setPoint));
     }
 
     public double getSetPoint() {
@@ -67,7 +61,6 @@ public class SteelTalonsSparkMaxFlywheel {
     }
 
     public void forceStop() {
-        resetLimiter();
         smax.setVoltage(0);
     }
 
@@ -89,14 +82,6 @@ public class SteelTalonsSparkMaxFlywheel {
         } else {
             return setPoint - getPosition();
         }
-    }
-
-    public void resetLimiter() {
-        accelLimiter.reset(getVelocity());
-    }
-
-    public void disableLimiter() {
-        this.disableLimiter = true;
     }
 
     public void log() {

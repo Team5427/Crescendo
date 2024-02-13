@@ -82,6 +82,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         this.setPoint = speeds;
     }
 
+    public void adjustSpeeds(ChassisSpeeds adjustment) {
+        this.setPoint = this.setPoint.plus(adjustment);
+    }
+
     @Override
     public void periodic() {
         if (DriverStation.isTeleop()) {

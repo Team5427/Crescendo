@@ -88,6 +88,10 @@ public class SteelTalonsSparkMaxSimpleServo {
         }
     }
 
+    public void resetController() {
+        System.err.println("empty method");
+    }
+
     public void log() {
         String name = config.name;
         SteelTalonsLogger.post(name + ": Applied Output (%)", smax.getAppliedOutput());
