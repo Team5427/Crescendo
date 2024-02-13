@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Misc;
+package frc.robot.subsystems.Vision;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
