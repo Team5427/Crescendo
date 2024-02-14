@@ -21,7 +21,7 @@ public class IntakeConstants {
 
     public static final double INTAKE_SPEED_INTAKING = 15.5;
     public static final double INTAKE_SPEED_HOLD = 1.5;
-    public static final double INTAKE_SPEED_EJECTING = -25.0;
+    public static final double INTAKE_SPEED_EJECTING = -245.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2));
 
@@ -34,7 +34,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.isRotational = false;
         PIVOT_CONFIG.isRotational = true;
 
-        PIVOT_CONFIG.currentLimit = 60;
+        PIVOT_CONFIG.currentLimit = 40;
 
         ROLLER_CONFIG.id = ROLLER_MOTOR_ID;
         PIVOT_CONFIG.id = PIVOT_MOTOR_ID;

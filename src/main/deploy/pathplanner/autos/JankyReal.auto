@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
+      "x": 1.41,
       "y": 5.5
     },
-    "rotation": -2.4731121499378003e-39
+    "rotation": -7.721372559371467e-27
   },
   "command": {
     "type": "sequential",
@@ -22,6 +22,12 @@
           "data": {
             "commands": [
               {
+                "type": "named",
+                "data": {
+                  "name": "Use Intake"
+                }
+              },
+              {
                 "type": "sequential",
                 "data": {
                   "commands": [
@@ -34,10 +40,42 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CenterStartToWingCenter"
+                        "pathName": "CenterStartToWingUpper"
                       }
                     }
                   ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Eject Note"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "WingUpperToWingCenter"
                 }
               },
               {
@@ -76,44 +114,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "WingCenterToWingLower"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Use Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.5
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Eject Note"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "WingLowerToWingUpper"
                 }
               },
               {

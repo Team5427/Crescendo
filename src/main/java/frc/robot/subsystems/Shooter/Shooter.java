@@ -31,7 +31,7 @@ public class Shooter extends SubsystemBase {
     ampMotor = new SteelTalonsSparkMaxServo(ShooterConstants.ampPivotConfig);
 
     pivotMaster = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig);
-    pivotSlave = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig);
+    pivotSlave = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig, ShooterConstants.SHOOTER_PIVOT_SLAVE_MOTOR_ID);
     pivotSlave.getSmax().follow(pivotMaster.getSmax(), true);
 
     instance = this;

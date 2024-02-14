@@ -42,6 +42,30 @@ public class SteelTalonsSparkMaxServo {
         Timer.delay(0.15);
     }
 
+    public SteelTalonsSparkMaxServo(STSmaxConfig config, int id) {
+        this.config = config;
+        smax = new CANSparkMax(id, MotorType.kBrushless);
+        Timer.delay(0.15);
+        smax.setInverted(config.inverted);
+        smax.setSmartCurrentLimit(config.currentLimit);
+        smax.setIdleMode(config.idleMode);
+        smaxEnc = smax.getEncoder();
+        smaxEnc.setMeasurementPeriod(10);
+        double positionConv = config.isRotational ? (2 * Math.PI * config.gearing) : (config.gearing * config.finalDiameterMeters * Math.PI);
+        //Rotational subsystem: Rad - Rad/s --- Linear subsystem: M - M/s
+        smaxEnc.setPositionConversionFactor(positionConv);
+        smaxEnc.setVelocityConversionFactor(positionConv / 60.0);
+        smaxEnc.setPosition(0);
+        smaxController = new ProfiledPIDController(config.kP, config.kI, config.kD, 
+            new Constraints(config.maxVel, config.maxAccel)
+        );
+        if (config.isRotational) {
+            smaxController.enableContinuousInput(-Math.PI, Math.PI);
+        }
+        smax.burnFlash();
+        Timer.delay(0.15);
+    }
+
     public void setRaw(double percent) {
         smaxController.reset(getPosition());
         smax.set(percent);

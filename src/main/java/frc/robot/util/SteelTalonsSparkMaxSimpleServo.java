@@ -89,7 +89,7 @@ public class SteelTalonsSparkMaxSimpleServo {
     }
 
     public void resetController() {
-        System.err.println("empty method");
+        // System.err.println("empty method");
     }
 
     public void log() {

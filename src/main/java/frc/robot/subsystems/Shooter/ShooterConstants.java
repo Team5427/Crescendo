@@ -13,11 +13,12 @@ public class ShooterConstants {
     public static STSmaxConfig shooterRightFlywheelConfig = new STSmaxConfig();
     public static STSmaxConfig ampPivotConfig = new STSmaxConfig();
 
-    private static final int SHOOTER_PIVOT_MOTOR_ID = 0;
-    private static final int FEEDER_ROLLER_MOTOR_ID = 0;
-    private static final int SHOOTER_LEFT_FLYWHEEL_MOTOR_ID = 0;
-    private static final int SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID = 0;
-    private static final int AMP_PIVOT_MOTOR_ID = 0;
+    private static final int SHOOTER_PIVOT_MASTER_MOTOR_ID = 19;
+    public static final int SHOOTER_PIVOT_SLAVE_MOTOR_ID = 20;
+    private static final int FEEDER_ROLLER_MOTOR_ID = 21;
+    private static final int SHOOTER_LEFT_FLYWHEEL_MOTOR_ID = 22;
+    private static final int SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID = 23;
+    private static final int AMP_PIVOT_MOTOR_ID = 24;
 
     private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.0);
     private static final double SHOOTER_FLYWHEEL_DIAMETER_METERS = Units.inchesToMeters(4.0);
@@ -29,7 +30,7 @@ public class ShooterConstants {
         shooterRightFlywheelConfig.name = "Shooter Right Flywheel";
         ampPivotConfig.name = "Amp Pivot";
 
-        shooterPivotConfig.id = SHOOTER_PIVOT_MOTOR_ID;
+        shooterPivotConfig.id = SHOOTER_PIVOT_MASTER_MOTOR_ID;
         feederRollerConfig.id = FEEDER_ROLLER_MOTOR_ID;
         shooterLeftFlywheelConfig.id = SHOOTER_LEFT_FLYWHEEL_MOTOR_ID;
         shooterRightFlywheelConfig.id = SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID;
@@ -74,7 +75,7 @@ public class ShooterConstants {
 
         shooterRightFlywheelConfig.maxVel = shooterRightFlywheelConfig.getStandardMaxVelocity();
         shooterRightFlywheelConfig.maxAccel = shooterRightFlywheelConfig.maxVel * 4.0;
-        
+
         ampPivotConfig.maxVel = ampPivotConfig.getStandardMaxVelocity() * (11000.0 / 5676.0);
         ampPivotConfig.maxAccel = ampPivotConfig.maxVel * 4.0;
 

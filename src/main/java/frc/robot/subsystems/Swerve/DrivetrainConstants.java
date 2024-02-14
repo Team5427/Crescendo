@@ -115,7 +115,7 @@ public class DrivetrainConstants {
         config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
         config.kD = 0.0;
 
-        config.currentLimit = 60;
+        config.currentLimit = 40;
 
         config.isRotational = false;
 
