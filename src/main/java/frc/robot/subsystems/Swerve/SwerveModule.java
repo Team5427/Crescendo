@@ -9,8 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
-import frc.robot.util.SteelTalonsSparkMaxFlywheel;
-import frc.robot.util.SteelTalonsSparkMaxSimpleServo;
+import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxFlywheel;
+import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxSimpleServo;
 
 public class SwerveModule {
     // private TalonFX driveMotor;

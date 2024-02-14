@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.util.SmaxProfiles;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -11,6 +11,8 @@ import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.util.STSmaxConfig;
+import frc.robot.util.SteelTalonsLogger;
 
 public class SteelTalonsSparkMaxBangBang {
 
@@ -29,7 +31,7 @@ public class SteelTalonsSparkMaxBangBang {
         Timer.delay(0.15);
         smax.setInverted(config.inverted);
         smax.setSmartCurrentLimit(config.currentLimit);
-        smax.setIdleMode(config.idleMode);
+        smax.setIdleMode(IdleMode.kCoast);
         smaxEnc = smax.getEncoder();
         smaxEnc.setMeasurementPeriod(10);
         //M - M/s
@@ -53,7 +55,7 @@ public class SteelTalonsSparkMaxBangBang {
 
     public void setSetpoint(double setPoint, double arbFF) {
         this.setPoint = setPoint;
-        smax.setVoltage(controller.calculate(getVelocity(), this.setPoint));
+        smax.setVoltage(controller.calculate(getVelocity(), this.setPoint) + config.kFF * setPoint * 12);
     }
 
     public double getSetPoint() {
@@ -77,11 +79,7 @@ public class SteelTalonsSparkMaxBangBang {
     }
 
     public double getError() {
-        if (config.isRotational) {
-            return new Rotation2d(setPoint).minus(new Rotation2d(getPosition())).getRadians();
-        } else {
-            return setPoint - getPosition();
-        }
+        return Math.abs(setPoint - getVelocity());
     }
 
     public void log() {

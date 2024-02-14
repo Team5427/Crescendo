@@ -8,12 +8,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.SteelTalonsLogger;
-import frc.robot.util.SteelTalonsSparkMaxFlywheel;
-import frc.robot.util.SteelTalonsSparkMaxServo;
+import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxServo;
 
 public class Intake extends SubsystemBase {
 
-    private SteelTalonsSparkMaxFlywheel roller;
     private TalonFX rollerTalon;
     private SteelTalonsSparkMaxServo pivot;
     private DigitalInput beamBreaker;

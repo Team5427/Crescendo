@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.util.SmaxProfiles;
 
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -6,20 +6,26 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
-import com.revrobotics.SparkPIDController.ArbFFUnits;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.util.STSmaxConfig;
+import frc.robot.util.SteelTalonsLogger;
 
-public class SteelTalonsSparkMaxSimpleServo {
+public class SteelTalonsSparkMaxFlywheel {
 
     private CANSparkMax smax;
     private RelativeEncoder smaxEnc;
-    private SparkPIDController smaxController;
+    private SparkPIDController smaxPID;
     private STSmaxConfig config;
     private double setPoint = 0;
+    private SlewRateLimiter accelLimiter;
+    private boolean disableLimiter = false;
 
-    public SteelTalonsSparkMaxSimpleServo(STSmaxConfig config) {
+
+    public SteelTalonsSparkMaxFlywheel(STSmaxConfig config) {
+        config.isRotational = false;
         this.config = config;
         smax = new CANSparkMax(config.id, MotorType.kBrushless);
         Timer.delay(0.15);
@@ -28,32 +34,34 @@ public class SteelTalonsSparkMaxSimpleServo {
         smax.setIdleMode(config.idleMode);
         smaxEnc = smax.getEncoder();
         smaxEnc.setMeasurementPeriod(10);
-        double positionConv = config.isRotational ? (2 * Math.PI * config.gearing) : (config.gearing * config.finalDiameterMeters * Math.PI);
-        //Rotational subsystem: Rad - Rad/s --- Linear subsystem: M - M/s
+        double positionConv = (config.gearing * config.finalDiameterMeters * Math.PI);
+        //M - M/s
         smaxEnc.setPositionConversionFactor(positionConv);
-        smaxEnc.setVelocityConversionFactor(positionConv / 60.0);
+        smaxEnc.setVelocityConversionFactor(positionConv / 60);
         smaxEnc.setPosition(0);
-        smaxController = smax.getPIDController();
-        if (config.isRotational) {
-            smaxController.setPositionPIDWrappingEnabled(true);
-            smaxController.setPositionPIDWrappingMaxInput(Math.PI);
-            smaxController.setPositionPIDWrappingMinInput(-Math.PI);
-        }
+        smaxPID = smax.getPIDController();
+        smaxPID.setP(config.kP);
+        smaxPID.setD(config.kD);
+        smaxPID.setFF(config.kFF);
+        smaxPID.setI(config.kI);
         smax.burnFlash();
+        accelLimiter = new SlewRateLimiter(config.maxAccel);
         Timer.delay(0.15);
+
     }
 
     public void setRaw(double percent) {
-        smax.set(percent);
+        resetLimiter();
+        smax.setVoltage(percent * smax.getBusVoltage());
     }
 
     public CANSparkMax getSmax() {
         return smax;
     }
 
-    public void setSetpoint(double setPoint, double arbFFVolts) {
-        this.setPoint = setPoint;
-        smaxController.setReference(setPoint, ControlType.kPosition, 0, arbFFVolts, ArbFFUnits.kVoltage);
+    public void setSetpoint(double setPoint, double arbFF) {
+        this.setPoint = !disableLimiter ? accelLimiter.calculate(setPoint) : setPoint;
+        smaxPID.setReference(this.setPoint, ControlType.kVelocity, 0, arbFF);
     }
 
     public double getSetPoint() {
@@ -61,11 +69,8 @@ public class SteelTalonsSparkMaxSimpleServo {
     }
 
     public void forceStop() {
+        resetLimiter();
         smax.setVoltage(0);
-    }
-
-    public void disableContinuousInput() {
-        smaxController.setPositionPIDWrappingEnabled(false);
     }
 
     public double getPosition() {
@@ -84,12 +89,16 @@ public class SteelTalonsSparkMaxSimpleServo {
         if (config.isRotational) {
             return new Rotation2d(setPoint).minus(new Rotation2d(getPosition())).getRadians();
         } else {
-            return setPoint - getPosition();
+            return setPoint - getVelocity();
         }
     }
 
-    public void resetController() {
-        // System.err.println("empty method");
+    public void resetLimiter() {
+        accelLimiter.reset(getVelocity());
+    }
+
+    public void disableLimiter() {
+        this.disableLimiter = true;
     }
 
     public void log() {
@@ -98,9 +107,9 @@ public class SteelTalonsSparkMaxSimpleServo {
         SteelTalonsLogger.post(name + ": Output Current (A)", smax.getOutputCurrent());
         SteelTalonsLogger.post(name + ": Temp (C)", smax.getMotorTemperature());
         SteelTalonsLogger.post(name + ": Is Braked? (Bool)", smax.getIdleMode().equals(IdleMode.kBrake));
-        SteelTalonsLogger.post(name + ": Position (rad or Meters)", getPosition());
-        SteelTalonsLogger.post(name + ": Velocity (rad/s or Meters/s)", getVelocity());
-        SteelTalonsLogger.post(name + ": Setpoint (rad or Meters)", getSetPoint());
-        SteelTalonsLogger.post(name + ": Error (rad or Meters)", getError());
+        SteelTalonsLogger.post(name + ": Position (Meters)", getPosition());
+        SteelTalonsLogger.post(name + ": Velocity (Meters/s)", getVelocity());
+        SteelTalonsLogger.post(name + ": Setpoint (Meters)", getSetPoint());
+        SteelTalonsLogger.post(name + ": Error (Meters)", getError());
     }
 }

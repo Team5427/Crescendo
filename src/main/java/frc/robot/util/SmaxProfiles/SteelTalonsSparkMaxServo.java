@@ -1,4 +1,4 @@
-package frc.robot.util;
+package frc.robot.util.SmaxProfiles;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -9,6 +9,8 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.util.STSmaxConfig;
+import frc.robot.util.SteelTalonsLogger;
 
 public class SteelTalonsSparkMaxServo {
 
