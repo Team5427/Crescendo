@@ -8,13 +8,17 @@ import com.revrobotics.CANSparkMax;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.interpolation.Interpolator;
 import edu.wpi.first.math.interpolation.InverseInterpolator;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.Shooter.ShootingConfiguration;
+import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.util.Localization.SteelTalonsLocalization;
 
 public class MiscUtil {
     public static final double fieldWidth = Units.feetToMeters(54);
@@ -127,6 +131,22 @@ public class MiscUtil {
                 );
             }
         };
+    }
+
+    public static double[] targetingInformation() { //very much a big source of potential bugs
+        SteelTalonsLocalization localization = SteelTalonsLocalization.getInstance();
+        SwerveDrivetrain drivetrain = SwerveDrivetrain.getInstance();
+        Transform2d transform = localization.transformFromSpeaker();
+        double distance = transform.getTranslation().getNorm();
+        Rotation2d angError = transform.getTranslation().getAngle().minus(localization.getPose().getRotation());
+        ChassisSpeeds botSpeeds = drivetrain.getVelocityVector();
+        Rotation2d velocityRot = new Rotation2d(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
+        double velocityMag = Math.hypot(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
+
+        double parallelSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getCos();
+        double perpSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getSin();
+
+        return new double[]{parallelSpeed, perpSpeed, distance, angError.getRadians()};
     }
 
 }
