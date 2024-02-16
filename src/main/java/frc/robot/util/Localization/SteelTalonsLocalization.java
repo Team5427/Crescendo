@@ -13,7 +13,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -53,7 +52,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             new Pose2d(), 
-            VecBuilder.fill(0.5, 0.5, 0), 
+            VecBuilder.fill(0.25, 0.25, 0.0), 
             VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
         );
 
@@ -70,7 +69,6 @@ public class SteelTalonsLocalization extends SubsystemBase {
         Rotation2d gyroAngle = SwerveDrivetrain.getInstance().getRotation();
         poseEstimator.update(gyroAngle, dtWheelPositions);
         Pose2d refPose = poseEstimator.getEstimatedPosition();
-        calculatePolarSpeeds();
 
         field.setRobotPose(getPose());
         SteelTalonsLogger.postComplex("Field 2d", field);
@@ -101,18 +99,5 @@ public class SteelTalonsLocalization extends SubsystemBase {
 
     public Transform2d transformFromSpeaker() {
         return MiscUtil.isBlue() ? MiscUtil.speaker_Pose.minus(getPose()) : MiscUtil.speaker_Pose.minus(MiscUtil.flip(getPose()));
-    }
-
-    public void calculatePolarSpeeds() {
-        Transform2d transform = transformFromSpeaker();
-        double distance = transform.getTranslation().getNorm();
-        Rotation2d angError = transform.getTranslation().getAngle().minus(getPose().getRotation());
-        ChassisSpeeds botSpeeds = SwerveDrivetrain.getInstance().getVelocityVector();
-        Rotation2d velocityRot = new Rotation2d(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
-        double velocityMag = Math.hypot(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
-        ChassisSpeeds botSpeedsFieldRelative = ChassisSpeeds.fromRobotRelativeSpeeds(botSpeeds, getPose().getRotation());
-
-        double parallelSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getCos();
-        double perpSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getSin();
     }
 }

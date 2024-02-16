@@ -7,6 +7,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
+import frc.robot.subsystems.Shooter.ShootingConfiguration;
 import frc.robot.util.MiscUtil;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.Localization.SteelTalonsLocalization;
@@ -42,7 +43,7 @@ public class TargetSpeaker extends Command {
         double[] targetingInfo = MiscUtil.targetingInformation(); //parallel, perp, distance, angle
 
         offsetSetpoint = new Rotation2d(Units.degreesToRadians(0.0)); 
-        //FIXME when move while shoot. either have to change the setpoint, or change the omega velocity (based on perp speed)
+        //FIXME when move while shoot. either have to change the setpoint, or change the omega velocity (based on perp speed and distance)
         angPID.setSetpoint(offsetSetpoint.getRadians());
 
         ChassisSpeeds outputAdjustment = new ChassisSpeeds(0.0, 0.0, angPID.calculate(targetingInfo[3]) - drivetrain.getVelocityVector().omegaRadiansPerSecond);
@@ -51,8 +52,12 @@ public class TargetSpeaker extends Command {
 
         drivetrain.adjustSpeeds(outputAdjustment);
 
-        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(targetingInfo[2]).getPivotAngle().plus(new Rotation2d(
+        ShootingConfiguration staticConfig = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(targetingInfo[2]);
+
+        shooter.setPivotSetpoint(staticConfig.getPivotAngle().plus(new Rotation2d(
             targetingInfo[0] * dynamicPivotConstant
         )));
+
+        shooter.setFlywheelSetpoint(staticConfig.getLeftSpeed(), staticConfig.getRightSpeed());
     }
 }
