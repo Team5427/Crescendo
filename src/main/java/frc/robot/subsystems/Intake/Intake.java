@@ -4,9 +4,11 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Shooter.ShooterHandoff;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxServo;
 
@@ -89,6 +91,10 @@ public class Intake extends SubsystemBase {
         return Math.abs(pivot.getError()) < IntakeConstants.PIVOT_TOLERANCE_RAD;
     }
 
+    public boolean atGoal(double degTol) {
+        return Math.abs(pivot.getError()) < Units.degreesToRadians(degTol);
+    }
+
     public boolean getHoming() {
         return isHoming;
     }
@@ -120,6 +126,10 @@ public class Intake extends SubsystemBase {
         return new TempIntakeEjaculation();
     }
 
+    public Command getIntakeHandoff() {
+        return new IntakeHandoff();
+    }
+
     public void log() {
         SteelTalonsLogger.post("Intake pivot angle", pivot.getPosition());
         SteelTalonsLogger.post("Intake pivot setpoint", setpoint.getRadians());
@@ -131,7 +141,7 @@ public class Intake extends SubsystemBase {
 
         SteelTalonsLogger.post("setpoint velocity", pivot.getSetpointVelocity());
 
-        SteelTalonsLogger.post("Beam Broken", beamBreaker.get());
+        SteelTalonsLogger.post("Beam Broken", !beamBreaker.get());
     }
 
 }

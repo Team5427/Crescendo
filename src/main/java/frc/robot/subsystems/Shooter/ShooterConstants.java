@@ -3,7 +3,10 @@ package frc.robot.subsystems.Shooter;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.util.Units;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 
 public class ShooterConstants {
@@ -14,12 +17,12 @@ public class ShooterConstants {
     public static STSmaxConfig shooterRightFlywheelConfig = new STSmaxConfig();
     public static STSmaxConfig ampPivotConfig = new STSmaxConfig();
 
-    private static final int SHOOTER_PIVOT_MASTER_MOTOR_ID = 19;
-    public static final int SHOOTER_PIVOT_SLAVE_MOTOR_ID = 20;
+    private static final int SHOOTER_PIVOT_MASTER_MOTOR_ID = 24;
+    public static final int SHOOTER_PIVOT_SLAVE_MOTOR_ID = 23;
     private static final int FEEDER_ROLLER_MOTOR_ID = 21;
-    private static final int SHOOTER_LEFT_FLYWHEEL_MOTOR_ID = 22;
-    private static final int SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID = 23;
-    private static final int AMP_PIVOT_MOTOR_ID = 24;
+    private static final int SHOOTER_LEFT_FLYWHEEL_MOTOR_ID = 19;
+    private static final int SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID = 20;
+    private static final int AMP_PIVOT_MOTOR_ID = 22;
     public static final int BEAM_BREAKER_PORT = 1;
 
     private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.0);
@@ -32,7 +35,9 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-10.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromDegrees(-35.0);
-    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(0.5);
+    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-0.5);
+
+    public static final InterpolatingDoubleTreeMap map = new InterpolatingDoubleTreeMap();
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-160.0);
@@ -40,9 +45,26 @@ public class ShooterConstants {
     public static final double FLYWHEEL_STATIC_SPEED_RPM = 2000;
 
     public static final double FEEDER_HOLD_SPEED = 0.0;
-    public static final double FEEDER_FEED_SPEED = 1.25;
+    public static final double FEEDER_FEED_SPEED = 1.5;
+
+    public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
+        MiscUtil.getInversePoseInterpolator(), 
+        MiscUtil.getShooterInterpolator()
+    );
+
+    public static void targetMap() {
+        SHOOTER_PIVOT_TARGET_MAP.put(
+            0.0, //DISTANCE METERS
+            new ShootingConfiguration(
+                new Rotation2d(), //SHOOTER ROTATION 
+                0.0, //LEFT RPM
+                0.0 //RIGHT RPM
+            )
+        );
+    }
 
     public static void configureShooter() {
+
         shooterPivotConfig.name = "Shooter Pivot";
         feederRollerConfig.name = "Feeder Roller";
         shooterLeftFlywheelConfig.name = "Shooter Left Flywheel";
@@ -59,7 +81,7 @@ public class ShooterConstants {
         feederRollerConfig.currentLimit = 60;
         shooterLeftFlywheelConfig.currentLimit = 40;
         shooterRightFlywheelConfig.currentLimit = 40;
-        ampPivotConfig.currentLimit = 30;
+        ampPivotConfig.currentLimit = 20;
 
         shooterPivotConfig.inverted = false;
         feederRollerConfig.inverted = false;

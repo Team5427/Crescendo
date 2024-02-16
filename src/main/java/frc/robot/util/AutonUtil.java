@@ -12,11 +12,8 @@ import frc.robot.util.Localization.SteelTalonsLocalization;
 
 public class AutonUtil extends SubsystemBase {
 
-    private double PATHPLANNER_TRANSLATION_KP = 10.0;
-    private double PATHPLANNER_ROTATION_KP = 10.65;
-
-    private double CHOREO_TRANSLATION_KP = 23.0;
-    private double CHOREO_ROTATION_KP = 12.0;
+    private final double CHOREO_TRANSLATION_KP = 23.0;
+    private final double CHOREO_ROTATION_KP = 12.0;
 
     public AutonUtil() {
         AutoBuilder.configureHolonomic(

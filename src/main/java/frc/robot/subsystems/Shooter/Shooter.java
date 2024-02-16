@@ -1,6 +1,7 @@
 package frc.robot.subsystems.Shooter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.SteelTalonsLogger;
@@ -69,12 +70,21 @@ public class Shooter extends SubsystemBase {
     pivotSetpoint = setpoint;
   }
 
+  public void setShootingConfigSetpoints(ShootingConfiguration config) {
+    setPivotSetpoint(config.getPivotAngle());
+    setFlywheelSetpoint(config.getLeftSpeed(), config.getRightSpeed());
+  } 
+
   public boolean flywheelAtGoal() {
     return leftFlywheel.getError() < ShooterConstants.FLYWHEEL_TOLERANCE_RPM && leftFlywheel.getError() < ShooterConstants.FLYWHEEL_TOLERANCE_RPM;
   }
 
   public boolean pivotAtGoal() {
     return Math.abs(pivotMaster.getError()) < ShooterConstants.PIVOT_TOLERANCE_RAD.getRadians();
+  }
+
+  public boolean pivotAtGoal(double degTol) {
+    return Math.abs(pivotMaster.getError()) < Units.degreesToRadians(degTol);
   }
 
   public boolean ampAtGoal() {

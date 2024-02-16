@@ -11,12 +11,14 @@ import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.SteelTalonsLogger;
 
 public class SteelTalonsLocalization extends SubsystemBase {
@@ -88,14 +90,15 @@ public class SteelTalonsLocalization extends SubsystemBase {
     }
 
     public void resetPose(Pose2d newPose) {
-        // Pose2d resetPose = MiscUtil.isBlue() ? newPose : MiscUtil.flip(newPose);
-        // SteelTalonsLogger.post("ran reset pose", true);
-        // System.err.println("ran method");
         poseEstimator.resetPosition(
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             newPose
         );
+    }
+
+    public Transform2d transformFromSpeaker() {
+        return MiscUtil.isBlue() ? MiscUtil.speaker_Pose.minus(getPose()) : MiscUtil.speaker_Pose.minus(MiscUtil.flip(getPose()));
     }
 
 }

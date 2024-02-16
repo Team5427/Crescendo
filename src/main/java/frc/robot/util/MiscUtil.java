@@ -2,19 +2,24 @@ package frc.robot.util;
 
 import java.util.Optional;
 
-import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+import com.revrobotics.CANSparkMax;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.interpolation.Interpolator;
+import edu.wpi.first.math.interpolation.InverseInterpolator;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.subsystems.Shooter.ShootingConfiguration;
 
 public class MiscUtil {
-    private static final double fieldWidth = Units.feetToMeters(54);
-    private static final double fieldHeight = Units.feetToMeters(27);
+    public static final double fieldWidth = Units.feetToMeters(54);
+    public static final double fieldHeight = Units.feetToMeters(27);
+    public static final Pose2d speaker_Pose = new Pose2d(0, 5.5, new Rotation2d(Math.PI));
     private static final int MAX_SMAX_PERIODIC_FRAME_MS = 65534;
 
     public static Pose2d flip(Pose2d pose) {
@@ -77,6 +82,51 @@ public class MiscUtil {
             m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MAX_SMAX_PERIODIC_FRAME_MS);
             m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MAX_SMAX_PERIODIC_FRAME_MS);
         }
+    }
+
+    public static InverseInterpolator<Double> getInversePoseInterpolator() {
+        return new InverseInterpolator<Double>() {
+            @Override
+            public double inverseInterpolate(Double startValue, Double endValue, Double q) {
+                double totalRange = endValue - startValue;
+                if (totalRange <= 0) {
+                  return 0.0;
+                }
+                double queryToStart = q - startValue;
+                if (queryToStart <= 0) {
+                  return 0.0;
+                }
+                return queryToStart / totalRange;
+            }
+        };
+    }
+
+    public static Interpolator<ShootingConfiguration> getShooterInterpolator() {
+        return new Interpolator<ShootingConfiguration>() {
+            @Override
+            public ShootingConfiguration interpolate(ShootingConfiguration startValue, ShootingConfiguration endValue, double t) {
+                Rotation2d startRotation = startValue.getPivotAngle();
+                Rotation2d endRotation = endValue.getPivotAngle();
+                Rotation2d dRotation = endRotation.minus(startRotation);
+
+                double leftStartRPM = startValue.getLeftSpeed();
+                double leftEndRPM = endValue.getLeftSpeed();
+                double dLeftRPM = leftEndRPM - leftStartRPM;
+
+                double rightStartRPM = startValue.getRightSpeed();
+                double rightEndRPM = endValue.getRightSpeed();
+                double dRightRPM = rightEndRPM - rightStartRPM;
+
+                double clampedT = MathUtil.clamp(t, 0, 1);
+
+
+                return new ShootingConfiguration(
+                    dRotation.times(clampedT).plus(startRotation), 
+                    dLeftRPM * clampedT + leftStartRPM,
+                    dRightRPM * clampedT + rightStartRPM
+                );
+            }
+        };
     }
 
 }

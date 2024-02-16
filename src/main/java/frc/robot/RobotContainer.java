@@ -7,15 +7,14 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.AutonUtil;
 import frc.robot.util.SteelTalonsLogger;
@@ -26,6 +25,7 @@ public class RobotContainer {
   private SwerveDrivetrain drivetrain;
   private Intake intake;
   private SendableChooser<Command> autoChooser;
+  private Shooter shooter;
 
   public RobotContainer() {
 
@@ -33,6 +33,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(drivetrain.getDriveCommand(new CommandXboxController(0)));
 
     intake = new Intake();
+    // shooter = new Shooter();
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
