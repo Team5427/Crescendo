@@ -7,21 +7,25 @@ import frc.robot.subsystems.Shooter.Shooter;
 public class IntakeHandoff extends Command {
     private Intake intake;
     private Timer timer;
-    private final double threshholdValSec = 0.75;
+    private Timer timer2;
     public IntakeHandoff() {
         intake = Intake.getInstance();
+        addRequirements(intake);
         timer = new Timer();
+        timer2 = new Timer();
     }
 
     @Override
     public void initialize() {
         timer.reset();
+        timer2.reset();
+        timer2.start();
         intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
     }
 
     @Override
     public void execute() {
-        if (intake.atGoal(5.0) && Shooter.getInstance().pivotAtGoal(2.0)) {
+        if (intake.atGoal(5.0) && Shooter.getInstance().pivotAtGoal(2.0) && timer2.get() > 0.5) {
             intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
             timer.start();
         }
@@ -29,7 +33,7 @@ public class IntakeHandoff extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.get() >= threshholdValSec;
+        return false;
     }
 
     @Override

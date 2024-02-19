@@ -1,7 +1,9 @@
 package frc.robot.subsystems.Intake;
 
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 
 public class IntakeCommand extends Command {
 
@@ -14,9 +16,21 @@ public class IntakeCommand extends Command {
     }
 
     @Override
-    public void execute() {
+    public void initialize() {
         intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING);
+
+    }
+
+    @Override
+    public void execute() {
+        SwerveDrivetrain.getInstance().adjustSpeeds(
+            new ChassisSpeeds(
+                0, 
+                0, 
+                RobotContainer.getNoteCam().drivetrainAdjustment()
+            )
+        );
     }
 
     @Override

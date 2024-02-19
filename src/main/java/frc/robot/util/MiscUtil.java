@@ -92,15 +92,7 @@ public class MiscUtil {
         return new InverseInterpolator<Double>() {
             @Override
             public double inverseInterpolate(Double startValue, Double endValue, Double q) {
-                double totalRange = endValue - startValue;
-                if (totalRange <= 0) {
-                  return 0.0;
-                }
-                double queryToStart = q - startValue;
-                if (queryToStart <= 0) {
-                  return 0.0;
-                }
-                return queryToStart / totalRange;
+                return InverseInterpolator.forDouble().inverseInterpolate(startValue, endValue, q);
             }
         };
     }
@@ -138,7 +130,10 @@ public class MiscUtil {
         SwerveDrivetrain drivetrain = SwerveDrivetrain.getInstance();
         Transform2d transform = localization.transformFromSpeaker();
         double distance = transform.getTranslation().getNorm();
-        Rotation2d angError = transform.getTranslation().getAngle().minus(localization.getPose().getRotation());
+        Rotation2d angError = 
+            transform.getTranslation().getAngle(). //the angle of the line from the speaker to the bot
+            minus(new Rotation2d(Math.PI)). //DID A FULL ONE EIGHTYYYYYYY, CRAZYYYY, THINKING 'BOUT THE WAY I ONCE LET THE HEARTBREAK CHANGE MEEEE
+            minus(localization.getPose().getRotation()); //minus the current angle of bot
         ChassisSpeeds botSpeeds = drivetrain.getVelocityVector();
         Rotation2d velocityRot = new Rotation2d(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
         double velocityMag = Math.hypot(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);

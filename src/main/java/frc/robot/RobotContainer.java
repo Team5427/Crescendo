@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,6 +17,7 @@ import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.AutonUtil;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.Localization.SteelTalonsLocalization;
@@ -27,13 +29,17 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser;
   private Shooter shooter;
 
+  private static ObjectDetector noteCam;
+
   public RobotContainer() {
 
     drivetrain = new SwerveDrivetrain();
     drivetrain.setDefaultCommand(drivetrain.getDriveCommand(new CommandXboxController(0)));
 
     intake = new Intake();
-    // shooter = new Shooter();
+    shooter = new Shooter();
+
+    noteCam = new ObjectDetector("noteCam");
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
@@ -51,6 +57,10 @@ public class RobotContainer {
   private void registerNamedCommands() {
     NamedCommands.registerCommand("Use Intake", Intake.getInstance().getBasicIntakeCommand());
     NamedCommands.registerCommand("Eject Note", Intake.getInstance().getIntakeEjaculation());
+  }
+
+  public static ObjectDetector getNoteCam() {
+    return noteCam;
   }
 
   public Command getAutonomousCommand() {

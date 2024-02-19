@@ -20,7 +20,7 @@ public class LocalizationUtil {
 
             double stdX = Math.abs(diffFromRef.getX()) > 0.116 ? Double.MAX_VALUE : diffFromRef.getX() * (0.3); //0.3 is brainfuck number
             double stdY = Math.abs(diffFromRef.getY()) > 0.116 ? Double.MAX_VALUE : diffFromRef.getY() * (0.3);
-            Matrix<N3, N1> confidence = VecBuilder.fill(stdX, stdY, Double.MAX_VALUE); //FIXME may need to tune
+            Matrix<N3, N1> confidence = VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE); //FIXME may need to tune
             return Optional.of(new SteelTalonsVisionMeasurement(pose, confidence, timestamp));
         } else {
             return Optional.empty();

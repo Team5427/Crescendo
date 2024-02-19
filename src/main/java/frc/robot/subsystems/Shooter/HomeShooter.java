@@ -30,6 +30,7 @@ public class HomeShooter extends Command {
     @Override
     public void initialize() {
         shooter.setHoming(true);
+        shooter.setFlywheelSetpoint(0.0, 0.0);
         timerContinueHoming();
     }
 
@@ -48,7 +49,8 @@ public class HomeShooter extends Command {
     @Override
     public void end(boolean interrupted) {
         shooter.getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
-        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
+        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+        shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         shooter.setHoming(false);
     }
     

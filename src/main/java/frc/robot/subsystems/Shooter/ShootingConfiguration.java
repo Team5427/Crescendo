@@ -23,4 +23,8 @@ public class ShootingConfiguration {
     public double getRightSpeed() {
         return this.rightRPM;
     }
+
+    public ShootingConfiguration adjustBy(Rotation2d angle, double left, double right) {
+        return new ShootingConfiguration(this.pivotAngle.plus(angle), this.leftRPM + left, this.rightRPM + right);
+    }
 }

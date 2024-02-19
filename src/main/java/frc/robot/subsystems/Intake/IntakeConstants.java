@@ -16,17 +16,17 @@ public class IntakeConstants {
     public static final double MAX_KRAKEN_ROLLER_SPEED_M_S = (6000.0 * Math.PI * Units.inchesToMeters(2.0) * (12.0/30.0)) / 60.0;
 
     public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-26.0));
-    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-212)); //-210
+    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-214)); //-210
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
-    public static final Rotation2d HANDOFF_POS = new Rotation2d(Units.degreesToRadians(-10));
+    public static final Rotation2d HANDOFF_POS = new Rotation2d(Units.degreesToRadians(-7.0));
 
     public static final double INTAKE_SPEED_INTAKING = 6.0;
-    public static final double INTAKE_SPEED_HOLD = 1.5;
-    public static final double INTAKE_SPEED_EJECTING = -3;
+    public static final double INTAKE_SPEED_HOLD = 0.75;
+    public static final double INTAKE_SPEED_EJECTING = -1.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2.0));
 
-    public static final int BEAM_BREAKER_PORT = 0;
+    public static final int BEAM_BREAKER_PORT = 1;
 
     public static void configureIntake() {
         ROLLER_CONFIG.name = "Intake Roller";

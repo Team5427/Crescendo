@@ -1,29 +1,28 @@
 package frc.robot.subsystems.Vision;
 
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ObjectDetector extends SubsystemBase {
+
     private NetworkTable table_m;
     private boolean tv;
 
-    private double ledMode;
+    private static final double inRangeConst = 0.0;
+    private static final double xProportional = -0.05;
 
-    public ObjectDetector(NetworkTable table) {
-        this.table_m = table;
+    public ObjectDetector(String table) {
+        this.table_m = NetworkTableInstance.getDefault().getTable(table);
     }
 
     @Override
     public void periodic() {
-        tv = table_m.getEntry("tv").getDouble(0) == 1;
+        tv = table_m.getEntry("tv").getDouble(0.0) == 1.0;
     }
 
     public boolean targetVisible() {
         return tv;
-    }
-
-    public boolean lightOn() {
-        return ledMode == 0;
     }
 
     public double[] targetInfo() { // X - Y - A - L
@@ -35,11 +34,19 @@ public class ObjectDetector extends SubsystemBase {
         };
     }
 
-    public void setLight(boolean on) {
-        if (on) {
-            table_m.getEntry("ledMode").setNumber(0);
+    public boolean noteInRange() {
+        return tv && (targetInfo()[1] < inRangeConst);
+    }
+
+    public double drivetrainAdjustment() {
+
+        double x = targetInfo()[0];
+        double y = targetInfo()[1];
+
+        if (noteInRange()) {
+            return x * xProportional; //may need to scale with y too FIXME
         } else {
-            table_m.getEntry("ledMode").setNumber(1);
+            return 0.0;
         }
     }
 }

@@ -23,6 +23,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     private Pigeon2 gyro;
     private List<SwerveModule> modules;
     private ChassisSpeeds setPoint = new ChassisSpeeds(); // X: m/s - Y: m/s - Theta: rad/s
+    private ChassisSpeeds adjustment = new ChassisSpeeds();
 
     public SwerveDrivetrain() {
         instance = this;
@@ -82,14 +83,18 @@ public class SwerveDrivetrain extends SubsystemBase {
         this.setPoint = speeds;
     }
 
+    public ChassisSpeeds getSetpoint() {
+        return this.setPoint;
+    }
+
     public void adjustSpeeds(ChassisSpeeds adjustment) {
-        this.setPoint = this.setPoint.plus(adjustment);
+        this.adjustment = adjustment;
     }
 
     @Override
     public void periodic() {
         if (DriverStation.isTeleop()) {
-            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(setPoint, Units.millisecondsToSeconds(20)));
+            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(setPoint.plus(adjustment), Units.millisecondsToSeconds(20)));
             SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).setModuleState(states[i]);

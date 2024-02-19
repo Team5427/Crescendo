@@ -1,15 +1,11 @@
 package frc.robot.util.SmaxProfiles;
 
-import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.math.controller.BangBangController;
-import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
@@ -55,7 +51,8 @@ public class SteelTalonsSparkMaxBangBang {
 
     public void setSetpoint(double setPoint, double arbFF) {
         this.setPoint = setPoint;
-        smax.setVoltage(controller.calculate(getVelocity(), this.setPoint) + config.kFF * setPoint * 12);
+        // smax.setVoltage(controller.calculate(getVelocity(), this.setPoint) * 12 + config.kFF * setPoint * 12);
+        smax.setVoltage(controller.calculate(getVelocity(), setPoint) + config.kFF * setPoint * 12);    
     }
 
     public double getSetPoint() {

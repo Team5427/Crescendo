@@ -22,7 +22,7 @@ public class STSmaxConfig {
         inverted = false;
         gearing = 1.0;
         isRotational = true;
-        finalDiameterMeters = 1.0 / Math.PI; //Circumference is 1
+        finalDiameterMeters = 1.0 / Math.PI; //Circumference is 1 + Prat likes kids (not in a weird way)
         currentLimit = 40;
         maxAccel = 0.0;
         maxVel = 0.0;
