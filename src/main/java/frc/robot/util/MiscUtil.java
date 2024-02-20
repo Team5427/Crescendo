@@ -24,7 +24,7 @@ public class MiscUtil {
     public static final double fieldWidth = Units.feetToMeters(54);
     public static final double fieldHeight = Units.feetToMeters(27);
     public static final Pose2d speaker_Pose = new Pose2d(0, 5.5, new Rotation2d(Math.PI));
-    private static final int MAX_SMAX_PERIODIC_FRAME_MS = 65534;
+    private static final int MAX_SMAX_PERIODIC_FRAME_MS = 65533;
 
     public static Pose2d flip(Pose2d pose) {
         Translation2d trans = pose.getTranslation();

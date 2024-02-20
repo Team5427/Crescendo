@@ -7,6 +7,7 @@ import com.revrobotics.RelativeEncoder;
 
 import edu.wpi.first.math.controller.BangBangController;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
 
@@ -34,9 +35,11 @@ public class SteelTalonsSparkMaxBangBang {
         smaxEnc.setPositionConversionFactor(1.0);
         smaxEnc.setVelocityConversionFactor(1.0);
         smaxEnc.setPosition(0);
-        smax.burnFlash();
 
         controller = new BangBangController(100); //tolerance in RPM
+        MiscUtil.doPeriodicFrame(smax);
+
+        smax.burnFlash();
         Timer.delay(0.15);
 
     }

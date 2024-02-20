@@ -10,6 +10,7 @@ import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
 
@@ -41,6 +42,7 @@ public class SteelTalonsSparkMaxSimpleServo {
             smaxController.setPositionPIDWrappingMaxInput(Math.PI);
             smaxController.setPositionPIDWrappingMinInput(-Math.PI);
         }
+        MiscUtil.doPeriodicFrame(smax);
         smax.burnFlash();
         Timer.delay(0.15);
     }

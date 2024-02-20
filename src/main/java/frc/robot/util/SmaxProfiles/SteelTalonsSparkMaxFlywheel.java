@@ -10,6 +10,7 @@ import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
 
@@ -44,6 +45,7 @@ public class SteelTalonsSparkMaxFlywheel {
         smaxPID.setD(config.kD);
         smaxPID.setFF(config.kFF);
         smaxPID.setI(config.kI);
+        MiscUtil.doPeriodicFrame(smax);
         smax.burnFlash();
         accelLimiter = new SlewRateLimiter(config.maxAccel);
         Timer.delay(0.15);
