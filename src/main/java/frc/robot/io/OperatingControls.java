@@ -10,6 +10,7 @@ import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 
 public class OperatingControls {
+
     public OperatingControls(CommandXboxController operatingController) {
         operatingController.leftTrigger(0.1).whileTrue(
             Intake.getInstance().getBasicIntakeCommand()

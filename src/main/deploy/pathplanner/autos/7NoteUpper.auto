@@ -48,15 +48,15 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 0.25
+                  "name": "Feed Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]
@@ -86,15 +86,15 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 0.25
+                  "name": "Feed Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]
@@ -124,15 +124,15 @@
           "data": {
             "commands": [
               {
-                "type": "wait",
+                "type": "named",
                 "data": {
-                  "waitTime": 0.25
+                  "name": "Feed Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]
@@ -175,15 +175,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "HalfCenterToBorderUpper"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfCenterToBorderUpper"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]
@@ -213,15 +226,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "HalfMidUpperToBorderUpper"
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfMidUpperToBorderUpper"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]
@@ -251,15 +277,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "HalfUpperToBorderUpper"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfUpperToBorderUpper"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]
