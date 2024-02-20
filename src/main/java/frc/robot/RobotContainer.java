@@ -7,7 +7,6 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
-import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -72,7 +71,7 @@ public class RobotContainer {
             ),
             Intake.getInstance().getIntakeHandoff()
         ));
-    NamedCommands.registerCommand("Shoot Speaker", Shooter.getInstance().getFeedCommand(4000.0)); // Change to actual setpoint later
+    NamedCommands.registerCommand("Shoot Speaker", Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE)); // Change to actual setpoint later
   }
 
   public static ObjectDetector getNoteCam() {

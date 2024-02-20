@@ -3,7 +3,6 @@ package frc.robot.subsystems.Shooter;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.MiscUtil;
@@ -36,16 +35,14 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-5.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromDegrees(-45.0);
-    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-10.5);
-    public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-20.0);
-
-    // public static final InterpolatingDoubleTreeMap map = new InterpolatingDoubleTreeMap();
+    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-3.0);
+    public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-5.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-160.0);
 
-    public static final double FLYWHEEL_STATIC_SPEED_RPM = 500;
-    public static final double FLYWHEEL_AMP_SPEED_RPM = 3000;
+    public static final double FLYWHEEL_STATIC_SPEED_RPM = 1000;
+    public static final double FLYWHEEL_AMP_SPEED_RPM = 2000;
 
     public static final double FEEDER_HOLD_SPEED = 0.0;
     public static final double FEEDER_FEED_SPEED = 1.0;

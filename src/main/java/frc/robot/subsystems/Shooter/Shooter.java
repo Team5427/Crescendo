@@ -194,8 +194,8 @@ public class Shooter extends SubsystemBase {
     return new ShooterHandoff();
   }
 
-  public Command getFeedCommand(double setpoint) {
-    return new FeedShooter(setpoint);
+  public Command getFeedCommand(double setpoint, Rotation2d pivotRot) {
+    return new FeedShooter(setpoint, pivotRot);
   }
 
 }

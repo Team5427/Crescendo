@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -10,13 +11,15 @@ public class FeedShooter extends Command {
     private Timer timer2;
     private final double timerThreshold = 0.75;
     private double setpoint = 0.0;
+    private Rotation2d pivotRot;
 
-    public FeedShooter(double setpoint) {
+    public FeedShooter(double setpoint, Rotation2d pivotRot) {
         shooter = Shooter.getInstance();
         timer = new Timer();
         timer2 = new Timer();
 
         this.setpoint = setpoint;
+        this.pivotRot = pivotRot;
     }
 
     @Override
@@ -25,7 +28,7 @@ public class FeedShooter extends Command {
         timer2.reset();
         timer2.start();
 
-        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_AMP);
+        shooter.setPivotSetpoint(pivotRot);
     }
 
     @Override
