@@ -183,6 +183,7 @@ public class Shooter extends SubsystemBase {
     SteelTalonsLogger.post("SHooter flywheel error", leftFlywheel.getError());
     SteelTalonsLogger.post("Shooter Loaded", loaded());
     SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
+    SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
   }
 
   public Command getHomingCommand() {

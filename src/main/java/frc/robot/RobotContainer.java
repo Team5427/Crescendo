@@ -11,11 +11,16 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.BumpFeeder;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.AutonUtil;
@@ -39,7 +44,7 @@ public class RobotContainer {
     intake = new Intake();
     shooter = new Shooter();
 
-    noteCam = new ObjectDetector("noteCam");
+    noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
@@ -57,6 +62,17 @@ public class RobotContainer {
   private void registerNamedCommands() {
     NamedCommands.registerCommand("Use Intake", Intake.getInstance().getBasicIntakeCommand());
     NamedCommands.registerCommand("Eject Note", Intake.getInstance().getIntakeEjaculation());
+    NamedCommands.registerCommand("Feed Note", new ParallelDeadlineGroup(
+            new SequentialCommandGroup(
+                Shooter.getInstance().getShooterHandoff(), 
+                new BumpFeeder(),
+                new InstantCommand(() -> {
+                    Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+                })
+            ),
+            Intake.getInstance().getIntakeHandoff()
+        ));
+    NamedCommands.registerCommand("Shoot Speaker", Shooter.getInstance().getFeedCommand(4000.0)); // Change to actual setpoint later
   }
 
   public static ObjectDetector getNoteCam() {

@@ -2,6 +2,7 @@ package frc.robot.subsystems.Vision;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ObjectDetector extends SubsystemBase {
@@ -9,8 +10,8 @@ public class ObjectDetector extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
 
-    private static final double inRangeConst = 0.0;
-    private static final double xProportional = -0.05;
+    private static final double inRangeConst = -0.0;
+    private static final double xProportional = -0.1;
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
@@ -19,6 +20,7 @@ public class ObjectDetector extends SubsystemBase {
     @Override
     public void periodic() {
         tv = table_m.getEntry("tv").getDouble(0.0) == 1.0;
+        SmartDashboard.putBoolean("entry limelight", targetVisible());
     }
 
     public boolean targetVisible() {

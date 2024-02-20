@@ -30,34 +30,33 @@ public class TempIntakeEjaculation extends Command {
         System.out.println("Ejaculated");
     }
     
-    public void soloEjaculation(String person, int times) {
-        if (times == 1) {
-            System.out.println(person + " has ejaculated" + times + " time.");
-        } else {
-            System.out.println(person + " has ejaculated" + times + " times.");
-        }
-    }
+    // public void soloEjaculation(String person, int times) {
+    //     if (times == 1) {
+    //         System.out.println(person + " has ejaculated" + times + " time.");
+    //     } else {
+    //         System.out.println(person + " has ejaculated" + times + " times.");
+    //     }
+    // }
 
-    public void teamEjaculation(String person1, String person2, int times) {
-        ericEjaculates();
-        if (times == 1) {
-            System.out.println(person1 + "  has ejaculated " + person2 + times + " time.");
-        } else {
-            System.out.println(person1 + "  has ejaculated " + person2 + times + " times.");
-        }
-    }
-    public void ericEjaculates()
-    {
-        System.out.println("Eric ejaculates on the entire 5427 team!");
-    }
+    // public void teamEjaculation(String person1, String person2, int times) {
+    //     ericEjaculates();
+    //     if (times == 1) {
+    //         System.out.println(person1 + "  has ejaculated " + person2 + times + " time.");
+    //     } else {
+    //         System.out.println(person1 + "  has ejaculated " + person2 + times + " times.");
+    //     }
+    // }
+    // public void ericEjaculates()
+    // {
+    //     System.out.println("Eric ejaculates on the entire 5427 team!");
+    // }
 
-    public void noConsentEjaculation(String person1, String person2, int times) {
-        if (times == 1) {
-            System.out.println(person1 + "  has ejaculated on " + person2 + times + " time.");
-        } else {
-            System.out.println(person1 + "  has ejaculated on " + person2 + times + " times.");
-        }
-    }
-
-    // public void 
+    // public void noConsentEjaculation(String person1, String person2, int times) {
+    //     if (times == 1) {
+    //         System.out.println(person1 + "  has ejaculated on " + person2 + times + " time.");
+    //     } else {
+    //         System.out.println(person1 + "  has ejaculated on " + person2 + times + " times.");
+    //     }
+    // }
+    
 }

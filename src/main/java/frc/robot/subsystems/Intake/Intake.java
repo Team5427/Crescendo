@@ -140,7 +140,7 @@ public class Intake extends SubsystemBase {
 
         SteelTalonsLogger.post("setpoint velocity", pivot.getSetpointVelocity());
 
-        SteelTalonsLogger.post("Beam Broken", !beamBreaker.get());
+        SteelTalonsLogger.post("Intake Loaded", sensorCovered());
     }
 
 }

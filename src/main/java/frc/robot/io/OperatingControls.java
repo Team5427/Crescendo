@@ -41,8 +41,8 @@ public class OperatingControls {
             Intake.getInstance().getIntakeHandoff()
         ));
         operatingController.y().onTrue(Shooter.getInstance().getFeedCommand(5200));
-        operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(2000));
+        operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(1000));
 
-        operatingController.start().toggleOnTrue(new TestShooterRanging());
+        // operatingController.start().toggleOnTrue(new TestShooterRanging());
     }
 }

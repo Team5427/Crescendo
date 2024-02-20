@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
@@ -27,10 +28,10 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private AprilTagFieldLayout aprilTagFieldLayout;
     private ArrayList<ApriltagCam> camList;
 
-    private final String leftCamName = "left";
-    private final String rightCamName = "right";
-    private final Transform3d leftRobotToCam = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
-    private final Transform3d rightRobotToCam = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
+    private final String leftCamName = "leftcam";
+    private final String rightCamName = "rightcam";
+    private final Transform3d leftRobotToCam = new Transform3d(Units.inchesToMeters(-12.842), Units.inchesToMeters(11.992), Units.inchesToMeters(9.385), new Rotation3d(0, Math.toRadians(-35), Math.PI));
+    private final Transform3d rightRobotToCam = new Transform3d(Units.inchesToMeters(-12.842), Units.inchesToMeters(-11.992), Units.inchesToMeters(9.385), new Rotation3d(0, Math.toRadians(-35), Math.PI));
 
     private SwerveDrivePoseEstimator poseEstimator;
 
@@ -44,8 +45,10 @@ public class SteelTalonsLocalization extends SubsystemBase {
             System.err.println("Couldn't load field");
         }
 
-        // camList.add(new ApriltagCam(leftCamName, leftRobotToCam, aprilTagFieldLayout));
-        // camList.add(new ApriltagCam(rightCamName, rightRobotToCam, aprilTagFieldLayout));
+        camList = new ArrayList<ApriltagCam>();
+
+        camList.add(new ApriltagCam(leftCamName, leftRobotToCam, aprilTagFieldLayout));
+        camList.add(new ApriltagCam(rightCamName, rightRobotToCam, aprilTagFieldLayout));
 
         poseEstimator = new SwerveDrivePoseEstimator(
             DrivetrainConstants.SWERVE_DRIVE_KINEMATICS, 

@@ -25,13 +25,14 @@ public class FeedShooter extends Command {
         timer2.reset();
         timer2.start();
 
-        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_ACTIVE);
+        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_AMP);
     }
 
     @Override
     public void execute() {
         shooter.setFlywheelSetpoint(setpoint, setpoint);
-        if (shooter.pivotAtGoal() && shooter.flywheelAtGoal() && timer2.get() > 0.1) {
+        if (shooter.pivotAtGoal() && shooter.flywheelAtGoal() && timer2.get() > 1.5) {
+            System.err.println("starting the flywheel");
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
             timer.start();
         }
@@ -44,6 +45,7 @@ public class FeedShooter extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        System.err.println("finishing fefed");
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
