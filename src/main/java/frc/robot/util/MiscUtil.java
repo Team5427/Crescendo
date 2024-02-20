@@ -47,7 +47,7 @@ public class MiscUtil {
     public static boolean isBlue() {
         Optional<Alliance> alliance = DriverStation.getAlliance();
         if (alliance.isPresent()) {
-            System.err.println("returning value is present");
+            // System.err.println("returning value is present");
             return alliance.get().equals(DriverStation.Alliance.Blue);
         } else {
             return false;
@@ -55,9 +55,13 @@ public class MiscUtil {
     }
 
     public static Pose2d[] resetPose() { //blue, then red
+
+        double speakerX = 1.38;
+        double speakerY = 5.5;
+
         return new Pose2d[]{
-            new Pose2d(),
-            new Pose2d(fieldWidth, 0, new Rotation2d(Math.PI))
+            new Pose2d(speakerX, speakerY, new Rotation2d()),
+            new Pose2d(fieldWidth - speakerX, speakerY, new Rotation2d(Math.PI))
         };
     }
 
