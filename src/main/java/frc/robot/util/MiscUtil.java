@@ -66,14 +66,7 @@ public class MiscUtil {
     }
 
     public static void doPeriodicFrame(CANSparkMax... motor) {
-        for (CANSparkMax m : motor) {
-            m.setPeriodicFramePeriod(PeriodicFrame.kStatus1, MAX_SMAX_PERIODIC_FRAME_MS);
-            m.setPeriodicFramePeriod(PeriodicFrame.kStatus2, MAX_SMAX_PERIODIC_FRAME_MS);
-            m.setPeriodicFramePeriod(PeriodicFrame.kStatus3, MAX_SMAX_PERIODIC_FRAME_MS);
-            m.setPeriodicFramePeriod(PeriodicFrame.kStatus4, MAX_SMAX_PERIODIC_FRAME_MS);
-            m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MAX_SMAX_PERIODIC_FRAME_MS);
-            m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MAX_SMAX_PERIODIC_FRAME_MS);
-        }
+        doPeriodicFrameLess(motor);
     }
 
     public static void doPeriodicFrame(int msZero, CANSparkMax... motor) {
