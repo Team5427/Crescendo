@@ -1,6 +1,9 @@
 package frc.robot.subsystems.Swerve;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -9,22 +12,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
-import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxFlywheel;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxSimpleServo;
 
 public class SwerveModule {
-    // private TalonFX driveMotor;
-    private SteelTalonsSparkMaxFlywheel driveMotor;
+    private TalonFX driveMotor;
+    // private SteelTalonsSparkMaxFlywheel driveMotor;
     private SteelTalonsSparkMaxSimpleServo steerMotor;
     private CANcoder canCoder;
     
     private SendableChooser<Double> deadzone;
 
-    public SwerveModule(STSmaxConfig driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
-        DrivetrainConstants.configureMotors();
+    public SwerveModule(int talonID, TalonFXConfiguration driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
 
-        driveMotor = new SteelTalonsSparkMaxFlywheel(DrivetrainConstants.configureDriveNeo(driveConfig));
-        driveMotor.disableLimiter();
+        driveMotor = new TalonFX(talonID);
+        driveMotor.getConfigurator().apply(driveConfig);
+        DrivetrainConstants.configureDriveTalon(driveMotor);
+
         steerMotor = new SteelTalonsSparkMaxSimpleServo(DrivetrainConstants.configureSteerNeo(steerConfig));
 
         canCoder = new CANcoder(canCoderID);
@@ -40,11 +43,11 @@ public class SwerveModule {
     }
 
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(driveMotor.getPosition(), new Rotation2d(steerMotor.getPosition()));
+        return new SwerveModulePosition(driveMotor.getPosition().getValueAsDouble(), new Rotation2d(steerMotor.getPosition()));
     }
 
     public SwerveModuleState getModuleState() {
-        return new SwerveModuleState(driveMotor.getVelocity(), new Rotation2d(steerMotor.getPosition()));
+        return new SwerveModuleState(driveMotor.getVelocity().getValueAsDouble(), new Rotation2d(steerMotor.getPosition()));
     }
 
     public void setModuleState(SwerveModuleState state) {
@@ -55,10 +58,10 @@ public class SwerveModule {
 
         if (Math.abs(velocitySetpoint) > deadzone.getSelected()) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
-            driveMotor.setSetpoint(velocitySetpoint, 0);
+            driveMotor.setControl(new VelocityVoltage(velocitySetpoint).withEnableFOC(true));
         } else {
             steerMotor.forceStop();
-            driveMotor.forceStop();
+            driveMotor.stopMotor();
         }
     }
 
@@ -68,7 +71,6 @@ public class SwerveModule {
 
     public void resetController() {
         steerMotor.resetController();
-        driveMotor.resetLimiter();
     } 
 
     public void log(String name) {

@@ -29,26 +29,31 @@ public class SwerveDrivetrain extends SubsystemBase {
         instance = this;
         gyro = new Pigeon2(DrivetrainConstants.PIGEON_CAN_ID);
         gyro.reset();
+        DrivetrainConstants.configureMotors();
         modules = List.of(
             new SwerveModule(
+                DrivetrainConstants.FRONT_LEFT_DRIVE_ID,
                 DrivetrainConstants.FRONT_LEFT_DRIVE, 
                 DrivetrainConstants.FRONT_LEFT_STEER, 
                 DrivetrainConstants.FRONT_LEFT_CANCODER_ID,
                 DrivetrainConstants.FRONT_LEFT_OFFSET
             ), //FRONT LEFT
             new SwerveModule(
+                DrivetrainConstants.FRONT_RIGHT_DRIVE_ID,
                 DrivetrainConstants.FRONT_RIGHT_DRIVE, 
                 DrivetrainConstants.FRONT_RIGHT_STEER, 
                 DrivetrainConstants.FRONT_RIGHT_CANCODER_ID,
                 DrivetrainConstants.FRONT_RIGHT_OFFSET
             ), //FRONT RIGHT
             new SwerveModule(
+                DrivetrainConstants.BACK_LEFT_DRIVE_ID,
                 DrivetrainConstants.BACK_LEFT_DRIVE, 
                 DrivetrainConstants.BACK_LEFT_STEER, 
                 DrivetrainConstants.BACK_LEFT_CANCODER_ID,
                 DrivetrainConstants.BACK_LEFT_OFFSET
             ), //BACK LEFT
             new SwerveModule(
+                DrivetrainConstants.BACK_RIGHT_DRIVE_ID,
                 DrivetrainConstants.BACK_RIGHT_DRIVE, 
                 DrivetrainConstants.BACK_RIGHT_STEER, 
                 DrivetrainConstants.BACK_RIGHT_CANCODER_ID,

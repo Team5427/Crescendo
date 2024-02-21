@@ -7,6 +7,7 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -72,6 +73,13 @@ public class RobotContainer {
             Intake.getInstance().getIntakeHandoff()
         ));
     NamedCommands.registerCommand("Shoot Speaker", Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE)); // Change to actual setpoint later
+    NamedCommands.registerCommand("Stow Intake Auton", new Command() {
+      @Override
+      public void initialize() {
+        addRequirements(Intake.getInstance());
+        Intake.getInstance().setPivotSetpoint(new Rotation2d(-90));
+      }
+    });
   }
 
   public static ObjectDetector getNoteCam() {
