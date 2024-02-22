@@ -1,12 +1,12 @@
 package frc.robot.subsystems.Shooter;
 
-import com.pathplanner.lib.util.PIDConstants;
-
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.MiscUtil;
 
 public class TestShooterRanging extends Command {
@@ -14,6 +14,7 @@ public class TestShooterRanging extends Command {
     private Shooter shooter;
     private SwerveDrivetrain drivetrain;
     private PIDController rotPID;
+    private ObjectDetector tagCam;
 
     private static final double kP = 0.0;
     private static final double kI = 0.0;
@@ -22,6 +23,7 @@ public class TestShooterRanging extends Command {
     public TestShooterRanging() {
         shooter = Shooter.getInstance();
         drivetrain = SwerveDrivetrain.getInstance();
+        tagCam = RobotContainer.getTagCam();
         rotPID = new PIDController(kP, kI, kD);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
         rotPID.setTolerance(Math.toRadians(1.5));
@@ -50,13 +52,23 @@ public class TestShooterRanging extends Command {
         );
 
         shooter.setShootingConfigSetpoints(config);
+
+        double angleEffort = tagCam.targetVisible(MiscUtil.isBlue() ? 5.0 : 7.0) ? 
+            RobotContainer.getTagCam().speakerDriveAdjustment(adjustmentSetpoint.getDegrees()) : 
+            rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
+        
         drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
-            rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians()) - drivetrain.getSetpoint().omegaRadiansPerSecond
+            angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond
         ));
     }
 
     @Override
     public boolean isFinished() {
         return false;
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        drivetrain.adjustSpeeds(new ChassisSpeeds());
     }
 }

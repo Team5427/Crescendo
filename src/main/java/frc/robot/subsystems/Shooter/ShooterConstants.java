@@ -24,6 +24,7 @@ public class ShooterConstants {
     private static final int AMP_PIVOT_MOTOR_ID = 21;
     
     public static final int BEAM_BREAKER_PORT = 0;
+    public static final int SIDE_BEAM_BREAKER_PORT = 2;
 
     private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.0);
 

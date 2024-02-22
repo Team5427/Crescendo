@@ -27,6 +27,11 @@ public class ObjectDetector extends SubsystemBase {
         return tv;
     }
 
+    public boolean targetVisible(double id) {
+        double ret = table_m.getEntry("tid").getDouble(0.0);
+        return id == ret;
+    }
+
     public double[] targetInfo() { // X - Y - A - L
         return new double[] {
             table_m.getEntry("tx").getDouble(0),
@@ -50,5 +55,13 @@ public class ObjectDetector extends SubsystemBase {
         } else {
             return 0.0;
         }
+    }
+
+    public double speakerDriveAdjustment(double offsetDeg) {
+         if (targetVisible()) {
+            return (targetInfo()[0] - offsetDeg) * xProportional;
+         } else {
+            return 0.0;
+         }
     }
 }

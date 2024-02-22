@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.MathUsageId;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -144,7 +146,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         double[] cv = {
             -controller.getRightY() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
             -controller.getRightX() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
-            -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
+            Math.copySign(Math.pow(controller.getLeftX(), 2.5), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
 
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());

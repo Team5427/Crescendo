@@ -28,6 +28,7 @@ public class Shooter extends SubsystemBase {
   private boolean homing = false;
 
   private DigitalInput beamBreak;
+  private DigitalInput sideBeamBreak;
 
   private static Shooter instance;
 
@@ -47,6 +48,7 @@ public class Shooter extends SubsystemBase {
     pivotMaster.setPosition(0.0);
 
     beamBreak = new DigitalInput(ShooterConstants.BEAM_BREAKER_PORT);
+    sideBeamBreak = new DigitalInput(ShooterConstants.SIDE_BEAM_BREAKER_PORT);
 
     instance = this;
     
@@ -115,8 +117,12 @@ public class Shooter extends SubsystemBase {
     }
 
     ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
-    feeder.setSetpoint(this.feederSetpoint, 0.0);
 
+    if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED) {
+      feeder.setRaw(0.05);
+    } else {
+      feeder.setSetpoint(this.feederSetpoint, 0.0);
+    }
     // if (tester.getHID().getAButton()) {
     //   pivotSetpoint = ShooterConstants.SHOOTER_PIVOT_HANDOFF;
     //   // System.err.println("Go to hardstop");
@@ -162,7 +168,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean loaded() {
-    return !beamBreak.get();
+    return !sideBeamBreak.get();
+  }
+
+  public boolean inPosition() {
+    return loaded() && !beamBreak.get();
   }
 
   public boolean getHoming() {

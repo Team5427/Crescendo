@@ -32,13 +32,13 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = Units.feetToMeters(16);
-    public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = 4 * Math.PI;
-
     public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
-    public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5;
-    public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.07;
+    public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; //NOT BEING USED >:)
+    public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.03;
     public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.75;
+
+    public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 0.9;
+    public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = 3 * Math.PI;
 
     public static final int FRONT_LEFT_CANCODER_ID = 12;
     public static final int FRONT_RIGHT_CANCODER_ID = 13;
@@ -94,17 +94,13 @@ public class DrivetrainConstants {
         feedbackConfigs.SensorToMechanismRatio = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI;
         motor.getConfigurator().apply(feedbackConfigs);
 
-        ClosedLoopRampsConfigs rampConfigs = new ClosedLoopRampsConfigs();
-        rampConfigs.VoltageClosedLoopRampPeriod = 0.2; //secs it takes to ramp to max
-        motor.getConfigurator().apply(rampConfigs);
-
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
         currConfigs.StatorCurrentLimitEnable = true;
         currConfigs.SupplyCurrentLimitEnable = true;
-        currConfigs.StatorCurrentLimit = 60;
+        currConfigs.StatorCurrentLimit = 100;
         currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 80;
-        currConfigs.SupplyTimeThreshold = 1.5;
+        currConfigs.SupplyCurrentThreshold = 100;
+        currConfigs.SupplyTimeThreshold = 0.25;
         motor.getConfigurator().apply(currConfigs);
 
         motor.setNeutralMode(NeutralModeValue.Brake);

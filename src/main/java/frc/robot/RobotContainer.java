@@ -35,6 +35,7 @@ public class RobotContainer {
   private Shooter shooter;
 
   private static ObjectDetector noteCam;
+  private static ObjectDetector tagCam;
 
   public RobotContainer() {
 
@@ -45,6 +46,7 @@ public class RobotContainer {
     shooter = new Shooter();
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
+    tagCam = new ObjectDetector("limelight-tagcam");
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
@@ -84,6 +86,10 @@ public class RobotContainer {
 
   public static ObjectDetector getNoteCam() {
     return noteCam;
+  }
+
+  public static ObjectDetector getTagCam() {
+    return tagCam;
   }
 
   public Command getAutonomousCommand() {

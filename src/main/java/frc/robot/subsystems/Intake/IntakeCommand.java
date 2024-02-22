@@ -40,13 +40,7 @@ public class IntakeCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        SwerveDrivetrain.getInstance().adjustSpeeds(
-            new ChassisSpeeds(
-                0, 
-                0, 
-                0.0
-            )
-        );
+        SwerveDrivetrain.getInstance().adjustSpeeds(new ChassisSpeeds());
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
     }
