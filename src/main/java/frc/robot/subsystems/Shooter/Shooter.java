@@ -118,7 +118,7 @@ public class Shooter extends SubsystemBase {
 
     ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
 
-    if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED) {
+    if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && loaded() && !inPosition()) {
       feeder.setRaw(0.05);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);

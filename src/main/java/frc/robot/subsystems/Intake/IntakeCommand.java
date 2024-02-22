@@ -28,7 +28,7 @@ public class IntakeCommand extends Command {
             new ChassisSpeeds(
                 0, 
                 0, 
-                RobotContainer.getNoteCam().drivetrainAdjustment()
+                RobotContainer.getNoteCam().noteDriveAdjustment()
             )
         );
     }

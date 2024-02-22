@@ -45,7 +45,7 @@ public class ObjectDetector extends SubsystemBase {
         return tv && (targetInfo()[1] < inRangeConst);
     }
 
-    public double drivetrainAdjustment() {
+    public double noteDriveAdjustment() {
 
         double x = targetInfo()[0];
         double y = targetInfo()[1];
