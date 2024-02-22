@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.73,
-      "y": 6.75
+      "x": 1.41,
+      "y": 5.5
     },
-    "rotation": 57.29577951308232
+    "rotation": -7.721372559371467e-27
   },
   "command": {
     "type": "sequential",
@@ -15,12 +15,6 @@
           "type": "parallel",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Use Intake"
-                }
-              },
               {
                 "type": "sequential",
                 "data": {
@@ -34,10 +28,16 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "UpperStartToWingUpper"
+                        "pathName": "CenterStartToWingUpper"
                       }
                     }
                   ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Use Intake"
                 }
               }
             ]
@@ -145,26 +145,13 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WingLowerToHalfCenter"
+                  "pathName": "WingLowerToHalfLower"
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Use Intake"
-                      }
-                    }
-                  ]
+                  "name": "Use Intake"
                 }
               }
             ]
@@ -181,13 +168,115 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HalfCenterToBorderUpper"
+                        "pathName": "HalfLowerToBorderLower"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "Feed Note"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Speaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Use Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BorderLowerToHalfMidLower"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfMidLowerToBorderCenter"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Speaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Use Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BorderCenterToHalfCenter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfCenterToBorderUpper"
                       }
                     }
                   ]
@@ -230,15 +319,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "Feed Note"
-                      }
-                    },
-                    {
                       "type": "path",
                       "data": {
                         "pathName": "HalfMidUpperToBorderUpper"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
                       }
                     }
                   ]
@@ -281,15 +370,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "HalfUpperToBorderUpper"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "Feed Note"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfUpperToBorderUpper"
                       }
                     }
                   ]
