@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.73,
-      "y": 6.75
+      "x": 1.41,
+      "y": 5.5
     },
-    "rotation": 57.29577951308232
+    "rotation": -7.721372559371467e-27
   },
   "command": {
     "type": "sequential",
@@ -15,6 +15,12 @@
           "type": "parallel",
           "data": {
             "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Use Intake"
+                }
+              },
               {
                 "type": "sequential",
                 "data": {
@@ -28,16 +34,86 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "UpperStartToWingUpper"
+                        "pathName": "CenterStartToWingUpper"
                       }
                     }
                   ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feed Note"
                 }
               },
               {
                 "type": "named",
                 "data": {
+                  "name": "Shoot Speaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
                   "name": "Use Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "WingUpperToWingCenter"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Feed Note"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Speaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Use Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "WingCenterToWingLower"
                 }
               }
             ]
@@ -69,13 +145,26 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WingUpperToHalfUpper"
+                  "pathName": "WingLowerToHalfCenter"
                 }
               },
               {
-                "type": "named",
+                "type": "sequential",
                 "data": {
-                  "name": "Use Intake"
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Use Intake"
+                      }
+                    }
+                  ]
                 }
               }
             ]
@@ -92,7 +181,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HalfUpperToBorderUpper"
+                        "pathName": "HalfCenterToBorderUpper"
                       }
                     },
                     {
@@ -141,15 +230,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "HalfMidUpperToBorderUpper"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "Feed Note"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfMidUpperToBorderUpper"
                       }
                     }
                   ]
@@ -171,7 +260,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BorderUpperToHalfCenter"
+                  "pathName": "BorderUpperToHalfUpper"
                 }
               },
               {
@@ -188,15 +277,28 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "parallel",
                 "data": {
-                  "pathName": "HalfCenterToBorderUpper"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfUpperToBorderUpper"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "Eject Note"
+                  "name": "Shoot Speaker"
                 }
               }
             ]

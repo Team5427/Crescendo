@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.41,
+      "x": 1.4,
       "y": 5.5
     },
-    "rotation": -7.721372559371467e-27
+    "rotation": 0.0
   },
   "command": {
     "type": "sequential",
@@ -34,7 +34,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CenterStartToWingUpper"
+                        "pathName": "CenterStartToWingLower"
                       }
                     }
                   ]
@@ -75,7 +75,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WingUpperToWingCenter"
+                  "pathName": "WingLowerToWingCenter"
                 }
               }
             ]
@@ -113,7 +113,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WingCenterToWingLower"
+                  "pathName": "WingCenterToWingUpper"
                 }
               }
             ]
@@ -145,7 +145,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "WingLowerToHalfCenter"
+                  "pathName": "WingUpperToHalfUpper"
                 }
               },
               {
@@ -187,7 +187,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HalfCenterToBorderUpper"
+                        "pathName": "HalfUpperToBorderUpper"
                       }
                     }
                   ]
@@ -260,7 +260,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BorderUpperToHalfUpper"
+                  "pathName": "BorderUpperToHalfCenter"
                 }
               },
               {
@@ -289,7 +289,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HalfUpperToBorderUpper"
+                        "pathName": "HalfCenterToBorderUpper"
                       }
                     }
                   ]
