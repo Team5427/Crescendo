@@ -62,6 +62,7 @@ public class LEDManager {
 
     public static void updateManager() {
         Alliance alliance = DriverStation.getAlliance().get();
+        tick = ledState != LED_State.kPickedUp ? 0: tick;
         switch (ledState) {
             case kPickedUp:
                 if (tick % 0.2 == 0)
@@ -75,7 +76,7 @@ public class LEDManager {
             case kWantsGamePiece:
                 currentColor = alliance == Alliance.Red ? RED_ALLIANCE: BLUE_ALLIANCE;
             default:
-                currentColor = LED_OFF;
+                currentColor = alliance == Alliance.Red ? RED_ALLIANCE: BLUE_ALLIANCE;
         }
 
         fillLED();
