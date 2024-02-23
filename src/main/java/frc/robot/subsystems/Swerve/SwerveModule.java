@@ -10,6 +10,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxSimpleServo;
@@ -43,17 +44,17 @@ public class SwerveModule {
     }
 
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(driveMotor.getPosition().getValueAsDouble(), new Rotation2d(steerMotor.getPosition()));
+        return new SwerveModulePosition(MiscUtil.DTrotToMeters(driveMotor.getPosition().getValueAsDouble()), new Rotation2d(steerMotor.getPosition()));
     }
 
     public SwerveModuleState getModuleState() {
-        return new SwerveModuleState(driveMotor.getVelocity().getValueAsDouble(), new Rotation2d(steerMotor.getPosition()));
+        return new SwerveModuleState(MiscUtil.DTrotToMeters(driveMotor.getVelocity().getValueAsDouble()), new Rotation2d(steerMotor.getPosition()));
     }
 
     public void setModuleState(SwerveModuleState state) {
         SwerveModuleState newState = SwerveModuleState.optimize(state, canCoderRot());
 
-        double velocitySetpoint = newState.speedMetersPerSecond;
+        double velocitySetpoint = MiscUtil.DTmetersToRot(newState.speedMetersPerSecond);
         Rotation2d rotSetpoint = newState.angle;
 
         if (Math.abs(velocitySetpoint) > deadzone.getSelected()) {

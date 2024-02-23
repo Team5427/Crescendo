@@ -17,6 +17,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.subsystems.Shooter.ShootingConfiguration;
+import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.Localization.SteelTalonsLocalization;
 
@@ -139,6 +140,14 @@ public class MiscUtil {
         double perpSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getSin();
 
         return new double[]{parallelSpeed, perpSpeed, distance, angError.getRadians()};
+    }
+
+    public static double DTrotToMeters(double rotations) {
+        return rotations * Math.PI * DrivetrainConstants.WHEEL_DIAMETER_METERS;
+    }
+
+    public static double DTmetersToRot(double meters) {
+        return meters / (Math.PI * DrivetrainConstants.WHEEL_DIAMETER_METERS);
     }
 
 }

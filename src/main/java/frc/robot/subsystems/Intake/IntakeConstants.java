@@ -40,7 +40,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.id = ROLLER_MOTOR_ID;
         PIVOT_CONFIG.id = PIVOT_MOTOR_ID;
 
-        ROLLER_CONFIG.gearing = 18.0/24.0;
+        ROLLER_CONFIG.gearing = 12.0/30.0;
         ROLLER_CONFIG.finalDiameterMeters = Units.inchesToMeters(2);
         PIVOT_CONFIG.gearing = (12.0/52.0) * (16.0/52.0) * (16.0/32.0);
 

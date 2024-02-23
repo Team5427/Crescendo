@@ -13,15 +13,18 @@ public class LEDManager {
         kIdle
     }
 
+    private static final Color LED_OFF = new Color(0, 0, 0);
     private static final Color LIMELIGHT_GREEN = new Color(0, 155, 0);
 
+    private static Color currentColor;
+
     private static final int ledPort = 0;
+    private static final double updateDelay = 0.02;
+    private static final double pickUpThreshold = 1.0;
 
     private static AddressableLED led;
     private static AddressableLEDBuffer ledBuffer;
     private static int ledCount;
-
-    private static double updateDelay;
 
     private static LED_State ledState;
 
@@ -34,8 +37,6 @@ public class LEDManager {
         led.setLength(ledCount);
         led.setData(ledBuffer);
         led.start();
-
-        updateDelay = 0.02;
         tick = 0;
 
         ledState = LED_State.kIdle;
@@ -51,12 +52,26 @@ public class LEDManager {
 
     private static void fillLED() {
         for (int i = 0; i < ledCount; i++) {
-            ledBuffer.setLED(i, LIMELIGHT_GREEN);
+            ledBuffer.setLED(i, currentColor);
         }
     }
 
     public static void updateManager() {
-        
+        switch (ledState) {
+            case kPickedUp:
+                if (tick % 0.2 == 0)
+                    currentColor = currentColor.equals(LIMELIGHT_GREEN) ? LED_OFF: LIMELIGHT_GREEN;
+                tick += updateDelay;
+                if (tick > pickUpThreshold)
+                    setState(LED_State.kHasGamePiece);
+                break;
+            case kHasGamePiece:
+                currentColor = LIMELIGHT_GREEN;
+            default:
+                currentColor = LED_OFF;
+        }
+
+        fillLED();
     }
     
 }

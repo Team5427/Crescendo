@@ -146,7 +146,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         double[] cv = {
             -controller.getRightY() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
             -controller.getRightX() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
-            Math.copySign(Math.pow(controller.getLeftX(), 2.5), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
+            Math.copySign(Math.pow(Math.abs(controller.getLeftX()), 2), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
+            // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
 
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
@@ -156,6 +157,12 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Setpoint X", setPoint.vxMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Y", setPoint.vyMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Theta", setPoint.omegaRadiansPerSecond);
+        SteelTalonsLogger.post("x speed", getVelocityVector().vxMetersPerSecond);
+        SteelTalonsLogger.post("y speed", getVelocityVector().vyMetersPerSecond);
+        modules.get(0).log("front left");
+        modules.get(1).log("front right");
+        modules.get(2).log("back left");
+        modules.get(3).log("back right");
     }
 
     public Command getDriveCommand(CommandXboxController joy) {

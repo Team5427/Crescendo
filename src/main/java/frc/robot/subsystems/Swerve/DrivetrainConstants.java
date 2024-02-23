@@ -32,9 +32,9 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
+    public static final double MAX_PHYSICAL_SPEED_M_S = (6000 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; //NOT BEING USED >:)
-    public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.03;
+    public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.0;
     public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.75;
 
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 0.9;
@@ -72,10 +72,10 @@ public class DrivetrainConstants {
         BACK_LEFT_STEER.name = "BACK_LEFT_STEER";
         BACK_RIGHT_STEER.name = "BACK_RIGHT_STEER";
 
-        FRONT_RIGHT_DRIVE.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        BACK_RIGHT_DRIVE.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
-        FRONT_LEFT_DRIVE.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
-        BACK_LEFT_DRIVE.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        FRONT_RIGHT_DRIVE.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        BACK_RIGHT_DRIVE.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
+        FRONT_LEFT_DRIVE.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+        BACK_LEFT_DRIVE.MotorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
         FRONT_LEFT_STEER.id = 6;
         FRONT_RIGHT_STEER.id = 4;
@@ -91,7 +91,7 @@ public class DrivetrainConstants {
         motor.getConfigurator().apply(velConstants);
 
         FeedbackConfigs feedbackConfigs = new FeedbackConfigs();
-        feedbackConfigs.SensorToMechanismRatio = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI;
+        feedbackConfigs.SensorToMechanismRatio = (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
         motor.getConfigurator().apply(feedbackConfigs);
 
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
@@ -116,7 +116,7 @@ public class DrivetrainConstants {
 
         config.isRotational = false;
 
-        config.gearing = (14.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
+        config.gearing = (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
         config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
         config.idleMode = IdleMode.kBrake;
 
