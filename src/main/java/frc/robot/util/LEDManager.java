@@ -2,6 +2,8 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.util.Color;
 
 public class LEDManager {
@@ -15,6 +17,8 @@ public class LEDManager {
 
     private static final Color LED_OFF = new Color(0, 0, 0);
     private static final Color LIMELIGHT_GREEN = new Color(0, 155, 0);
+    private static final Color RED_ALLIANCE = new Color(255, 0, 0);
+    private static final Color BLUE_ALLIANCE = new Color(0, 0, 255);
 
     private static Color currentColor;
 
@@ -57,6 +61,7 @@ public class LEDManager {
     }
 
     public static void updateManager() {
+        Alliance alliance = DriverStation.getAlliance().get();
         switch (ledState) {
             case kPickedUp:
                 if (tick % 0.2 == 0)
@@ -67,6 +72,8 @@ public class LEDManager {
                 break;
             case kHasGamePiece:
                 currentColor = LIMELIGHT_GREEN;
+            case kWantsGamePiece:
+                currentColor = alliance == Alliance.Red ? RED_ALLIANCE: BLUE_ALLIANCE;
             default:
                 currentColor = LED_OFF;
         }

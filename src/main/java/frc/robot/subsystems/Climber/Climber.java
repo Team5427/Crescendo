@@ -42,7 +42,7 @@ public class Climber extends SubsystemBase {
     }
     
     public double getPosition() {
-        return leftClimber.getPosition().getValueAsDouble();
+        return ClimberConstants.getClimberRotationsToMeters(leftClimber.getPosition().getValueAsDouble());
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ClimberConstants {
         pidConfigs.kD = 0.0;
 
         FeedbackConfigs feedbackConfigs = new FeedbackConfigs();
-        feedbackConfigs.SensorToMechanismRatio = (1.0 / 25.0) * Math.PI * axleDiameterMeters;
+        feedbackConfigs.SensorToMechanismRatio = (1.0 / 25.0);
 
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(pidConfigs);
@@ -40,6 +40,10 @@ public class ClimberConstants {
 
         motor.setNeutralMode(NeutralModeValue.Brake);
         motor.setInverted(false);
+    }
+
+    public static double getClimberRotationsToMeters(double rotations) {
+        return rotations * Math.PI * axleDiameterMeters;
     }
     
 }
