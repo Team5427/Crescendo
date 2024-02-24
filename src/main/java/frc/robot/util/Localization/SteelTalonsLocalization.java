@@ -82,6 +82,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
                 if (estimate.isPresent()) {
                     SteelTalonsVisionMeasurement m = estimate.get();
                     poseEstimator.addVisionMeasurement(m.getPose(), m.getTimestamp(), m.getConfidence());
+                    field.getObject(cam.getName()).setPose(m.getPose());
                 } 
             }
 

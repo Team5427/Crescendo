@@ -26,7 +26,7 @@ public class ShooterConstants {
     public static final int BEAM_BREAKER_PORT = 0;
     public static final int SIDE_BEAM_BREAKER_PORT = 2;
 
-    private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.0);
+    private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.25);
 
     public static final double FLYWHEEL_TOLERANCE_RPM = 100.0;
     public static final double FEEDER_TOLERANCE_M_S = 0.2;
@@ -46,8 +46,9 @@ public class ShooterConstants {
     public static final double FLYWHEEL_AMP_SPEED_RPM = 2000;
 
     public static final double FEEDER_HOLD_SPEED = 0.0;
-    public static final double FEEDER_FEED_SPEED = 1.0;
-    public static final double FEEDER_INTAKE_SPEED = 1.0;
+    public static final double FEEDER_BUMP_SPEED = 0.25;
+    public static final double FEEDER_FEED_SPEED = 2.25;
+    public static final double FEEDER_INTAKE_SPEED = 0.75;
 
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
         MiscUtil.getInversePoseInterpolator(), 

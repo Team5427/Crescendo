@@ -15,7 +15,7 @@ public class IntakeConstants {
 
     public static final double MAX_KRAKEN_ROLLER_SPEED_M_S = (6000.0 * Math.PI * Units.inchesToMeters(2.0) * (12.0/30.0)) / 60.0;
 
-    public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-26.0));
+    public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-76.0));
     public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-214)); //-210
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
     public static final Rotation2d HANDOFF_POS = new Rotation2d(Units.degreesToRadians(-7.0));

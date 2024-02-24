@@ -3,7 +3,6 @@ package frc.robot.subsystems.Shooter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -120,7 +119,7 @@ public class Shooter extends SubsystemBase {
     ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && loaded() && !inPosition()) {
-      feeder.setRaw(0.1);
+      feeder.setSetpoint(ShooterConstants.FEEDER_BUMP_SPEED, 0.0);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
@@ -173,17 +172,17 @@ public class Shooter extends SubsystemBase {
   }
 
   private void log() {
-    SteelTalonsLogger.post("Shooter Left Speed", leftFlywheel.getVelocity());
-    SteelTalonsLogger.post("Shooter Right Speed", rightFlywheel.getVelocity());
-    SteelTalonsLogger.post("Feeder Speed", feeder.getVelocity());
-    SteelTalonsLogger.post("Pivot Position", pivotMaster.getPosition());
-    SteelTalonsLogger.post("Pivot Error", pivotMaster.getError());
-    SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
-    SteelTalonsLogger.post("SHooter flywheel error", leftFlywheel.getError());
+    // SteelTalonsLogger.post("Shooter Left Speed", leftFlywheel.getVelocity());
+    // SteelTalonsLogger.post("Shooter Right Speed", rightFlywheel.getVelocity());
+    // SteelTalonsLogger.post("Feeder Speed", feeder.getVelocity());
+    // SteelTalonsLogger.post("Pivot Position", pivotMaster.getPosition());
+    // SteelTalonsLogger.post("Pivot Error", pivotMaster.getError());
+    // SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
+    // SteelTalonsLogger.post("SHooter flywheel error", leftFlywheel.getError());
     SteelTalonsLogger.post("Shooter Loaded", loaded());
-    SteelTalonsLogger.post("top in position", !beamBreak.get());
-    SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
-    SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
+    // SteelTalonsLogger.post("top in position", !beamBreak.get());
+    // SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
+    // SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
     SteelTalonsLogger.post("in position to shoot", inPosition());
   }
 

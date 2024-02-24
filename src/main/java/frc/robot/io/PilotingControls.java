@@ -1,11 +1,8 @@
 package frc.robot.io;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.Climber.Climber;
-import frc.robot.subsystems.Climber.ClimberConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.MiscUtil;
 import frc.robot.util.Localization.SteelTalonsLocalization;

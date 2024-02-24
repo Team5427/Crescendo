@@ -10,9 +10,8 @@ import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ApriltagCam extends SubsystemBase {
+public class ApriltagCam {
 
     private PhotonCamera cam;
     private PhotonPoseEstimator estimator;
@@ -25,5 +24,9 @@ public class ApriltagCam extends SubsystemBase {
 
     public Optional<EstimatedRobotPose> getUpdate(Pose2d refPose) {
         return estimator.update();
+    }
+
+    public String getName() {
+        return cam.getName();
     }
 }

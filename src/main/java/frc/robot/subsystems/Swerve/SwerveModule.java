@@ -8,8 +8,6 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
@@ -21,8 +19,6 @@ public class SwerveModule {
     private SteelTalonsSparkMaxSimpleServo steerMotor;
     private CANcoder canCoder;
     
-    private SendableChooser<Double> deadzone;
-
     public SwerveModule(int talonID, TalonFXConfiguration driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
 
         driveMotor = new TalonFX(talonID);
@@ -36,11 +32,6 @@ public class SwerveModule {
 
         driveMotor.setPosition(0);
         steerMotor.setPosition(canCoder.getAbsolutePosition().getValueAsDouble() * 2 * Math.PI);
-
-        deadzone = new SendableChooser<Double>();
-        deadzone.setDefaultOption("Competition", DrivetrainConstants.THRESHOLD_STOPPING_M_S_COMPETITION);
-        deadzone.addOption("Tuning", DrivetrainConstants.THRESHOLD_STOPPING_M_S_TUNING);
-        SmartDashboard.putData("Deadzone", deadzone);
     }
 
     public SwerveModulePosition getModulePosition() {

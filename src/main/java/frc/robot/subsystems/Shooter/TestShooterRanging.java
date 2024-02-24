@@ -53,8 +53,8 @@ public class TestShooterRanging extends Command {
 
         shooter.setShootingConfigSetpoints(config);
 
-        double angleEffort = tagCam.targetVisible(MiscUtil.isBlue() ? 7.0 : 4.0) ? 
-            RobotContainer.getTagCam().speakerDriveAdjustment(adjustmentSetpoint.getDegrees()) : 
+        double angleEffort = tagCam.targetVisible() ? 
+            rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
             rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
         
         drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 

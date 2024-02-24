@@ -48,7 +48,6 @@ public class ObjectDetector extends SubsystemBase {
     public double noteDriveAdjustment() {
 
         double x = targetInfo()[0];
-        double y = targetInfo()[1];
 
         if (noteInRange()) {
             return x * xProportional; //may need to scale with y too FIXME

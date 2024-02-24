@@ -62,7 +62,7 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("Use Intake", Intake.getInstance().getBasicIntakeCommand());
+    NamedCommands.registerCommand("Use Intake", Intake.getInstance().getIntakeCommand());
     NamedCommands.registerCommand("Eject Note", Intake.getInstance().getIntakeEjaculation());
     NamedCommands.registerCommand("Feed Note", new ParallelDeadlineGroup(
             new SequentialCommandGroup(

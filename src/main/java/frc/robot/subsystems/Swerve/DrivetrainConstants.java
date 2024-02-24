@@ -1,7 +1,6 @@
 package frc.robot.subsystems.Swerve;
 
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -97,10 +96,10 @@ public class DrivetrainConstants {
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
         currConfigs.StatorCurrentLimitEnable = true;
         currConfigs.SupplyCurrentLimitEnable = true;
-        currConfigs.StatorCurrentLimit = 60;
+        currConfigs.StatorCurrentLimit = 70;
         currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 80;
-        currConfigs.SupplyTimeThreshold = 0.125;
+        currConfigs.SupplyCurrentThreshold = 120;
+        currConfigs.SupplyTimeThreshold = 0.2;
         motor.getConfigurator().apply(currConfigs);
 
         motor.setNeutralMode(NeutralModeValue.Brake);
