@@ -159,10 +159,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Setpoint Theta", setPoint.omegaRadiansPerSecond);
         SteelTalonsLogger.post("x speed", getVelocityVector().vxMetersPerSecond);
         SteelTalonsLogger.post("y speed", getVelocityVector().vyMetersPerSecond);
-        modules.get(0).log("front left");
-        modules.get(1).log("front right");
-        modules.get(2).log("back left");
-        modules.get(3).log("back right");
+        // modules.get(0).log("front left");
+        // modules.get(1).log("front right");
+        // modules.get(2).log("back left");
+        // modules.get(3).log("back right");
     }
 
     public Command getDriveCommand(CommandXboxController joy) {

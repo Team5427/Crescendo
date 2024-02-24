@@ -8,6 +8,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.BumpFeeder;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
+import frc.robot.subsystems.Shooter.ShooterHandoff;
 
 public class OperatingControls {
 
@@ -37,5 +38,6 @@ public class OperatingControls {
         operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(1000, ShooterConstants.SHOOTER_PIVOT_AMP));
 
         // operatingController.start().toggleOnTrue(new TestShooterRanging());
+        // operatingController.x().onTrue(new ShooterHandoff());
     }
 }

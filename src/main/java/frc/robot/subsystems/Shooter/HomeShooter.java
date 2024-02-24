@@ -18,7 +18,7 @@ public class HomeShooter extends Command {
         addRequirements(shooter);
 
         timer = new Timer();
-        homingTargetDegrees = 1.0;
+        homingTargetDegrees = 0.5;
         homingSecondsToFinish = 1.0;
     }
 
@@ -52,6 +52,7 @@ public class HomeShooter extends Command {
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         shooter.setHoming(false);
+        System.err.println("finishing home");
     }
     
 }

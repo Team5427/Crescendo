@@ -3,6 +3,7 @@ package frc.robot.subsystems.Shooter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -119,17 +120,10 @@ public class Shooter extends SubsystemBase {
     ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && loaded() && !inPosition()) {
-      feeder.setRaw(0.05);
+      feeder.setRaw(0.1);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
-    // if (tester.getHID().getAButton()) {
-    //   pivotSetpoint = ShooterConstants.SHOOTER_PIVOT_HANDOFF;
-    //   // System.err.println("Go to hardstop");
-    // } else {
-    //   pivotSetpoint = ShooterConstants.SHOOTER_PIVOT_HARDSTOP;
-    //   // System.err.println("Return to handoff");
-    // }
 
     if (tester.getHID().getBButton()) {
       ampSetpoint = ShooterConstants.AMP_DEPLOYED;
@@ -138,11 +132,6 @@ public class Shooter extends SubsystemBase {
       ampSetpoint = ShooterConstants.AMP_HARDSTOP;
       // System.err.println("Return to handoff");
     }
-
-    // feederSetpoint = tester.getRightY();
-    // double testerFlywheelSpeeds = tester.getLeftY() * 5676;
-    // leftShooterSetpoint = testerFlywheelSpeeds;
-    // rightShooterSetpoint = testerFlywheelSpeeds;
 
     log();
   }
@@ -192,8 +181,10 @@ public class Shooter extends SubsystemBase {
     SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
     SteelTalonsLogger.post("SHooter flywheel error", leftFlywheel.getError());
     SteelTalonsLogger.post("Shooter Loaded", loaded());
+    SteelTalonsLogger.post("top in position", !beamBreak.get());
     SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
     SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
+    SteelTalonsLogger.post("in position to shoot", inPosition());
   }
 
   public Command getHomingCommand() {

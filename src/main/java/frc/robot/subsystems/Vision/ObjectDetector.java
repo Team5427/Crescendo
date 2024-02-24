@@ -11,7 +11,7 @@ public class ObjectDetector extends SubsystemBase {
     private boolean tv;
 
     private static final double inRangeConst = -0.0;
-    private static final double xProportional = -0.1;
+    private static final double xProportional = -0.02; //0.1
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);

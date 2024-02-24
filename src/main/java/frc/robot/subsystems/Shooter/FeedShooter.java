@@ -9,7 +9,7 @@ public class FeedShooter extends Command {
     private Shooter shooter;
     private Timer timer;
     private Timer timer2;
-    private final double timerThreshold = 0.75;
+    private final double timerThreshold = 0.25;
     private double setpoint = 0.0;
     private Rotation2d pivotRot;
 
@@ -20,6 +20,8 @@ public class FeedShooter extends Command {
 
         this.setpoint = setpoint;
         this.pivotRot = pivotRot;
+
+        addRequirements(shooter);
     }
 
     @Override

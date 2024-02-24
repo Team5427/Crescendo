@@ -47,7 +47,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.maxVel = ROLLER_CONFIG.getStandardMaxVelocity();
         ROLLER_CONFIG.maxAccel = ROLLER_CONFIG.maxVel * 4;
         PIVOT_CONFIG.maxVel = PIVOT_CONFIG.getStandardMaxVelocity();
-        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 2.5;
+        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 4;
 
         ROLLER_CONFIG.inverted = false;
         PIVOT_CONFIG.inverted = true;

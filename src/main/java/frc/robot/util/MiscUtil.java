@@ -57,8 +57,8 @@ public class MiscUtil {
 
     public static Pose2d[] resetPose() { //blue, then red
 
-        double speakerX = 1.38;
-        double speakerY = 5.5;
+        double speakerX = 1.38; //1.38
+        double speakerY = 5.5; //5.5
 
         return new Pose2d[]{
             new Pose2d(speakerX, speakerY, new Rotation2d()),

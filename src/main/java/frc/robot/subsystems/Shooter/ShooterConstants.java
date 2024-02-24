@@ -37,7 +37,7 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-5.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromDegrees(-45.0);
     public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-3.0);
-    public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-5.0);
+    public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-20.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-160.0);
@@ -109,8 +109,8 @@ public class ShooterConstants {
 
         shooterPivotConfig.currentLimit = 30;
         feederRollerConfig.currentLimit = 30;
-        shooterLeftFlywheelConfig.currentLimit = 40;
-        shooterRightFlywheelConfig.currentLimit = 40;
+        shooterLeftFlywheelConfig.currentLimit = 50;
+        shooterRightFlywheelConfig.currentLimit = 50;
         ampPivotConfig.currentLimit = 20;
 
         shooterPivotConfig.inverted = false;
