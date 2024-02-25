@@ -12,8 +12,10 @@ public class FeedShooter extends Command {
     private final double timerThreshold = 0.25;
     private double setpoint = 0.0;
     private Rotation2d pivotRot;
+    private boolean startedFeeder = false;
+    private boolean useNums = false;
 
-    public FeedShooter(double setpoint, Rotation2d pivotRot) {
+    public FeedShooter(double setpoint, Rotation2d pivotRot, boolean useNums) {
         shooter = Shooter.getInstance();
         timer = new Timer();
         timer2 = new Timer();
@@ -21,7 +23,9 @@ public class FeedShooter extends Command {
         this.setpoint = setpoint;
         this.pivotRot = pivotRot;
 
-        addRequirements(shooter);
+        this.useNums = useNums;
+
+        // addRequirements(shooter);
     }
 
     @Override
@@ -29,25 +33,33 @@ public class FeedShooter extends Command {
         timer.reset();
         timer2.reset();
         timer2.start();
-
-        shooter.setPivotSetpoint(pivotRot);
+        if (useNums) {
+            shooter.setPivotSetpoint(pivotRot);
+        }
+        startedFeeder = false;
     }
 
     @Override
     public void execute() {
-        shooter.setFlywheelSetpoint(setpoint, setpoint);
+        if (useNums) {
+            shooter.setFlywheelSetpoint(setpoint, setpoint);
+        }
         if (shooter.pivotAtGoal() && shooter.flywheelAtGoal() && timer2.get() > 0.25) {
             System.err.println("starting the flywheel");
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
             timer.start();
-        } else {
+            startedFeeder = true;
+        } else if (!startedFeeder) {
+            System.err.println("resetting timer");
             timer.reset();
         }
     }
 
     @Override
     public boolean isFinished() {
-        return timer.get() > timerThreshold && !shooter.loaded();
+        return 
+        timer.get() > timerThreshold&&
+        !shooter.loaded();
     }
 
     @Override

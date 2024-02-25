@@ -48,7 +48,7 @@ public class SwerveModule {
         double velocitySetpoint = MiscUtil.DTmetersToRot(newState.speedMetersPerSecond);
         Rotation2d rotSetpoint = newState.angle;
 
-        if (Math.abs(velocitySetpoint) > 0.0) {
+        if (Math.abs(velocitySetpoint) > 0.05) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
             driveMotor.setControl(new VelocityVoltage(velocitySetpoint).withEnableFOC(true));
         } else {

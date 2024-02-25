@@ -27,4 +27,9 @@ public class ShootingConfiguration {
     public ShootingConfiguration adjustBy(Rotation2d angle, double left, double right) {
         return new ShootingConfiguration(this.pivotAngle.plus(angle), this.leftRPM + left, this.rightRPM + right);
     }
+
+    @Override
+    public String toString() {
+        return "Pivot angle(deg): " + pivotAngle.getDegrees() + "\nLeft: " + leftRPM + "\nRight: " + rightRPM;
+    }
 }

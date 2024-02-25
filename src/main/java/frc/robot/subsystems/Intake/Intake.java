@@ -8,6 +8,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxServo;
 
 public class Intake extends SubsystemBase {
@@ -139,7 +140,9 @@ public class Intake extends SubsystemBase {
 
         // SteelTalonsLogger.post("setpoint velocity", pivot.getSetpointVelocity());
 
-        // SteelTalonsLogger.post("Intake Loaded", sensorCovered());
+        SteelTalonsLogger.post("Intake Loaded", sensorCovered());
+        SteelTalonsLogger.post("intake at goal 5", atGoal(5));
+        SteelTalonsLogger.post("intake setpoint roller", rollerSetpoint);
     }
 
 }

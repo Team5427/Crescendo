@@ -27,6 +27,7 @@ public class ShooterHandoff extends Command {
     public void end(boolean interrupted) {
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-        shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+        // shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+        System.err.println("finished shooter handoff");
     }
 }

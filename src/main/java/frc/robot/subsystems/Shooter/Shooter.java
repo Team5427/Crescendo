@@ -119,12 +119,12 @@ public class Shooter extends SubsystemBase {
     ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && loaded() && !inPosition()) {
-      feeder.setSetpoint(ShooterConstants.FEEDER_BUMP_SPEED, 0.0);
+      feeder.setSetpoint(this.feederSetpoint, 0.0);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
 
-    if (tester.getHID().getBButton()) {
+    if (tester.getHID().getLeftStickButton()) {
       ampSetpoint = ShooterConstants.AMP_DEPLOYED;
       // System.err.println("Go to hardstop");
     } else {
@@ -172,10 +172,10 @@ public class Shooter extends SubsystemBase {
   }
 
   private void log() {
-    // SteelTalonsLogger.post("Shooter Left Speed", leftFlywheel.getVelocity());
-    // SteelTalonsLogger.post("Shooter Right Speed", rightFlywheel.getVelocity());
+    SteelTalonsLogger.post("Shooter Left Speed", leftFlywheel.getVelocity());
+    SteelTalonsLogger.post("Shooter Right Speed", rightFlywheel.getVelocity());
     // SteelTalonsLogger.post("Feeder Speed", feeder.getVelocity());
-    // SteelTalonsLogger.post("Pivot Position", pivotMaster.getPosition());
+    SteelTalonsLogger.post("Pivot Position", pivotMaster.getPosition());
     // SteelTalonsLogger.post("Pivot Error", pivotMaster.getError());
     // SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
     // SteelTalonsLogger.post("SHooter flywheel error", leftFlywheel.getError());
@@ -184,6 +184,7 @@ public class Shooter extends SubsystemBase {
     // SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
     // SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
     SteelTalonsLogger.post("in position to shoot", inPosition());
+    SteelTalonsLogger.post("pivot at goal 3", pivotAtGoal(3));
   }
 
   public Command getHomingCommand() {
@@ -195,7 +196,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public Command getFeedCommand(double setpoint, Rotation2d pivotRot) {
-    return new FeedShooter(setpoint, pivotRot);
+    return new FeedShooter(setpoint, pivotRot, true);
   }
 
 }

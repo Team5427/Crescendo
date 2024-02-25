@@ -10,8 +10,8 @@ public class ObjectDetector extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
 
-    private static final double inRangeConst = -0.0;
-    private static final double xProportional = -0.02; //0.1
+    private static final double inRangeConst = 7.0;
+    private static final double xProportional = -0.03; //0.1
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
@@ -20,7 +20,7 @@ public class ObjectDetector extends SubsystemBase {
     @Override
     public void periodic() {
         tv = table_m.getEntry("tv").getDouble(0.0) == 1.0;
-        SmartDashboard.putBoolean("entry limelight", targetVisible());
+        SmartDashboard.putBoolean("entry limelight" + table_m.getPath(), tv);
     }
 
     public boolean targetVisible() {

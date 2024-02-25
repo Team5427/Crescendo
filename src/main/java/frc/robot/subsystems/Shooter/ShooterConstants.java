@@ -36,7 +36,7 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-5.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromDegrees(-45.0);
-    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-3.0);
+    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-10.0);
     public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-20.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
@@ -46,9 +46,9 @@ public class ShooterConstants {
     public static final double FLYWHEEL_AMP_SPEED_RPM = 2000;
 
     public static final double FEEDER_HOLD_SPEED = 0.0;
-    public static final double FEEDER_BUMP_SPEED = 0.25;
+    public static final double FEEDER_BUMP_SPEED = 0.1;
     public static final double FEEDER_FEED_SPEED = 2.25;
-    public static final double FEEDER_INTAKE_SPEED = 0.75;
+    public static final double FEEDER_INTAKE_SPEED = 1.0;
 
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
         MiscUtil.getInversePoseInterpolator(), 
@@ -59,7 +59,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             0.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-2.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-5.0), //SHOOTER ROTATION 
                 4300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -68,7 +68,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             1.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-5.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-10.0), //SHOOTER ROTATION 
                 4300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -77,7 +77,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             2.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-8.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-19.0), //SHOOTER ROTATION 
                 4300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -86,7 +86,16 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             3.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-10.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-20.0), //SHOOTER ROTATION 
+                4300, //LEFT RPM
+                5300 //RIGHT RPM
+            )
+        );
+
+        SHOOTER_PIVOT_TARGET_MAP.put(
+            4.0, //DISTANCE METERS
+            new ShootingConfiguration(
+                Rotation2d.fromDegrees(-21.0), //SHOOTER ROTATION 
                 4300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -155,7 +164,7 @@ public class ShooterConstants {
         shooterRightFlywheelConfig.idleMode = IdleMode.kCoast;
         ampPivotConfig.idleMode = IdleMode.kCoast;
 
-        shooterPivotConfig.kP = 50.0;
+        shooterPivotConfig.kP = 40.0;
         feederRollerConfig.kP = 0.0;
         feederRollerConfig.kFF = 1.0 / feederRollerConfig.getStandardMaxVelocity();
         shooterLeftFlywheelConfig.kP = 0.0;
@@ -163,6 +172,8 @@ public class ShooterConstants {
         shooterRightFlywheelConfig.kP = 0.0;
         shooterRightFlywheelConfig.kFF = 1.0 / 5676.0;
         ampPivotConfig.kP = 10.0;
+
+        targetMap();
 
     }
 

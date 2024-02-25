@@ -22,7 +22,7 @@ public class BumpFeeder extends Command {
 
     @Override
     public boolean isFinished() {
-        return timer.get() > 0.25;
+        return !shooter.loaded();
     }
 
     @Override

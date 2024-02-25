@@ -55,7 +55,7 @@ public class SteelTalonsSparkMaxBangBang {
     public void setSetpoint(double setPoint, double arbFF) {
         this.setPoint = setPoint;
         // smax.setVoltage(controller.calculate(getVelocity(), this.setPoint) * 12 + config.kFF * setPoint * 12);
-        smax.setVoltage(controller.calculate(getVelocity(), setPoint) + config.kFF * setPoint * 12);    
+        smax.setVoltage(controller.calculate(getVelocity(), setPoint) * 12 + config.kFF * setPoint * 12 * 0.8);    
     }
 
     public double getSetPoint() {

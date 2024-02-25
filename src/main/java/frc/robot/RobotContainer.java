@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
+import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.BumpFeeder;
 import frc.robot.subsystems.Shooter.Shooter;
@@ -46,7 +47,7 @@ public class RobotContainer {
     shooter = new Shooter();
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
-    tagCam = new ObjectDetector("limelight-tagcam");
+    tagCam = new ObjectDetector("limelight-front");
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
@@ -82,6 +83,10 @@ public class RobotContainer {
         Intake.getInstance().setPivotSetpoint(new Rotation2d(-90));
       }
     });
+    NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
+
+    NamedCommands.registerCommand("TempShootWing", Shooter.getInstance().getFeedCommand(3000, new Rotation2d(-20.0)));
+    NamedCommands.registerCommand("TempShootCenter", Shooter.getInstance().getFeedCommand(3000, new Rotation2d(-20)));
   }
 
   public static ObjectDetector getNoteCam() {
