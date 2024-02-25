@@ -47,9 +47,6 @@ public class TestShooterRanging extends Command {
         double distance = targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
 
-        // SteelTalonsLogger.post("bot distance", distance);
-        // SteelTalonsLogger.post("rot error", rotError.div(4).getRadians());
-
         Rotation2d adjustmentSetpoint = new Rotation2d(); //FIXME WHERE THE MATH IS
         ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
             new Rotation2d(), 
@@ -58,19 +55,9 @@ public class TestShooterRanging extends Command {
         );
 
         shooter.setShootingConfigSetpoints(config);
-        // System.err.println(config);
-        SteelTalonsLogger.post("shooting config pivot", config.getPivotAngle().getDegrees());
-        SteelTalonsLogger.post("shooting config left", config.getLeftSpeed());
-        SteelTalonsLogger.post("shooting config right", config.getRightSpeed());
-        SteelTalonsLogger.post("test thing", true);
-
         double angleEffort = tagCam.targetVisible() ? 
             rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
-            // rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
-            0.0;
-
-        // SteelTalonsLogger.post("target visible", tagCam.targetVisible());
-        // SteelTalonsLogger.post("angle effort", angleEffort);
+            rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
         
         drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
             angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond

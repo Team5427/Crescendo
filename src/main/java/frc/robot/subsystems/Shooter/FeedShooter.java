@@ -25,7 +25,7 @@ public class FeedShooter extends Command {
 
         this.useNums = useNums;
 
-        // addRequirements(shooter);
+        addRequirements(shooter);
     }
 
     @Override

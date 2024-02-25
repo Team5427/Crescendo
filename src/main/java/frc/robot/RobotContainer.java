@@ -75,18 +75,8 @@ public class RobotContainer {
             ),
             Intake.getInstance().getIntakeHandoff()
         ));
-    NamedCommands.registerCommand("Shoot Speaker", Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE)); // Change to actual setpoint later
-    NamedCommands.registerCommand("Stow Intake Auton", new Command() {
-      @Override
-      public void initialize() {
-        addRequirements(Intake.getInstance());
-        Intake.getInstance().setPivotSetpoint(new Rotation2d(-90));
-      }
-    });
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
-
-    NamedCommands.registerCommand("TempShootWing", Shooter.getInstance().getFeedCommand(3000, new Rotation2d(-20.0)));
-    NamedCommands.registerCommand("TempShootCenter", Shooter.getInstance().getFeedCommand(3000, new Rotation2d(-20)));
+    NamedCommands.registerCommand("Auton Static Shoot", SubsystemManager.autonStaticShootCommand());
   }
 
   public static ObjectDetector getNoteCam() {

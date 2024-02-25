@@ -126,21 +126,18 @@ public class MiscUtil {
     public static double[] targetingInformation() { //very much a big source of potential bugs
         SteelTalonsLocalization localization = SteelTalonsLocalization.getInstance();
         SwerveDrivetrain drivetrain = SwerveDrivetrain.getInstance();
-        Transform2d transform = localization.transformFromSpeaker();
-        double distance = transform.getTranslation().getNorm();
+        Translation2d translation = localization.translationFromSpeaker();
+        double distance = translation.getNorm();
         Rotation2d angError = 
-            transform.getTranslation().getAngle(). //the angle of the line from the speaker to the bot
+            translation.getAngle(). //the angle of the line from the speaker to the bot
             // minus(new Rotation2d(0.0)). //DID A FULL ONE EIGHTYYYYYYY, CRAZYYYY, THINKING 'BOUT THE WAY I ONCE LET THE HEARTBREAK CHANGE MEEEE
             minus(localization.getPose().getRotation()); //minus the current angle of bot
         ChassisSpeeds botSpeeds = drivetrain.getVelocityVector();
         Rotation2d velocityRot = new Rotation2d(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
         double velocityMag = Math.hypot(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
 
-        double parallelSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getCos();
-        double perpSpeed = velocityMag * transform.getTranslation().getAngle().minus(velocityRot).getSin();
-
-        SteelTalonsLogger.post("transform get translation rot", transform.getTranslation().getAngle().getRadians());
-        SteelTalonsLogger.post("transform get robot rot", localization.getPose().getRotation().getRadians());
+        double parallelSpeed = velocityMag * translation.getAngle().minus(velocityRot).getCos();
+        double perpSpeed = velocityMag * translation.getAngle().minus(velocityRot).getSin();
 
         return new double[]{parallelSpeed, perpSpeed, distance, angError.getRadians()};
     }

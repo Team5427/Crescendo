@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -106,7 +107,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         );
     }
 
-    public Transform2d transformFromSpeaker() {
-        return MiscUtil.isBlue() ? MiscUtil.speaker_Pose.minus(getPose()) : MiscUtil.speaker_Pose.minus(MiscUtil.flip(getPose()));
+    public Translation2d translationFromSpeaker() {
+        return MiscUtil.isBlue() ? getPose().getTranslation().minus(MiscUtil.speaker_Pose.getTranslation()) : getPose().getTranslation().minus(MiscUtil.flip(MiscUtil.speaker_Pose.getTranslation()));
     }
 }
