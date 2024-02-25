@@ -4,7 +4,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
-public class HomeShooter extends Command {
+public class HomeAmp extends Command {
 
     private Shooter shooter;
     private Timer timer;
@@ -12,14 +12,14 @@ public class HomeShooter extends Command {
     private double homingTargetDegrees;
     private double homingSecondsToFinish;
 
-    public HomeShooter () {
+    public HomeAmp() {
         shooter = Shooter.getInstance();
 
-        addRequirements(shooter);
+        // addRequirements(shooter);
 
         timer = new Timer();
-        homingTargetDegrees = 0.5;
-        homingSecondsToFinish = 0.5;
+        homingTargetDegrees = 1.0;
+        homingSecondsToFinish = 0.25;
     }
 
     private void timerContinueHoming() {
@@ -29,7 +29,7 @@ public class HomeShooter extends Command {
 
     @Override
     public void initialize() {
-        shooter.setHomingPivot(true);
+        shooter.setHomingAmp(true);
         shooter.setFlywheelSetpoint(0.0, 0.0);
         timerContinueHoming();
     }
@@ -48,10 +48,10 @@ public class HomeShooter extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        shooter.getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
-        shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+        shooter.getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+        shooter.setAmpSetpoint(ShooterConstants.AMP_HARDSTOP);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-        shooter.setHomingPivot(false);
+        shooter.setHomingAmp(false);
     }
     
 }

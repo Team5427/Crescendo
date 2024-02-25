@@ -25,7 +25,8 @@ public class Shooter extends SubsystemBase {
   private double feederSetpoint = 0.0;
   private Rotation2d ampSetpoint = new Rotation2d();
   private Rotation2d pivotSetpoint = new Rotation2d();
-  private boolean homing = false;
+  private boolean homingPivot = false;
+  private boolean homingAmp = false;
 
   private DigitalInput beamBreak;
   private DigitalInput sideBeamBreak;
@@ -110,13 +111,17 @@ public class Shooter extends SubsystemBase {
     leftFlywheel.setSetpoint(this.leftShooterSetpoint, 0.0);
     rightFlywheel.setSetpoint(this.rightShooterSetpoint, 0.0);
 
-    if (homing) {
+    if (homingPivot) {
       hardSetPivot(0.05);
     } else {
       pivotMaster.setSetpoint(this.pivotSetpoint.getRadians(), 0.0);
     }
 
-    ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
+    if (homingAmp) {
+      hardSetAmp(0.05);
+    } else {
+      ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
+    }
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && loaded() && !inPosition()) {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
@@ -126,10 +131,8 @@ public class Shooter extends SubsystemBase {
 
     if (tester.getHID().getLeftStickButton()) {
       ampSetpoint = ShooterConstants.AMP_DEPLOYED;
-      // System.err.println("Go to hardstop");
     } else {
       ampSetpoint = ShooterConstants.AMP_HARDSTOP;
-      // System.err.println("Return to handoff");
     }
 
     log();
@@ -164,11 +167,15 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean getHoming() {
-    return homing;
+    return homingPivot;
   }
 
-  public void setHoming(boolean homing) {
-    this.homing = homing;
+  public void setHomingPivot(boolean homingPivot) {
+    this.homingPivot = homingPivot;
+  }
+
+  public void setHomingAmp(boolean homingAmp) {
+    this.homingAmp = homingAmp;
   }
 
   private void log() {

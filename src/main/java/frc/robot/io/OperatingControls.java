@@ -2,12 +2,12 @@ package frc.robot.io;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.SubsystemManager;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
+import frc.robot.subsystems.managing.SubsystemManager;
 
 public class OperatingControls {
 
