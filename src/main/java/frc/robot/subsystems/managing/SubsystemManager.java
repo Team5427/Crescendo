@@ -12,6 +12,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Pathfinding.PathFinderCommand;
 import frc.robot.subsystems.Shooter.BumpFeeder;
 import frc.robot.subsystems.Shooter.FeedShooter;
+import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
@@ -42,10 +43,11 @@ public class SubsystemManager {
     public static Command homeAll() {
         return new ParallelCommandGroup(
                 new HomeIntake(),
-                new HomeShooter());
+                new HomeShooter(),
+                new HomeAmp());
     }
 
-    public static Command pathFind() {
-        return new PathFinderCommand(); // add more stuff to this
+    public static Command setupAmp() {
+        return new ScoreAmp();
     }
 }

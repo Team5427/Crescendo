@@ -3,6 +3,7 @@ package frc.robot.subsystems.Shooter;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.interpolation.InterpolatingTreeMap;
 import edu.wpi.first.math.util.Units;
 import frc.robot.util.MiscUtil;
@@ -36,7 +37,7 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-5.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromDegrees(-45.0);
-    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-10.0);
+    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-3.0);
     public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-20.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
@@ -56,6 +57,8 @@ public class ShooterConstants {
     );
 
     public static void targetMap() {
+
+
         SHOOTER_PIVOT_TARGET_MAP.put(
             0.0, //DISTANCE METERS
             new ShootingConfiguration(
@@ -77,9 +80,9 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             2.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-19.0), //SHOOTER ROTATION 
-                4300, //LEFT RPM
-                5300 //RIGHT RPM
+                Rotation2d.fromDegrees(-18.0), //SHOOTER ROTATION 
+                4600, //LEFT RPM
+                5400 //RIGHT RPM
             )
         );
 
@@ -88,19 +91,43 @@ public class ShooterConstants {
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-20.0), //SHOOTER ROTATION 
                 4300, //LEFT RPM
-                5300 //RIGHT RPM
+                5500 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
             4.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-21.0), //SHOOTER ROTATION 
-                4300, //LEFT RPM
-                5300 //RIGHT RPM
+                Rotation2d.fromDegrees(-22.0), //SHOOTER ROTATION 
+                5000, //LEFT RPM
+                5500 //RIGHT RPM
             )
         );
 
+    }
+
+    public static InterpolatingDoubleTreeMap SHOOTER_OTF_OFFSET_MAP = new InterpolatingDoubleTreeMap();
+
+    public static void targetOffsetMap() { //INPUT: m/s, OUTPUT: degrees offset
+        SHOOTER_OTF_OFFSET_MAP.put(
+            0.0,
+            0.0 
+        );
+
+        SHOOTER_OTF_OFFSET_MAP.put(
+            1.0, 
+            -4.0
+        );
+
+        SHOOTER_OTF_OFFSET_MAP.put(
+            2.0, 
+            -7.0
+        );
+
+        SHOOTER_OTF_OFFSET_MAP.put(
+            3.0, 
+            -10.0
+        );
     }
 
     public static void configureShooter() {

@@ -1,15 +1,18 @@
 package frc.robot.subsystems.Swerve;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -24,6 +27,8 @@ public class SwerveDrivetrain extends SubsystemBase {
     private List<SwerveModule> modules;
     private ChassisSpeeds setPoint = new ChassisSpeeds(); // X: m/s - Y: m/s - Theta: rad/s
     private ChassisSpeeds adjustment = new ChassisSpeeds();
+    private Optional<Rotation2d> rotLock = Optional.empty();
+    private ProfiledPIDController rotController;
 
     public SwerveDrivetrain() {
         instance = this;
@@ -61,6 +66,13 @@ public class SwerveDrivetrain extends SubsystemBase {
             ) //BACK RIGHT
         );
 
+        rotController = new ProfiledPIDController(3.0, 0, 0, new Constraints(
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP, 
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
+        ));
+
+        rotController.enableContinuousInput(-Math.PI, Math.PI);
+
     }
 
     public static SwerveDrivetrain getInstance() {
@@ -73,6 +85,10 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public void resetGyro(Rotation2d rot) {
         gyro.setYaw(rot.getDegrees());
+    }
+
+    public void setRotLock(Optional<Rotation2d> rot) {
+        this.rotLock = rot;
     }
 
     public SwerveDriveWheelPositions getWheelPositions() {
@@ -99,8 +115,22 @@ public class SwerveDrivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         if (DriverStation.isTeleop()) {
-            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(setPoint.plus(adjustment), Units.millisecondsToSeconds(20)));
+
+            ChassisSpeeds calculatedSetpoint = setPoint;
+
+            if (!rotLock.isPresent()) {
+                calculatedSetpoint = new ChassisSpeeds(
+                    calculatedSetpoint.vxMetersPerSecond, 
+                    calculatedSetpoint.vyMetersPerSecond, 
+                    rotController.calculate(getRotation().getRadians(), rotLock.get().getRadians())
+                );
+            } else {
+                calculatedSetpoint = setPoint;
+                rotController.reset(getRotation().getRadians());
+            }
+            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Units.millisecondsToSeconds(20)));
             SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
+            
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).setModuleState(states[i]);
             }
@@ -147,6 +177,11 @@ public class SwerveDrivetrain extends SubsystemBase {
             Math.copySign(Math.pow(Math.abs(controller.getLeftX()), 3), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
             // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
+
+        double triggerVal = controller.getRightTriggerAxis(); //casual dampener
+        for (int i = 0; i < cv.length; i++) {
+            cv[i] = cv[i] * (1 - triggerVal);
+        }
 
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
