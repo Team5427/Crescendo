@@ -178,11 +178,6 @@ public class SwerveDrivetrain extends SubsystemBase {
             // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
 
-        double triggerVal = controller.getRightTriggerAxis(); //casual dampener
-        for (int i = 0; i < cv.length; i++) {
-            cv[i] = cv[i] * (1 - triggerVal);
-        }
-
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
 

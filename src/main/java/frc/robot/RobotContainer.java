@@ -50,9 +50,9 @@ public class RobotContainer {
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
-    new SteelTalonsLocalization(); //has to be after drivetrain
+    new SteelTalonsLocalization(); // has to be after drivetrain
     new SteelTalonsLogger();
-    new AutonUtil(); //has to be last
+    new AutonUtil(); // has to be last
 
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
@@ -65,17 +65,17 @@ public class RobotContainer {
     NamedCommands.registerCommand("Use Intake", Intake.getInstance().getIntakeCommand());
     NamedCommands.registerCommand("Eject Note", Intake.getInstance().getIntakeEjaculation());
     NamedCommands.registerCommand("Feed Note", new ParallelDeadlineGroup(
-            new SequentialCommandGroup(
-                Shooter.getInstance().getShooterHandoff(), 
-                new BumpFeeder(),
-                new InstantCommand(() -> {
-                    Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-                })
-            ),
-            Intake.getInstance().getIntakeHandoff()
-        ));
+        new SequentialCommandGroup(
+            Shooter.getInstance().getShooterHandoff(),
+            new BumpFeeder(),
+            new InstantCommand(() -> {
+              Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
+                  ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+            })),
+        Intake.getInstance().getIntakeHandoff()));
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
     NamedCommands.registerCommand("Auton Static Shoot", SubsystemManager.autonStaticShootCommand());
+    NamedCommands.registerCommand("Pathfinding", SubsystemManager.pathFind());
   }
 
   public static ObjectDetector getNoteCam() {

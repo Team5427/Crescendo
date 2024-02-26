@@ -4,12 +4,15 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.MiscUtil;
+import frc.robot.util.SteelTalonsLogger;
+import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxBangBang;
 
 public class TestShooterRanging extends Command {
 
@@ -18,7 +21,7 @@ public class TestShooterRanging extends Command {
     private ProfiledPIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 3.25; //increase to make aggressive during static
+    private static final double kP = 3.25;
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
@@ -30,9 +33,10 @@ public class TestShooterRanging extends Command {
         shooter = Shooter.getInstance();
         drivetrain = SwerveDrivetrain.getInstance();
         tagCam = RobotContainer.getTagCam();
-        rotPID = new ProfiledPIDController(kP, kI, kD, 
-            new Constraints(DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP, DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP * 2)
-        );
+        rotPID = new ProfiledPIDController(kP, kI, kD, new Constraints(
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP * 2 
+        ));
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
         rotPID.setTolerance(Math.toRadians(1.5));
 
@@ -41,10 +45,7 @@ public class TestShooterRanging extends Command {
 
     @Override
     public void initialize() {
-        double[] targetingInformation = MiscUtil.targetingInformation();
-        Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
-
-        rotPID.reset(rotError.getRadians());
+        rotPID.reset(drivetrain.getRotation().getRadians());
     }
 
     @Override
