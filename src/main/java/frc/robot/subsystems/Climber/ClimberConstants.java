@@ -32,7 +32,7 @@ public class ClimberConstants {
         pidConfigs.kD = 0.0;
 
         FeedbackConfigs feedbackConfigs = new FeedbackConfigs();
-        feedbackConfigs.SensorToMechanismRatio = (1.0 / 25.0);
+        feedbackConfigs.SensorToMechanismRatio = 25.0;
 
         motor.getConfigurator().apply(config);
         motor.getConfigurator().apply(pidConfigs);

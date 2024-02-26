@@ -39,6 +39,7 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromDegrees(-45.0);
     public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-3.0);
     public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-20.0);
+    public static final Rotation2d SHOOTER_PIVOT_MAX_ROT = Rotation2d.fromDegrees(-55.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-160.0);
@@ -116,17 +117,17 @@ public class ShooterConstants {
 
         SHOOTER_OTF_OFFSET_MAP.put(
             1.0, 
-            -4.0
+            -3.0
         );
 
         SHOOTER_OTF_OFFSET_MAP.put(
             2.0, 
-            -7.0
+            -8.0
         );
 
         SHOOTER_OTF_OFFSET_MAP.put(
             3.0, 
-            -10.0
+            -11.0
         );
     }
 
@@ -201,6 +202,7 @@ public class ShooterConstants {
         ampPivotConfig.kP = 10.0;
 
         targetMap();
+        targetOffsetMap();
 
     }
 

@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -114,7 +115,7 @@ public class Shooter extends SubsystemBase {
     if (homingPivot) {
       hardSetPivot(0.05);
     } else {
-      pivotMaster.setSetpoint(this.pivotSetpoint.getRadians(), 0.0);
+      pivotMaster.setSetpoint(MathUtil.clamp(this.pivotSetpoint.getRadians(), ShooterConstants.SHOOTER_PIVOT_MAX_ROT.getRadians(), ShooterConstants.SHOOTER_PIVOT_HANDOFF.getRadians()), 0.0);
     }
 
     if (homingAmp) {
