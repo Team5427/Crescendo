@@ -42,16 +42,9 @@ public class SubsystemManager {
 
     public static Command homeAll() {
         return new ParallelCommandGroup(
-                new HomeIntake(),
-                new HomeShooter(),
-                new HomeAmp());
-    }
-
-    public static Command setupAmp() {
-        return new ScoreAmp();
-    }
-
-    public static Command pathFind() {
-        return new PathFinderCommand(); // add more stuff to this
-    }
+            new HomeIntake(),
+            new HomeShooter(),
+            new HomeAmp()
+        );
+    }    
 }
