@@ -75,7 +75,7 @@ public class RobotContainer {
         Intake.getInstance().getIntakeHandoff()));
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
     NamedCommands.registerCommand("Auton Static Shoot", SubsystemManager.autonStaticShootCommand());
-    NamedCommands.registerCommand("Pathfinding", SubsystemManager.pathFind());
+    // NamedCommands.registerCommand("Pathfinding", SubsystemManager.pathFind());
   }
 
   public static ObjectDetector getNoteCam() {

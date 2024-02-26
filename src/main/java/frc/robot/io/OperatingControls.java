@@ -32,6 +32,6 @@ public class OperatingControls {
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
         // operatingController.x().onTrue(new ShooterHandoff());
-        operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
+        // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
     }
 }
