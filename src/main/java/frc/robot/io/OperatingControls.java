@@ -13,25 +13,25 @@ public class OperatingControls {
 
     public OperatingControls(CommandXboxController operatingController) {
         operatingController.leftTrigger(0.1).onTrue(
-            SubsystemManager.getComplexIntakeCommand()
-        );
+                SubsystemManager.getComplexIntakeCommand());
 
         operatingController.rightTrigger(0.1).whileTrue(
-            Intake.getInstance().getIntakeEjaculation()
-        );
+                Intake.getInstance().getIntakeEjaculation());
 
         operatingController.leftBumper().onTrue(Intake.getInstance().getHomingCommand());
         operatingController.rightBumper().onTrue(Shooter.getInstance().getHomingCommand());
 
         operatingController.a().onTrue(new ParallelCommandGroup(
-            Shooter.getInstance().getShooterHandoff(), 
-            Intake.getInstance().getIntakeHandoff()
-        ));
-        operatingController.y().onTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
-        operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM, ShooterConstants.SHOOTER_PIVOT_AMP));
+                Shooter.getInstance().getShooterHandoff(),
+                Intake.getInstance().getIntakeHandoff()));
+        operatingController.y()
+                .onTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
+        operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM,
+                ShooterConstants.SHOOTER_PIVOT_AMP));
 
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
         // operatingController.x().onTrue(new ShooterHandoff());
+        operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
     }
 }

@@ -19,7 +19,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.util.STSmaxConfig;
 
 public class DrivetrainConstants {
-    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.88); //3.88
+    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.88); // 3.88
     public static final double TRACKWIDTH = Units.inchesToMeters(19.5);
     public static final double WHEELBASE = Units.inchesToMeters(19.5);
 
@@ -31,8 +31,9 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (6000 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0) * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
-    public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; //NOT BEING USED >:)
+    public static final double MAX_PHYSICAL_SPEED_M_S = (6000 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0)
+            * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
+    public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; // BEING USED IN PATH FINDER
     public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.0;
     public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.75;
 
@@ -86,8 +87,8 @@ public class DrivetrainConstants {
 
     public static void configureDriveTalon(TalonFX motor) {
         Slot0Configs velConstants = new Slot0Configs();
-        velConstants.kP = 0.1; //FIXME
-        velConstants.kS = 0.0; //FIXME
+        velConstants.kP = 0.1; // FIXME
+        velConstants.kS = 0.0; // FIXME
         velConstants.kV = 12 / (MAX_PHYSICAL_SPEED_M_S);
         motor.getConfigurator().apply(velConstants);
 
@@ -108,7 +109,7 @@ public class DrivetrainConstants {
     }
 
     public static STSmaxConfig configureDriveNeo(STSmaxConfig config) {
-        
+
         config.kP = 0.02;
         config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
         config.kD = 0.0;
@@ -126,10 +127,10 @@ public class DrivetrainConstants {
 
     public static STSmaxConfig configureSteerNeo(STSmaxConfig config) {
         config.currentLimit = 20;
-        config.gearing = (1.0 / (150.0/7.0));
+        config.gearing = (1.0 / (150.0 / 7.0));
         config.isRotational = true;
         config.kP = 7.0;
-        config.kD = 0.15; //1.6
+        config.kD = 0.15; // 1.6
         config.maxVel = (5676 * config.gearing * 2 * Math.PI) / (60.0);
         config.maxAccel = config.maxVel * 1000;
         config.inverted = true;
@@ -145,5 +146,5 @@ public class DrivetrainConstants {
 
         encoder.getConfigurator().apply(config);
     }
-    
+
 }

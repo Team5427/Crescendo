@@ -1,6 +1,8 @@
 package frc.robot.subsystems.Vision;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -11,7 +13,7 @@ public class ObjectDetector extends SubsystemBase {
     private boolean tv;
 
     private static final double inRangeConst = 7.0;
-    private static final double xProportional = -0.03; //0.1
+    private static final double xProportional = -0.03; // 0.1
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
@@ -34,10 +36,10 @@ public class ObjectDetector extends SubsystemBase {
 
     public double[] targetInfo() { // X - Y - A - L
         return new double[] {
-            table_m.getEntry("tx").getDouble(0),
-            table_m.getEntry("ty").getDouble(0),
-            table_m.getEntry("ta").getDouble(0),
-            table_m.getEntry("tl").getDouble(0),
+                table_m.getEntry("tx").getDouble(0),
+                table_m.getEntry("ty").getDouble(0),
+                table_m.getEntry("ta").getDouble(0),
+                table_m.getEntry("tl").getDouble(0),
         };
     }
 
@@ -50,17 +52,17 @@ public class ObjectDetector extends SubsystemBase {
         double x = targetInfo()[0];
 
         if (noteInRange()) {
-            return x * xProportional; //may need to scale with y too FIXME
+            return x * xProportional; // may need to scale with y too FIXME
         } else {
             return 0.0;
         }
     }
 
     public double speakerDriveAdjustment(double offsetDeg) {
-         if (targetVisible()) {
+        if (targetVisible()) {
             return (targetInfo()[0] - offsetDeg) * xProportional;
-         } else {
+        } else {
             return 0.0;
-         }
+        }
     }
 }
