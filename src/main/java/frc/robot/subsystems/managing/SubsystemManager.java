@@ -45,5 +45,9 @@ public class SubsystemManager {
             new HomeShooter(),
             new HomeAmp()
         );
-    }    
+    }
+
+    public static Command setupAmp() {
+        return new ScoreAmp();
+    }
 }
