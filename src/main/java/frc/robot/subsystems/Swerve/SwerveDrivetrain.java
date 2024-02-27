@@ -129,7 +129,7 @@ public class SwerveDrivetrain extends SubsystemBase {
                 rotController.reset(getRotation().getRadians());
             }
             SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Units.millisecondsToSeconds(20)));
-            SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
+            SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S);
             
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).setModuleState(states[i]);
