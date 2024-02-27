@@ -37,6 +37,10 @@ public class SteelTalonsSparkMaxSimpleServo {
         smaxEnc.setVelocityConversionFactor(positionConv / 60.0);
         smaxEnc.setPosition(0);
         smaxController = smax.getPIDController();
+        smaxController.setP(config.kP);
+        smaxController.setI(config.kI);
+        smaxController.setD(config.kD);
+        smaxController.setFF(config.kFF);
         if (config.isRotational) {
             smaxController.setPositionPIDWrappingEnabled(true);
             smaxController.setPositionPIDWrappingMaxInput(Math.PI);

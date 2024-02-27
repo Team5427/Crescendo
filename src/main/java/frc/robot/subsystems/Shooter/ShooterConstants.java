@@ -50,7 +50,7 @@ public class ShooterConstants {
     public static final double FEEDER_HOLD_SPEED = 0.0;
     public static final double FEEDER_BUMP_SPEED = 0.1;
     public static final double FEEDER_FEED_SPEED = 2.25;
-    public static final double FEEDER_INTAKE_SPEED = 1.0;
+    public static final double FEEDER_INTAKE_SPEED = 0.75;
 
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
         MiscUtil.getInversePoseInterpolator(), 
@@ -58,6 +58,8 @@ public class ShooterConstants {
     );
 
     public static void targetMap() {
+
+
         SHOOTER_PIVOT_TARGET_MAP.put(
             0.0, //DISTANCE METERS
             new ShootingConfiguration(
@@ -79,9 +81,9 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             2.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-19.0), //SHOOTER ROTATION 
-                4300, //LEFT RPM
-                5300 //RIGHT RPM
+                Rotation2d.fromDegrees(-18.0), //SHOOTER ROTATION 
+                4600, //LEFT RPM
+                5400 //RIGHT RPM
             )
         );
 
@@ -89,17 +91,17 @@ public class ShooterConstants {
             3.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-20.0), //SHOOTER ROTATION 
-                4300, //LEFT RPM
-                5300 //RIGHT RPM
+                4900, //LEFT RPM
+                5500 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
             4.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-21.0), //SHOOTER ROTATION 
-                4300, //LEFT RPM
-                5300 //RIGHT RPM
+                Rotation2d.fromDegrees(-22.0), //SHOOTER ROTATION 
+                5000, //LEFT RPM
+                5500 //RIGHT RPM
             )
         );
 
@@ -115,17 +117,17 @@ public class ShooterConstants {
 
         SHOOTER_OTF_OFFSET_MAP.put(
             1.0, 
-            -3.0
+            -4.0
         );
 
         SHOOTER_OTF_OFFSET_MAP.put(
             2.0, 
-            -8.0
+            -7.0
         );
 
         SHOOTER_OTF_OFFSET_MAP.put(
             3.0, 
-            -11.0
+            -10.0
         );
     }
 

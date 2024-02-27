@@ -18,8 +18,8 @@ public class OperatingControls {
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());
 
-        operatingController.leftBumper().onTrue(Intake.getInstance().getHomingCommand());
-        operatingController.rightBumper().onTrue(Shooter.getInstance().getHomingCommand());
+
+        operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new ParallelCommandGroup(
                 Shooter.getInstance().getShooterHandoff(),

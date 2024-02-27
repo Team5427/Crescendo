@@ -9,15 +9,12 @@ public class BumpFeeder extends Command {
     Shooter shooter;
 
     public BumpFeeder() {
-        timer = new Timer();
         shooter = Shooter.getInstance();
     }
 
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
-        shooter.setFeederSetpoint(-0.25);
+        shooter.setFeederSetpoint(-0.1);
     }
 
     @Override

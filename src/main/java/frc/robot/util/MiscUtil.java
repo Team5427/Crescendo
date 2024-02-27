@@ -135,10 +135,10 @@ public class MiscUtil {
         Rotation2d velocityRot = new Rotation2d(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
         double velocityMag = Math.hypot(botSpeeds.vxMetersPerSecond, botSpeeds.vyMetersPerSecond);
 
-        double parallelSpeed = velocityMag * translation.getAngle().minus(velocityRot).getCos();
-        double perpSpeed = velocityMag * translation.getAngle().minus(velocityRot).getSin();
+        double parallelSpeed = velocityMag * translation.getAngle().minus(velocityRot).getSin();
+        double perpSpeed = velocityMag * translation.getAngle().minus(velocityRot).getCos();
 
-        return new double[]{parallelSpeed, perpSpeed, distance, angError.getRadians()};
+        return new double[]{-parallelSpeed, perpSpeed, distance, angError.getRadians()};
     }
 
     public static double DTrotToMeters(double rotations) {

@@ -118,7 +118,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
             ChassisSpeeds calculatedSetpoint = setPoint;
 
-            if (!rotLock.isPresent()) {
+            if (rotLock.isPresent()) {
                 calculatedSetpoint = new ChassisSpeeds(
                     calculatedSetpoint.vxMetersPerSecond, 
                     calculatedSetpoint.vyMetersPerSecond, 
@@ -178,6 +178,11 @@ public class SwerveDrivetrain extends SubsystemBase {
             // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
 
+        double trigger = 1 - controller.getRightTriggerAxis();
+        for (int i = 0; i  < cv.length; i++) {
+            cv[i] = cv[i] * trigger;
+        }
+        
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
 

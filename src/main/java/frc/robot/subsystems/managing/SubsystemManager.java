@@ -1,6 +1,5 @@
 package frc.robot.subsystems.managing;
 
-import edu.wpi.first.math.estimator.PoseEstimator;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -9,15 +8,12 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.Intake.HomeIntake;
 import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Pathfinding.PathFinderCommand;
-import frc.robot.subsystems.Shooter.BumpFeeder;
 import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
-import frc.robot.subsystems.Pathfinding.PathFinderCommand;
 
 public class SubsystemManager {
 
@@ -27,7 +23,6 @@ public class SubsystemManager {
                 new ParallelCommandGroup(
                         Intake.getInstance().getIntakeHandoff(),
                         Shooter.getInstance().getShooterHandoff()),
-                new BumpFeeder(),
                 new InstantCommand(() -> {
                     Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
                             ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);

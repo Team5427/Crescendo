@@ -16,13 +16,13 @@ public class IntakeConstants {
     public static final double MAX_KRAKEN_ROLLER_SPEED_M_S = (6000.0 * Math.PI * Units.inchesToMeters(2.0) * (12.0/30.0)) / 60.0;
 
     public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-76.0));
-    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-214)); //-210
+    public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-216)); //-210
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
     public static final Rotation2d HANDOFF_POS = new Rotation2d(Units.degreesToRadians(-7.0));
 
     public static final double INTAKE_SPEED_INTAKING = 6.0;
     public static final double INTAKE_SPEED_HOLD = 0.75;
-    public static final double INTAKE_SPEED_EJECTING = -1.0;
+    public static final double INTAKE_SPEED_EJECTING = -0.75;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2.0));
 
@@ -58,6 +58,6 @@ public class IntakeConstants {
         ROLLER_CONFIG.kP = 0.0;
         ROLLER_CONFIG.kFF = 1.0 / ROLLER_CONFIG.maxVel;
         PIVOT_CONFIG.kP = 9.0; // 5
-        PIVOT_CONFIG.kD = 0.4;
+        PIVOT_CONFIG.kD = 0.6;
     }
 }

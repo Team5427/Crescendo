@@ -115,7 +115,12 @@ public class Shooter extends SubsystemBase {
     if (homingPivot) {
       hardSetPivot(0.05);
     } else {
-      pivotMaster.setSetpoint(MathUtil.clamp(this.pivotSetpoint.getRadians(), ShooterConstants.SHOOTER_PIVOT_MAX_ROT.getRadians(), ShooterConstants.SHOOTER_PIVOT_HANDOFF.getRadians()), 0.0);
+      pivotMaster.setSetpoint(
+        MathUtil.clamp(
+          this.pivotSetpoint.getRadians(), 
+          ShooterConstants.SHOOTER_PIVOT_MAX_ROT.getRadians(), 
+          0.0
+        ), 0.0);
     }
 
     if (homingAmp) {
@@ -125,7 +130,7 @@ public class Shooter extends SubsystemBase {
     }
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && !loaded()) {
-      feeder.setSetpoint(0.1, 0.0);
+      feeder.setSetpoint(ShooterConstants.FEEDER_HOLD_SPEED, 0.0);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }

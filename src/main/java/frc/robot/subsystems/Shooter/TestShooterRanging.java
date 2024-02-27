@@ -4,15 +4,12 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.MiscUtil;
-import frc.robot.util.SteelTalonsLogger;
-import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxBangBang;
 
 public class TestShooterRanging extends Command {
 
@@ -21,11 +18,11 @@ public class TestShooterRanging extends Command {
     private ProfiledPIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 3.25;
+    private static final double kP = 2.0;
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
-    private static final double VISION_PARALLEL_P_SCALAR = 0.5; //increase to make PID stronger during movement
+    private static final double VISION_PARALLEL_P_SCALAR = 0.25; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist
 
@@ -56,17 +53,24 @@ public class TestShooterRanging extends Command {
         double distance = targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
 
-        Rotation2d adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
+        Rotation2d adjustmentSetpoint = new Rotation2d();
         ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
-            Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)), 
+            new Rotation2d(), 
             0.0,
             0.0 
         );
 
+        // adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
+        // config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
+        //     Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)), 
+        //     0.0,
+        //     0.0 
+        // );
+
         shooter.setShootingConfigSetpoints(config);
         double angleEffort = tagCam.targetVisible() ? 
             rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
-            rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
+            -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
 
         if (tagCam.targetVisible()) {
             rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);

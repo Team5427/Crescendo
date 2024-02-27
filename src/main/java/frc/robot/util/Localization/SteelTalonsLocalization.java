@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
@@ -81,6 +82,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
                 Optional<SteelTalonsVisionMeasurement> estimate = LocalizationUtil.findConfidence(cam.getUpdate(refPose), refPose);
                 if (estimate.isPresent()) {
                     SteelTalonsVisionMeasurement m = estimate.get();
+                    SteelTalonsLogger.post("Vision measurement", String.valueOf(m.getConfidence().get(0, 0)) + " - " + Timer.getFPGATimestamp());
                     poseEstimator.addVisionMeasurement(m.getPose(), m.getTimestamp(), m.getConfidence());
                     field.getObject(cam.getName()).setPose(m.getPose());
                 } 

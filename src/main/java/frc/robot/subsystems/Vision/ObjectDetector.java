@@ -1,8 +1,6 @@
 package frc.robot.subsystems.Vision;
 
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -13,7 +11,7 @@ public class ObjectDetector extends SubsystemBase {
     private boolean tv;
 
     private static final double inRangeConst = 7.0;
-    private static final double xProportional = -0.03; // 0.1
+    private static final double xProportional = -0.025; // 0.1
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);

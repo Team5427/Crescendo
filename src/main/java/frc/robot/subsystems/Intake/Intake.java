@@ -131,7 +131,7 @@ public class Intake extends SubsystemBase {
 
     public void log() {
         // SteelTalonsLogger.post("Intake pivot angle", pivot.getPosition());
-        // SteelTalonsLogger.post("Intake pivot setpoint", setpoint.getRadians());
+        SteelTalonsLogger.post("Intake pivot setpoint", setpoint.getRadians());
         // SteelTalonsLogger.post("Intake pivot error", pivot.getError());
 
         // SteelTalonsLogger.post("Intake roller angle", roller.getVelocity());
