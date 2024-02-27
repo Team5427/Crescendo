@@ -110,15 +110,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "WingLowerToHalfLower"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "Complex Intake"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "WingLowerToHalfLower"
                       }
                     }
                   ]
@@ -129,15 +129,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "Feed Note"
-                      }
-                    },
-                    {
                       "type": "path",
                       "data": {
                         "pathName": "HalfLowerToBorderLower"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
                       }
                     }
                   ]
@@ -163,7 +163,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BorderLowerToHalfMidLower"
+                        "pathName": "BorderLowerToHalfMidLower.1"
                       }
                     },
                     {
@@ -183,6 +183,57 @@
                       "type": "path",
                       "data": {
                         "pathName": "HalfMidLowerToBorderLower"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Shoot Speaker"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "BorderLowerToHalfMiddle"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Complex Intake"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "HalfMiddleToBorderLower"
                       }
                     },
                     {
