@@ -2,25 +2,25 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
+      "x": 1.41,
       "y": 5.5
     },
-    "rotation": -1.5271285037272738e-39
+    "rotation": -7.721372559371467e-27
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Shoot Speaker"
+          }
+        },
+        {
           "type": "sequential",
           "data": {
             "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Speaker"
-                }
-              },
               {
                 "type": "parallel",
                 "data": {
@@ -28,7 +28,52 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CenterStartToWingCenter"
+                        "pathName": "CenterStartToWingUpper"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Complex Intake"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Feed Note"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Shoot Speaker"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "sequential",
+          "data": {
+            "commands": [
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "WingUpperToWingCenter"
                       }
                     },
                     {
@@ -116,15 +161,15 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "path",
                       "data": {
-                        "name": "Complex Intake"
+                        "pathName": "WingLowerToHalfCenter"
                       }
                     },
                     {
-                      "type": "path",
+                      "type": "named",
                       "data": {
-                        "pathName": "WingLowerToHalfLower"
+                        "name": "Complex Intake"
                       }
                     }
                   ]
@@ -137,7 +182,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HalfLowerToBorderLower"
+                        "pathName": "HalfCenterToBorderCenter"
                       }
                     },
                     {
@@ -169,7 +214,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "BorderLowerToHalfMidLower.1"
+                        "pathName": "BorderCenterToHalfMidLower"
                       }
                     },
                     {
@@ -188,58 +233,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "HalfMidLowerToBorderLower"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Feed Note"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Shoot Speaker"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "BorderLowerToHalfMiddle"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Complex Intake"
-                      }
-                    }
-                  ]
-                }
-              },
-              {
-                "type": "parallel",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "HalfMiddleToBorderLower"
+                        "pathName": "HalfMidLowerToBorderCenter"
                       }
                     },
                     {
