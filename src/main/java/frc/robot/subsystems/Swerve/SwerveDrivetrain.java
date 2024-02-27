@@ -1,15 +1,18 @@
 package frc.robot.subsystems.Swerve;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,37 +26,52 @@ public class SwerveDrivetrain extends SubsystemBase {
     private Pigeon2 gyro;
     private List<SwerveModule> modules;
     private ChassisSpeeds setPoint = new ChassisSpeeds(); // X: m/s - Y: m/s - Theta: rad/s
+    private ChassisSpeeds adjustment = new ChassisSpeeds();
+    private Optional<Rotation2d> rotLock = Optional.empty();
+    private ProfiledPIDController rotController;
 
     public SwerveDrivetrain() {
         instance = this;
         gyro = new Pigeon2(DrivetrainConstants.PIGEON_CAN_ID);
         gyro.reset();
+        DrivetrainConstants.configureMotors();
         modules = List.of(
             new SwerveModule(
+                DrivetrainConstants.FRONT_LEFT_DRIVE_ID,
                 DrivetrainConstants.FRONT_LEFT_DRIVE, 
                 DrivetrainConstants.FRONT_LEFT_STEER, 
                 DrivetrainConstants.FRONT_LEFT_CANCODER_ID,
                 DrivetrainConstants.FRONT_LEFT_OFFSET
             ), //FRONT LEFT
             new SwerveModule(
+                DrivetrainConstants.FRONT_RIGHT_DRIVE_ID,
                 DrivetrainConstants.FRONT_RIGHT_DRIVE, 
                 DrivetrainConstants.FRONT_RIGHT_STEER, 
                 DrivetrainConstants.FRONT_RIGHT_CANCODER_ID,
                 DrivetrainConstants.FRONT_RIGHT_OFFSET
             ), //FRONT RIGHT
             new SwerveModule(
+                DrivetrainConstants.BACK_LEFT_DRIVE_ID,
                 DrivetrainConstants.BACK_LEFT_DRIVE, 
                 DrivetrainConstants.BACK_LEFT_STEER, 
                 DrivetrainConstants.BACK_LEFT_CANCODER_ID,
                 DrivetrainConstants.BACK_LEFT_OFFSET
             ), //BACK LEFT
             new SwerveModule(
+                DrivetrainConstants.BACK_RIGHT_DRIVE_ID,
                 DrivetrainConstants.BACK_RIGHT_DRIVE, 
                 DrivetrainConstants.BACK_RIGHT_STEER, 
                 DrivetrainConstants.BACK_RIGHT_CANCODER_ID,
                 DrivetrainConstants.BACK_RIGHT_OFFSET
             ) //BACK RIGHT
         );
+
+        rotController = new ProfiledPIDController(3.0, 0, 0, new Constraints(
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP, 
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
+        ));
+
+        rotController.enableContinuousInput(-Math.PI, Math.PI);
 
     }
 
@@ -69,6 +87,10 @@ public class SwerveDrivetrain extends SubsystemBase {
         gyro.setYaw(rot.getDegrees());
     }
 
+    public void setRotLock(Optional<Rotation2d> rot) {
+        this.rotLock = rot;
+    }
+
     public SwerveDriveWheelPositions getWheelPositions() {
         return new SwerveDriveWheelPositions(new SwerveModulePosition[] {
             modules.get(0).getModulePosition(),
@@ -82,11 +104,33 @@ public class SwerveDrivetrain extends SubsystemBase {
         this.setPoint = speeds;
     }
 
+    public ChassisSpeeds getSetpoint() {
+        return this.setPoint;
+    }
+
+    public void adjustSpeeds(ChassisSpeeds adjustment) {
+        this.adjustment = adjustment;
+    }
+
     @Override
     public void periodic() {
         if (DriverStation.isTeleop()) {
-            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(setPoint, Units.millisecondsToSeconds(20)));
+
+            ChassisSpeeds calculatedSetpoint = setPoint;
+
+            if (rotLock.isPresent()) {
+                calculatedSetpoint = new ChassisSpeeds(
+                    calculatedSetpoint.vxMetersPerSecond, 
+                    calculatedSetpoint.vyMetersPerSecond, 
+                    rotController.calculate(getRotation().getRadians(), rotLock.get().getRadians())
+                );
+            } else {
+                calculatedSetpoint = setPoint;
+                rotController.reset(getRotation().getRadians());
+            }
+            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Units.millisecondsToSeconds(20)));
             SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
+            
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).setModuleState(states[i]);
             }
@@ -96,7 +140,8 @@ public class SwerveDrivetrain extends SubsystemBase {
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).resetController();
             }
-        }
+        } 
+
         log();
     }
 
@@ -129,18 +174,15 @@ public class SwerveDrivetrain extends SubsystemBase {
         double[] cv = {
             -controller.getRightY() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
             -controller.getRightX() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
-            -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
-        }; //FIXME may need to negate
+            Math.copySign(Math.pow(Math.abs(controller.getLeftX()), 3), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
+            // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
+        }; 
 
-        // if (!MiscUtil.isBlue()) {
-        //     cv[0] = -cv[0];
-        //     cv[1] = -cv[1];
-        // }
-
-        // cv[0] = Math.abs(cv[0]) < 0.1 ? 0: cv[0];
-        // cv[1] = Math.abs(cv[1]) < 0.1 ? 0: cv[1];
-        // cv[2] = Math.abs(cv[2]) < 0.1 ? 0: cv[2];
-
+        double trigger = 1 - controller.getRightTriggerAxis();
+        for (int i = 0; i  < cv.length; i++) {
+            cv[i] = cv[i] * trigger;
+        }
+        
         return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
     }
 
@@ -148,14 +190,12 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Setpoint X", setPoint.vxMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Y", setPoint.vyMetersPerSecond);
         SteelTalonsLogger.post("Drivetrain Setpoint Theta", setPoint.omegaRadiansPerSecond);
-        // SteelTalonsLogger.post("Drivetrain Velocity X", getVelocityVector().vxMetersPerSecond);
-        // SteelTalonsLogger.post("Drivetrain Velocity Y", getVelocityVector().vyMetersPerSecond);
-        // SteelTalonsLogger.post("Drivetrain Velocity Theta", getVelocityVector().omegaRadiansPerSecond);
-
-        // modules.get(0).log("FRONT LEFT");
-        // modules.get(1).log("FRONT RIGHT");
-        // modules.get(2).log("BACK LEFT");
-        // modules.get(3).log("BACK RIGHT");
+        SteelTalonsLogger.post("x speed", getVelocityVector().vxMetersPerSecond);
+        SteelTalonsLogger.post("y speed", getVelocityVector().vyMetersPerSecond);
+        // modules.get(0).log("front left");
+        // modules.get(1).log("front right");
+        // modules.get(2).log("back left");
+        // modules.get(3).log("back right");
     }
 
     public Command getDriveCommand(CommandXboxController joy) {

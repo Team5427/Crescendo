@@ -21,6 +21,10 @@ public class DriveCommand extends Command {
         swerve.setSetpoint(speeds);
     }
 
+    public void executeAutoAlign(ChassisSpeeds speed){
+        swerve.setSetpoint(speed);
+    }
+    
     @Override
     public boolean isFinished() {
         return false;

@@ -1,75 +1,59 @@
 package frc.robot.subsystems.Swerve;
 
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 import frc.robot.util.SteelTalonsLogger;
-import frc.robot.util.SteelTalonsSparkMaxFlywheel;
-import frc.robot.util.SteelTalonsSparkMaxServo;
+import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxSimpleServo;
 
 public class SwerveModule {
-    // private TalonFX driveMotor;
-    private SteelTalonsSparkMaxFlywheel driveMotor;
-    private SteelTalonsSparkMaxServo steerMotor;
+    private TalonFX driveMotor;
+    // private SteelTalonsSparkMaxFlywheel driveMotor;
+    private SteelTalonsSparkMaxSimpleServo steerMotor;
     private CANcoder canCoder;
     
-    private SendableChooser<Double> deadzone;
+    public SwerveModule(int talonID, TalonFXConfiguration driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
 
-    private SlewRateLimiter xLimiter, yLimiter, thetaLimiter;
+        driveMotor = new TalonFX(talonID);
+        driveMotor.getConfigurator().apply(driveConfig);
+        DrivetrainConstants.configureDriveTalon(driveMotor);
 
-    public SwerveModule(STSmaxConfig driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
-        DrivetrainConstants.configureMotors();
-
-        driveMotor = new SteelTalonsSparkMaxFlywheel(DrivetrainConstants.configureDriveNeo(driveConfig));
-    
-        steerMotor = new SteelTalonsSparkMaxServo(DrivetrainConstants.configureSteerNeo(steerConfig));
+        steerMotor = new SteelTalonsSparkMaxSimpleServo(DrivetrainConstants.configureSteerNeo(steerConfig));
 
         canCoder = new CANcoder(canCoderID);
         DrivetrainConstants.configureCanCoder(canCoder, offset);
 
         driveMotor.setPosition(0);
         steerMotor.setPosition(canCoder.getAbsolutePosition().getValueAsDouble() * 2 * Math.PI);
-
-        xLimiter = new SlewRateLimiter(DrivetrainConstants.SLEW_RATE_LIMIT);
-        thetaLimiter = new SlewRateLimiter(DrivetrainConstants.SLEW_RATE_LIMIT);
-
-        deadzone = new SendableChooser<Double>();
-        deadzone.setDefaultOption("Competition", DrivetrainConstants.THRESHOLD_STOPPING_M_S_COMPETITION);
-        deadzone.addOption("Tuning", DrivetrainConstants.THRESHOLD_STOPPING_M_S_TUNING);
-        SmartDashboard.putData("Deadzone", deadzone);
     }
 
     public SwerveModulePosition getModulePosition() {
-        return new SwerveModulePosition(driveMotor.getPosition(), new Rotation2d(steerMotor.getPosition()));
+        return new SwerveModulePosition(MiscUtil.DTrotToMeters(driveMotor.getPosition().getValueAsDouble()), new Rotation2d(steerMotor.getPosition()));
     }
 
     public SwerveModuleState getModuleState() {
-        return new SwerveModuleState(driveMotor.getVelocity(), new Rotation2d(steerMotor.getPosition()));
+        return new SwerveModuleState(MiscUtil.DTrotToMeters(driveMotor.getVelocity().getValueAsDouble()), new Rotation2d(steerMotor.getPosition()));
     }
 
     public void setModuleState(SwerveModuleState state) {
         SwerveModuleState newState = SwerveModuleState.optimize(state, canCoderRot());
-        // SwerveModuleState.optimize(state, null)
-        // SwerveModuleState newState = state;
 
-        double velocitySetpoint = newState.speedMetersPerSecond;
+        double velocitySetpoint = MiscUtil.DTmetersToRot(newState.speedMetersPerSecond);
         Rotation2d rotSetpoint = newState.angle;
 
-        // double velocitySetpoint = xLimiter.calculate(newState.speedMetersPerSecond);
-        // double rotSetpoint = thetaLimiter.calculate(newState.angle.getRadians());
-        if (Math.abs(velocitySetpoint) > deadzone.getSelected()) {
+        if (Math.abs(velocitySetpoint) > 0.05) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
-            // steerMotor.setSetpoint(rotSetpoint, 0);
-            driveMotor.setSetpoint(velocitySetpoint, 0);
+            driveMotor.setControl(new VelocityVoltage(velocitySetpoint).withEnableFOC(true));
         } else {
             steerMotor.forceStop();
-            driveMotor.forceStop();
+            driveMotor.stopMotor();
         }
     }
 

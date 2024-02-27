@@ -12,9 +12,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
@@ -27,10 +29,10 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private AprilTagFieldLayout aprilTagFieldLayout;
     private ArrayList<ApriltagCam> camList;
 
-    private final String leftCamName = "left";
-    private final String rightCamName = "right";
-    private final Transform3d leftRobotToCam = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
-    private final Transform3d rightRobotToCam = new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0));
+    private final String leftCamName = "leftcam";
+    private final String rightCamName = "rightcam";
+    private final Transform3d leftRobotToCam = new Transform3d(Units.inchesToMeters(-12.842), Units.inchesToMeters(11.992), Units.inchesToMeters(9.385), new Rotation3d(0, Math.toRadians(-35), Math.PI));
+    private final Transform3d rightRobotToCam = new Transform3d(Units.inchesToMeters(-12.842), Units.inchesToMeters(-11.992), Units.inchesToMeters(9.385), new Rotation3d(0, Math.toRadians(-35), Math.PI));
 
     private SwerveDrivePoseEstimator poseEstimator;
 
@@ -39,20 +41,22 @@ public class SteelTalonsLocalization extends SubsystemBase {
     public SteelTalonsLocalization() {
         instance = this;
         try {
-            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2023ChargedUp.m_resourceFile);
+            aprilTagFieldLayout = AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
         } catch (IOException ex) {
             System.err.println("Couldn't load field");
         }
 
-        // camList.add(new ApriltagCam(leftCamName, leftRobotToCam, aprilTagFieldLayout));
-        // camList.add(new ApriltagCam(rightCamName, rightRobotToCam, aprilTagFieldLayout));
+        camList = new ArrayList<ApriltagCam>();
+
+        camList.add(new ApriltagCam(leftCamName, leftRobotToCam, aprilTagFieldLayout));
+        camList.add(new ApriltagCam(rightCamName, rightRobotToCam, aprilTagFieldLayout));
 
         poseEstimator = new SwerveDrivePoseEstimator(
             DrivetrainConstants.SWERVE_DRIVE_KINEMATICS, 
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             new Pose2d(), 
-            VecBuilder.fill(0.5, 0.5, 0), 
+            VecBuilder.fill(0.25, 0.25, 0.0), 
             VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
         );
 
@@ -78,11 +82,18 @@ public class SteelTalonsLocalization extends SubsystemBase {
                 Optional<SteelTalonsVisionMeasurement> estimate = LocalizationUtil.findConfidence(cam.getUpdate(refPose), refPose);
                 if (estimate.isPresent()) {
                     SteelTalonsVisionMeasurement m = estimate.get();
+                    SteelTalonsLogger.post("Vision measurement", String.valueOf(m.getConfidence().get(0, 0)) + " - " + Timer.getFPGATimestamp());
                     poseEstimator.addVisionMeasurement(m.getPose(), m.getTimestamp(), m.getConfidence());
+                    field.getObject(cam.getName()).setPose(m.getPose());
                 } 
             }
 
         }
+
+        SteelTalonsLogger.post("targeting information parallel", MiscUtil.targetingInformation()[0]);
+        SteelTalonsLogger.post("targeting information perp", MiscUtil.targetingInformation()[1]);
+        SteelTalonsLogger.post("targeting information distance", MiscUtil.targetingInformation()[2]);
+        SteelTalonsLogger.post("targeting information angError", MiscUtil.targetingInformation()[3]);
     }
 
     public Pose2d getPose() {
@@ -90,9 +101,6 @@ public class SteelTalonsLocalization extends SubsystemBase {
     }
 
     public void resetPose(Pose2d newPose) {
-        // Pose2d resetPose = MiscUtil.isBlue() ? newPose : MiscUtil.flip(newPose);
-        // SteelTalonsLogger.post("ran reset pose", true);
-        // System.err.println("ran method");
         poseEstimator.resetPosition(
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
@@ -100,4 +108,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         );
     }
 
+    public Translation2d translationFromSpeaker() {
+        return MiscUtil.isBlue() ? getPose().getTranslation().minus(MiscUtil.speaker_Pose.getTranslation()) : getPose().getTranslation().minus(MiscUtil.flip(MiscUtil.speaker_Pose.getTranslation()));
+    }
 }

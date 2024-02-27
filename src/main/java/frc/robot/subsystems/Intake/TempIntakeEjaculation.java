@@ -12,6 +12,11 @@ public class TempIntakeEjaculation extends Command {
     }
 
     @Override
+    public void initialize() {
+        intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
+    }
+
+    @Override
     public void execute() {
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
     }
@@ -24,7 +29,7 @@ public class TempIntakeEjaculation extends Command {
     @Override
     public void end(boolean interrupted) {
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
-        System.out.println("Ejaculated");
+        intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
     }
     
 }
