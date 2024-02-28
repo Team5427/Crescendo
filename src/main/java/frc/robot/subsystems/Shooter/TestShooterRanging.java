@@ -37,7 +37,6 @@ public class TestShooterRanging extends Command {
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
         rotPID.setTolerance(Math.toRadians(1.5));
 
-        addRequirements(shooter);
     }
 
     @Override

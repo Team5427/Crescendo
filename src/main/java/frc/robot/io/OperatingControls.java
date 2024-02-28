@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.FeedShooter;
+import frc.robot.subsystems.Shooter.FeedShooterClean;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
@@ -32,6 +33,7 @@ public class OperatingControls {
 
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
+        operatingController.povDown().onTrue(new FeedShooterClean());
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
     }

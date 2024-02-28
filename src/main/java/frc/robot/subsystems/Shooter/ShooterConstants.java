@@ -49,7 +49,7 @@ public class ShooterConstants {
 
     public static final double FEEDER_HOLD_SPEED = 0.0;
     public static final double FEEDER_BUMP_SPEED = 0.1;
-    public static final double FEEDER_FEED_SPEED = 2.25;
+    public static final double FEEDER_FEED_SPEED = 2.5;
     public static final double FEEDER_INTAKE_SPEED = 0.5;
 
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
@@ -164,7 +164,7 @@ public class ShooterConstants {
         ampPivotConfig.id = AMP_PIVOT_MOTOR_ID;
 
         shooterPivotConfig.currentLimit = 20;
-        feederRollerConfig.currentLimit = 30;
+        feederRollerConfig.currentLimit = 40;
         shooterLeftFlywheelConfig.currentLimit = 40;
         shooterRightFlywheelConfig.currentLimit = 40;
         ampPivotConfig.currentLimit = 20;
