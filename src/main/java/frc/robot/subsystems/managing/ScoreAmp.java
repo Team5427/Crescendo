@@ -25,12 +25,12 @@ public class ScoreAmp extends Command {
         shooter.setAmpSetpoint(ShooterConstants.AMP_DEPLOYED);
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_AMP);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM, ShooterConstants.FLYWHEEL_AMP_SPEED_RPM);
-        drivetrain.setRotLock(Optional.of(new Rotation2d(Math.PI)));
+        drivetrain.setRotLock(Optional.of(new Rotation2d(-Math.PI/2)));
     }
 
     @Override
     public boolean isFinished() {
-        return !shooter.loaded();
+        return false;
     }
 
     @Override

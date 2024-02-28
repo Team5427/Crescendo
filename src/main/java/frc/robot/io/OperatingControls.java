@@ -7,6 +7,7 @@ import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
+import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
 
 public class OperatingControls {
@@ -18,7 +19,7 @@ public class OperatingControls {
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());
 
-
+        operatingController.leftBumper().whileTrue(new ScoreAmp());
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new ParallelCommandGroup(

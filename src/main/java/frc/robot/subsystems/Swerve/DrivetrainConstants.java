@@ -99,9 +99,9 @@ public class DrivetrainConstants {
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
         currConfigs.StatorCurrentLimitEnable = true;
         currConfigs.SupplyCurrentLimitEnable = true;
-        currConfigs.StatorCurrentLimit = 80;
+        currConfigs.StatorCurrentLimit = 60;
         currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 100;
+        currConfigs.SupplyCurrentThreshold = 80;
         currConfigs.SupplyTimeThreshold = 0.2;
         motor.getConfigurator().apply(currConfigs);
 

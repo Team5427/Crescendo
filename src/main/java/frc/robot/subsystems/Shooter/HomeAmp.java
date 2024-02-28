@@ -43,11 +43,12 @@ public class HomeAmp extends Command {
 
     @Override
     public boolean isFinished() {
-        return shooter.getHoming() && timer.get() > homingSecondsToFinish;
+        return shooter.getAmpHoming() && timer.get() > homingSecondsToFinish;
     }
 
     @Override
     public void end(boolean interrupted) {
+        System.err.println("homing amp finished");
         shooter.getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
         shooter.setAmpSetpoint(ShooterConstants.AMP_HARDSTOP);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);

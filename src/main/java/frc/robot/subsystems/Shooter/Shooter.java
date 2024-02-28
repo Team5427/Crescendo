@@ -135,12 +135,6 @@ public class Shooter extends SubsystemBase {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
 
-    if (tester.getHID().getLeftStickButton()) {
-      ampSetpoint = ShooterConstants.AMP_DEPLOYED;
-    } else {
-      ampSetpoint = ShooterConstants.AMP_HARDSTOP;
-    }
-
     log();
   }
 
@@ -174,6 +168,10 @@ public class Shooter extends SubsystemBase {
 
   public boolean getHoming() {
     return homingPivot;
+  }
+
+  public boolean getAmpHoming() {
+    return homingAmp;
   }
 
   public void setHomingPivot(boolean homingPivot) {
