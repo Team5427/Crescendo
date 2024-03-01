@@ -22,6 +22,7 @@ import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
+import frc.robot.subsystems.managing.AutonShoot;
 import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.util.AutonUtil;
 import frc.robot.util.SteelTalonsLogger;
@@ -74,7 +75,7 @@ public class RobotContainer {
             })),
         Intake.getInstance().getIntakeHandoff()));
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
-    NamedCommands.registerCommand("Auton Static Shoot", SubsystemManager.autonStaticShootCommand());
+    NamedCommands.registerCommand("Auton Shoot", new AutonShoot());
     // NamedCommands.registerCommand("Pathfinding", SubsystemManager.pathFind());
   }
 

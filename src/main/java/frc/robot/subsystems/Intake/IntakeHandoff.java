@@ -18,7 +18,7 @@ public class IntakeHandoff extends Command {
     @Override
     public void execute() {
 
-        if (intake.atGoal(5.0) && Shooter.getInstance().pivotAtGoal(3.0)){
+        if (intake.atGoal(2.0) && Shooter.getInstance().pivotAtGoal(1.0)){
             intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
         }
 
