@@ -20,9 +20,9 @@ public class LocalizationUtil {
             double diffFromRef = pose.getTranslation().minus(refPose.getTranslation()).getNorm();
             boolean trustable = 
                 Math.abs(MiscUtil.targetingInformation()[0]) < 1.0 && 
-                Math.abs(MiscUtil.targetingInformation()[1]) < 1.0 &&
-                Math.abs(MiscUtil.targetingInformation()[2]) < 4.0 &&
-                Math.abs(MiscUtil.targetingInformation()[3]) < Math.toRadians(30);
+                Math.abs(MiscUtil.targetingInformation()[1]) < 1.0;
+                // Math.abs(MiscUtil.targetingInformation()[2]) < 4.0;
+                // Math.abs(MiscUtil.targetingInformation()[3]) < Math.toRadians(30);
 
             double stDev = diffFromRef < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP || trustable ? 0.03 : Double.MAX_VALUE;
             Matrix<N3, N1> confidence = VecBuilder.fill(stDev, stDev, Double.MAX_VALUE); //FIXME may need to tune

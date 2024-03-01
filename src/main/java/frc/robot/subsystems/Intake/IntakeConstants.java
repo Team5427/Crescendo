@@ -22,7 +22,7 @@ public class IntakeConstants {
 
     public static final double INTAKE_SPEED_INTAKING = 6.0;
     public static final double INTAKE_SPEED_HOLD = 0.75;
-    public static final double INTAKE_SPEED_EJECTING = -0.75;
+    public static final double INTAKE_SPEED_EJECTING = -6.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(2.0));
 
@@ -47,7 +47,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.maxVel = ROLLER_CONFIG.getStandardMaxVelocity();
         ROLLER_CONFIG.maxAccel = ROLLER_CONFIG.maxVel * 4;
         PIVOT_CONFIG.maxVel = PIVOT_CONFIG.getStandardMaxVelocity() * 0.9;
-        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 3.25;
+        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 3.0;
 
         ROLLER_CONFIG.inverted = false;
         PIVOT_CONFIG.inverted = true;
@@ -57,7 +57,7 @@ public class IntakeConstants {
 
         ROLLER_CONFIG.kP = 0.0;
         ROLLER_CONFIG.kFF = 1.0 / ROLLER_CONFIG.maxVel;
-        PIVOT_CONFIG.kP = 9.0; // 5
+        PIVOT_CONFIG.kP = 8.0; // 5
         PIVOT_CONFIG.kD = 0.5;
     }
 }

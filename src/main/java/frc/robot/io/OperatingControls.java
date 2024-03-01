@@ -36,5 +36,6 @@ public class OperatingControls {
         operatingController.povDown().onTrue(new FeedShooterClean());
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
+        operatingController.y().onTrue(new ScoreAmp());
     }
 }
