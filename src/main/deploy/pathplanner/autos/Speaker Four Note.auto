@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "AutonShoot"
+            "name": "Auton Shoot"
           }
         },
         {
@@ -28,16 +28,9 @@
                 }
               },
               {
-                "type": "parallel",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Complex Intake"
-                      }
-                    }
-                  ]
+                  "name": "Complex Intake"
                 }
               }
             ]

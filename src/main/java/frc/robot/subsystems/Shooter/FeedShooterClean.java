@@ -11,7 +11,7 @@ public class FeedShooterClean extends Command {
     public FeedShooterClean() {
         shooter = Shooter.getInstance();
         timer = new Timer();
-        addRequirements(shooter);
+        // addRequirements(shooter);
     }
 
     @Override

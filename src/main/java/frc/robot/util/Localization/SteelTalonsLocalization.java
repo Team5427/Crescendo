@@ -15,6 +15,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -77,7 +78,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         field.setRobotPose(getPose());
         SteelTalonsLogger.postComplex("Field 2d", field);
 
-        if (camList != null) {
+        if (camList != null && !DriverStation.isAutonomous()) {
             for (ApriltagCam cam : camList) {
                 Optional<SteelTalonsVisionMeasurement> estimate = LocalizationUtil.findConfidence(cam.getUpdate(refPose), refPose);
                 if (estimate.isPresent()) {

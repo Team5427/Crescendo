@@ -16,6 +16,10 @@ public class ShooterHandoff extends Command {
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_INTAKE_SPEED);
         shooter.setFlywheelSetpoint(0.0, 0.0);
+
+        if (shooter.loaded()) {
+            shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
+        }
     }
 
     @Override

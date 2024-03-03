@@ -5,8 +5,10 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxBangBang;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxFlywheel;
@@ -29,8 +31,8 @@ public class Shooter extends SubsystemBase {
   private boolean homingPivot = false;
   private boolean homingAmp = false;
 
-  private DigitalInput beamBreak;
-  private DigitalInput sideBeamBreak;
+  private DigitalInput earlyBeamBrake;
+  private DigitalInput lateBeamBrake;
 
   private static Shooter instance;
 
@@ -50,8 +52,8 @@ public class Shooter extends SubsystemBase {
     pivotSlave.getSmax().follow(pivotMaster.getSmax(), true);
     pivotMaster.setPosition(0.0);
 
-    beamBreak = new DigitalInput(ShooterConstants.BEAM_BREAKER_PORT);
-    sideBeamBreak = new DigitalInput(ShooterConstants.SIDE_BEAM_BREAKER_PORT);
+    earlyBeamBrake = new DigitalInput(ShooterConstants.EARLY_BEAM_BRAKER_PORT);
+    lateBeamBrake = new DigitalInput(ShooterConstants.LATE_BEAM_BREAKER_PORT);
 
     instance = this;
     
@@ -110,8 +112,14 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     CommandXboxController tester = new CommandXboxController(1);
-    leftFlywheel.setSetpoint(this.leftShooterSetpoint, 0.0);
-    rightFlywheel.setSetpoint(this.rightShooterSetpoint, 0.0);
+    if (MiscUtil.targetingInformation()[2] < 3.0 && Math.abs(MiscUtil.targetingInformation()[3]) < Math.toRadians(30) && !tester.getHID().getBButton()) {
+      leftFlywheel.setSetpoint(4000, 0.0);
+      rightFlywheel.setSetpoint(4000, 0.0);
+  
+    } else {
+      leftFlywheel.setSetpoint(this.leftShooterSetpoint, 0.0);
+      rightFlywheel.setSetpoint(this.rightShooterSetpoint, 0.0);  
+    }
 
     if (homingPivot) {
       hardSetPivot(0.05);
@@ -130,8 +138,8 @@ public class Shooter extends SubsystemBase {
       ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
     }
 
-    if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && !loaded()) {
-      feeder.setSetpoint(ShooterConstants.FEEDER_HOLD_SPEED, 0.0);
+    if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && !inPosition() && loaded()) {
+      feeder.setSetpoint(0.15, 0.0);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
@@ -160,7 +168,11 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean loaded() {
-    return !sideBeamBreak.get();
+    return !earlyBeamBrake.get();
+  }
+
+  public boolean inPosition() {
+    return loaded() && !lateBeamBrake.get();
   }
 
   public boolean getHoming() {
@@ -188,6 +200,7 @@ public class Shooter extends SubsystemBase {
     // SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
     // SteelTalonsLogger.post("SHooter flywheel error", leftFlywheel.getError());
     SteelTalonsLogger.post("Shooter Loaded", loaded());
+    SteelTalonsLogger.post("Note Ready To Shoot", inPosition());
     // SteelTalonsLogger.post("top in position", !beamBreak.get());
     // SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
     // SteelTalonsLogger.post("pivot at goal", pivotAtGoal());

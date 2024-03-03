@@ -10,6 +10,7 @@ import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
 import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
+import frc.robot.subsystems.managing.Unstuck;
 
 public class OperatingControls {
 
@@ -23,11 +24,9 @@ public class OperatingControls {
         operatingController.leftBumper().whileTrue(new ScoreAmp());
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
-        operatingController.a().onTrue(new ParallelCommandGroup(
-                Shooter.getInstance().getShooterHandoff(),
-                Intake.getInstance().getIntakeHandoff()));
-        operatingController.y()
-                .onTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
+        operatingController.a().onTrue(new Unstuck());
+        // operatingController.y()
+        //         .onTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
         operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM,
                 ShooterConstants.SHOOTER_PIVOT_AMP));
 
@@ -36,6 +35,7 @@ public class OperatingControls {
         operatingController.povDown().onTrue(new FeedShooterClean());
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
-        operatingController.y().onTrue(new ScoreAmp());
+        operatingController.y().whileTrue(new ScoreAmp());
+        
     }
 }

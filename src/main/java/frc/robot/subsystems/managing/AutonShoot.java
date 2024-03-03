@@ -29,7 +29,7 @@ public class AutonShoot extends Command {
         ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(MiscUtil.targetingInformation()[2]);
         shooter.setShootingConfigSetpoints(config);
 
-        if (timer.get() > 0.5) {
+        if (timer.get() > 0.5 && shooter.flywheelAtGoal()) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
         }
     }

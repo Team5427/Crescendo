@@ -31,6 +31,7 @@ public class HomeShooter extends Command {
     public void initialize() {
         shooter.setHomingPivot(true);
         shooter.setFlywheelSetpoint(0.0, 0.0);
+        shooter.setFeederSetpoint(0.0);
         timerContinueHoming();
     }
 

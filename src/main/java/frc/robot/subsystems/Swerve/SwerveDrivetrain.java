@@ -174,7 +174,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         double[] cv = {
             -controller.getRightY() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
             -controller.getRightX() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
-            Math.copySign(Math.pow(Math.abs(controller.getLeftX()), 3), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
+            Math.copySign(Math.pow(Math.abs(controller.getLeftX()), 2), -controller.getLeftX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
             // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
 

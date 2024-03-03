@@ -1,6 +1,7 @@
 package frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -30,7 +31,7 @@ public class Intake extends SubsystemBase {
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = 20;
+        config.CurrentLimits.StatorCurrentLimit = 60;
 
         rollerTalon.getConfigurator().apply(config);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
@@ -47,6 +48,12 @@ public class Intake extends SubsystemBase {
     }
 
     public void setPivotSetpoint(Rotation2d setpoint) {
+        // if (setpoint.equals(IntakeConstants.INTAKING_POS)) {
+        //     pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel * 0.5);
+        // } else {
+        //     pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel); 
+        // }
+        pivot.resetController();
         this.setpoint = setpoint;
     }
 
@@ -60,6 +67,12 @@ public class Intake extends SubsystemBase {
 
     public SteelTalonsSparkMaxServo getPivot() {
         return pivot;
+    }
+
+    public void setLimits(int num) {
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.CurrentLimits.StatorCurrentLimit = num;
+        rollerTalon.getConfigurator().apply(config);
     }
 
     public void stopRoller() {

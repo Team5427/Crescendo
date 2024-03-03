@@ -13,6 +13,7 @@ public class IntakeHandoff extends Command {
     @Override
     public void initialize() {
         intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
+        intake.setLimits(60);
     }
 
     @Override
@@ -22,20 +23,22 @@ public class IntakeHandoff extends Command {
             intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
         }
 
-        if (Shooter.getInstance().loaded()) {
-            System.err.println("got here so far");
-            intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        }
+        // if (Shooter.getInstance().loaded()) {
+        //     intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
+        // }
+
     }
 
     @Override
     public boolean isFinished() {
-        return !intake.sensorCovered();
+        return Shooter.getInstance().inPosition();
     }
 
     @Override
     public void end(boolean interrupted) {
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
+        intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
+        intake.setLimits(60);
     }
 
 

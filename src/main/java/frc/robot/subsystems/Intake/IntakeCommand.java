@@ -24,13 +24,13 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        SwerveDrivetrain.getInstance().adjustSpeeds(
-            new ChassisSpeeds(
-                0, 
-                0, 
-                RobotContainer.getNoteCam().noteDriveAdjustment()
-            )
-        );
+        // SwerveDrivetrain.getInstance().adjustSpeeds(
+        //     new ChassisSpeeds(
+        //         0, 
+        //         0, 
+        //         RobotContainer.getNoteCam().noteDriveAdjustment()
+        //     )
+        // );
     }
 
     @Override

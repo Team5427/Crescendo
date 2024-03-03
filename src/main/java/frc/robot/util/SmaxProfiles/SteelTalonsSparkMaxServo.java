@@ -75,6 +75,10 @@ public class SteelTalonsSparkMaxServo {
         smax.set(percent);
     }
 
+    public void setAccel(double accel) {
+        smaxController.setConstraints(new Constraints(config.maxVel, accel));
+    }
+
     public CANSparkMax getSmax() {
         return smax;
     }
