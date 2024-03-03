@@ -41,6 +41,7 @@ public class Shooter extends SubsystemBase {
     leftFlywheel = new SteelTalonsSparkMaxBangBang(ShooterConstants.shooterLeftFlywheelConfig);
     rightFlywheel = new SteelTalonsSparkMaxBangBang(ShooterConstants.shooterRightFlywheelConfig);
     feeder = new SteelTalonsSparkMaxFlywheel(ShooterConstants.feederRollerConfig);
+    feeder.disableLimiter();
     ampMotor = new SteelTalonsSparkMaxServo(ShooterConstants.ampPivotConfig);
     ampMotor.disableContinuousInput();
 
@@ -135,12 +136,6 @@ public class Shooter extends SubsystemBase {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
 
-    if (tester.getHID().getLeftStickButton()) {
-      ampSetpoint = ShooterConstants.AMP_DEPLOYED;
-    } else {
-      ampSetpoint = ShooterConstants.AMP_HARDSTOP;
-    }
-
     log();
   }
 
@@ -168,12 +163,12 @@ public class Shooter extends SubsystemBase {
     return !sideBeamBreak.get();
   }
 
-  public boolean inPosition() {
-    return loaded() && !beamBreak.get();
-  }
-
   public boolean getHoming() {
     return homingPivot;
+  }
+
+  public boolean getAmpHoming() {
+    return homingAmp;
   }
 
   public void setHomingPivot(boolean homingPivot) {
@@ -196,7 +191,6 @@ public class Shooter extends SubsystemBase {
     // SteelTalonsLogger.post("top in position", !beamBreak.get());
     // SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
     // SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
-    SteelTalonsLogger.post("in position to shoot", inPosition());
     SteelTalonsLogger.post("pivot at goal 3", pivotAtGoal(3));
   }
 

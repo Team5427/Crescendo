@@ -4,9 +4,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.FeedShooter;
+import frc.robot.subsystems.Shooter.FeedShooterClean;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
+import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
 
 public class OperatingControls {
@@ -18,7 +20,7 @@ public class OperatingControls {
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());
 
-
+        operatingController.leftBumper().whileTrue(new ScoreAmp());
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new ParallelCommandGroup(
@@ -31,7 +33,9 @@ public class OperatingControls {
 
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
+        operatingController.povDown().onTrue(new FeedShooterClean());
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
+        operatingController.y().onTrue(new ScoreAmp());
     }
 }

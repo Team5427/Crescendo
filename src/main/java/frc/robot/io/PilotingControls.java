@@ -17,6 +17,8 @@ public class PilotingControls {
             SwerveDrivetrain.getInstance().resetGyro(new Rotation2d());
         }, SteelTalonsLocalization.getInstance()));
 
+        // controller.rightBumper().whileTrue(new TestShooterRanging());
+
         // controller.rightTrigger(0.1).onTrue(new Command() {
         //     @Override
         //     public void initialize() {

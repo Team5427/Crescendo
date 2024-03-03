@@ -31,7 +31,7 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (6000 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0)
+    public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0)
             * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; // BEING USED IN PATH FINDER
     public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.0;
@@ -99,9 +99,9 @@ public class DrivetrainConstants {
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
         currConfigs.StatorCurrentLimitEnable = true;
         currConfigs.SupplyCurrentLimitEnable = true;
-        currConfigs.StatorCurrentLimit = 80;
+        currConfigs.StatorCurrentLimit = 60;
         currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 100;
+        currConfigs.SupplyCurrentThreshold = 80;
         currConfigs.SupplyTimeThreshold = 0.2;
         motor.getConfigurator().apply(currConfigs);
 

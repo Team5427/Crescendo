@@ -22,7 +22,7 @@ public class TestShooterRanging extends Command {
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
-    private static final double VISION_PARALLEL_P_SCALAR = 0.25; //increase to make PID stronger during movement
+    private static final double VISION_PARALLEL_P_SCALAR = 0.47; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist
 
@@ -37,7 +37,6 @@ public class TestShooterRanging extends Command {
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
         rotPID.setTolerance(Math.toRadians(1.5));
 
-        addRequirements(shooter);
     }
 
     @Override
@@ -96,7 +95,7 @@ public class TestShooterRanging extends Command {
     }
 
     public Rotation2d rotationalOTF(double parallelSpeed, double distance) {
-        double yVal = Math.sin(Math.toRadians(parallelSpeed * OTF_ROT_PARALLEL));
+        double yVal = Math.sin(Math.toRadians(parallelSpeed * OTF_ROT_PARALLEL)) * distance;
         return new Rotation2d(distance, yVal); //basically makes it so that based on distance, the angle becomes less or more
     }
 }

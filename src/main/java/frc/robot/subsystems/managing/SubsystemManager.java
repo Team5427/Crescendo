@@ -22,7 +22,8 @@ public class SubsystemManager {
                 Intake.getInstance().getIntakeCommand(),
                 new ParallelCommandGroup(
                         Intake.getInstance().getIntakeHandoff(),
-                        Shooter.getInstance().getShooterHandoff()),
+                        Shooter.getInstance().getShooterHandoff().asProxy()
+                ),
                 new InstantCommand(() -> {
                     Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
                             ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
