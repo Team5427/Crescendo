@@ -13,18 +13,26 @@ import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.util.MiscUtil;
 
 public class LocalizationUtil {
-    public static Optional<SteelTalonsVisionMeasurement> findConfidence(Optional<EstimatedRobotPose> estimate, Pose2d refPose) {
+    public static Optional<SteelTalonsVisionMeasurement> findConfidence(Optional<EstimatedRobotPose> estimate, Pose2d refPose, Optional<Pose2d> lastPose) {
         if (estimate.isPresent()) {
             double timestamp = estimate.get().timestampSeconds;
             Pose2d pose = estimate.get().estimatedPose.toPose2d();
             double diffFromRef = pose.getTranslation().minus(refPose.getTranslation()).getNorm();
-            boolean trustable = 
-                Math.abs(MiscUtil.targetingInformation()[0]) < 1.0 && 
-                Math.abs(MiscUtil.targetingInformation()[1]) < 1.0;
-                // Math.abs(MiscUtil.targetingInformation()[2]) < 4.0;
-                // Math.abs(MiscUtil.targetingInformation()[3]) < Math.toRadians(30);
+            double diffFromLast = pose.getTranslation().minus(lastPose.get().getTranslation()).getNorm();
 
-            double stDev = diffFromRef < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP || trustable ? 0.03 : Double.MAX_VALUE;
+            boolean trustableA = 
+                diffFromRef < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP ||
+                MiscUtil.drivetrainSpeedMagnitude() < 2.0;
+
+            boolean trustableB = lastPose.isPresent() ?
+                diffFromLast < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP :
+                diffFromRef < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP;
+
+            boolean trustableC = 
+                pose.getX() < MiscUtil.fieldWidth && 
+                pose.getY() < MiscUtil.fieldHeight;
+
+            double stDev = trustableA && trustableB && trustableC ? 0.03 : Double.MAX_VALUE;
             Matrix<N3, N1> confidence = VecBuilder.fill(stDev, stDev, Double.MAX_VALUE); //FIXME may need to tune
             return Optional.of(new SteelTalonsVisionMeasurement(pose, confidence, timestamp));
         } else {

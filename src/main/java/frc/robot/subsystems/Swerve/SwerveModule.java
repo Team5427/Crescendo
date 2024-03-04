@@ -18,6 +18,7 @@ public class SwerveModule {
     // private SteelTalonsSparkMaxFlywheel driveMotor;
     private SteelTalonsSparkMaxSimpleServo steerMotor;
     private CANcoder canCoder;
+    private double deadZone = 0.0;
     
     public SwerveModule(int talonID, TalonFXConfiguration driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
 
@@ -48,13 +49,17 @@ public class SwerveModule {
         double velocitySetpoint = MiscUtil.DTmetersToRot(newState.speedMetersPerSecond);
         Rotation2d rotSetpoint = newState.angle;
 
-        if (Math.abs(velocitySetpoint) > 0.05) {
+        if (Math.abs(velocitySetpoint) > deadZone) {
             steerMotor.setSetpoint(rotSetpoint.getRadians(), 0);
             driveMotor.setControl(new VelocityVoltage(velocitySetpoint).withEnableFOC(true));
         } else {
             steerMotor.forceStop();
             driveMotor.stopMotor();
         }
+    }
+
+    public void setDeadzone(double deadZone) {
+        this.deadZone = deadZone;
     }
 
     public Rotation2d canCoderRot() {

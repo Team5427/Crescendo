@@ -27,7 +27,7 @@ public class SwerveDrivetrain extends SubsystemBase {
     private List<SwerveModule> modules;
     private ChassisSpeeds setPoint = new ChassisSpeeds(); // X: m/s - Y: m/s - Theta: rad/s
     private ChassisSpeeds adjustment = new ChassisSpeeds();
-    private Optional<Rotation2d> rotLock = Optional.empty();
+    private DriveConfig driveConfig = DrivetrainConstants.DEFAULT_DRIVE_CONFIG;
     private ProfiledPIDController rotController;
 
     public SwerveDrivetrain() {
@@ -87,8 +87,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         gyro.setYaw(rot.getDegrees());
     }
 
-    public void setRotLock(Optional<Rotation2d> rot) {
-        this.rotLock = rot;
+    public void setDriveConfig(DriveConfig driveConfig) {
+        this.driveConfig = driveConfig;
     }
 
     public SwerveDriveWheelPositions getWheelPositions() {
@@ -108,16 +108,24 @@ public class SwerveDrivetrain extends SubsystemBase {
         return this.setPoint;
     }
 
+    public void setDeadzone(double deadzone) {
+        modules.forEach((m) -> {
+            m.setDeadzone(deadzone);
+        });
+    }
+
     public void adjustSpeeds(ChassisSpeeds adjustment) {
         this.adjustment = adjustment;
     }
 
     @Override
     public void periodic() {
+        Optional<Rotation2d> rotLock = driveConfig.getAngleLock();
+        setDeadzone(driveConfig.getDeadZone());
+
         if (DriverStation.isTeleop()) {
 
-            ChassisSpeeds calculatedSetpoint = setPoint;
-
+            ChassisSpeeds calculatedSetpoint = setPoint.times(driveConfig.getSpeedScalar());
             if (rotLock.isPresent()) {
                 calculatedSetpoint = new ChassisSpeeds(
                     calculatedSetpoint.vxMetersPerSecond, 
@@ -183,7 +191,7 @@ public class SwerveDrivetrain extends SubsystemBase {
             cv[i] = cv[i] * trigger;
         }
         
-        return ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation());
+        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation()) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
     }
 
     public void log() {

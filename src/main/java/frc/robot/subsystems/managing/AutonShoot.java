@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.ShootingConfiguration;
-import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.MiscUtil;
 
 public class AutonShoot extends Command {

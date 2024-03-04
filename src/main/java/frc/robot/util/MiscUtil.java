@@ -138,7 +138,7 @@ public class MiscUtil {
         double parallelSpeed = velocityMag * translation.getAngle().minus(velocityRot).getSin();
         double perpSpeed = velocityMag * translation.getAngle().minus(velocityRot).getCos();
 
-        return new double[]{-parallelSpeed, perpSpeed, distance, angError.getRadians()};
+        return new double[]{-parallelSpeed, perpSpeed, distance, angError.getRadians(), translation.getAngle().getRadians()};
     }
 
     public static double DTrotToMeters(double rotations) {
@@ -147,6 +147,12 @@ public class MiscUtil {
 
     public static double DTmetersToRot(double meters) {
         return meters / (Math.PI * DrivetrainConstants.WHEEL_DIAMETER_METERS);
+    }
+
+    public static double drivetrainSpeedMagnitude() {
+        double x = SwerveDrivetrain.getInstance().getVelocityVector().vxMetersPerSecond;
+        double y = SwerveDrivetrain.getInstance().getVelocityVector().vyMetersPerSecond;
+        return Math.hypot(x, y);
     }
 
 }

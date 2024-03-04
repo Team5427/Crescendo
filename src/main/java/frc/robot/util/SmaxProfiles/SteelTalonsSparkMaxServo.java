@@ -85,6 +85,7 @@ public class SteelTalonsSparkMaxServo {
 
     public void setSetpoint(double setPoint, double arbFF) {
         this.setPoint = setPoint;
+        smaxController.reset(getPosition());
         smax.setVoltage(smaxController.calculate(getPosition(), setPoint) + arbFF + config.kFF * setPoint);
     }
 
@@ -93,7 +94,6 @@ public class SteelTalonsSparkMaxServo {
     }
 
     public void forceStop() {
-        smaxController.reset(getPosition());
         smax.setVoltage(0);
     }
 

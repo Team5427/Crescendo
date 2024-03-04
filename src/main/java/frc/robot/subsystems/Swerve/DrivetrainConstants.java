@@ -1,5 +1,7 @@
 package frc.robot.subsystems.Swerve;
 
+import java.util.Optional;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
@@ -13,6 +15,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -36,6 +39,20 @@ public class DrivetrainConstants {
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; // BEING USED IN PATH FINDER
     public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.0;
     public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.75;
+
+    public static final DriveConfig DEFAULT_DRIVE_CONFIG = new DriveConfig(
+        Optional.empty(), 
+        1.0, 
+        0.0, 
+        true
+    );
+
+    public static final DriveConfig AMP_DRIVE_CONFIG = new DriveConfig(
+        Optional.of(new Rotation2d(Math.PI/2)), 
+        0.5, 
+        0.25, 
+        false
+    );
 
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 1.0;
     public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 3;

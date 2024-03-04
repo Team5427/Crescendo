@@ -18,7 +18,7 @@ public class TestShooterRanging extends Command {
     private ProfiledPIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 2.0;
+    private static final double kP = 1.5; //FIXME
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
@@ -51,20 +51,31 @@ public class TestShooterRanging extends Command {
         double perpSpeed = targetingInformation[1];
         double distance = targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
+        Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
 
         Rotation2d adjustmentSetpoint = new Rotation2d();
-        ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
-            new Rotation2d(), 
-            0.0,
-            0.0 
-        );
-
-        // adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
-        // config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
-        //     Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)), 
+        ShootingConfiguration config;
+        // ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
+        //     new Rotation2d(), 
         //     0.0,
         //     0.0 
         // );
+
+        // adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
+        if (distance < 5.0) {
+            config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
+                Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
+                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0))), //3 degrees of offset for 60 degree angle
+                0.0,
+                0.0 
+            );    
+        } else {
+            config = new ShootingConfiguration(
+                ShooterConstants.SHOOTER_PIVOT_STOW, 
+                5500, 
+                5500
+            );
+        }
 
         shooter.setShootingConfigSetpoints(config);
         double angleEffort = tagCam.targetVisible() ? 

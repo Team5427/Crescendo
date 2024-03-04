@@ -29,6 +29,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private static SteelTalonsLocalization instance;
     private AprilTagFieldLayout aprilTagFieldLayout;
     private ArrayList<ApriltagCam> camList;
+    private Optional<Pose2d> lastPose = Optional.empty();
 
     private final String leftCamName = "leftcam";
     private final String rightCamName = "rightcam";
@@ -80,13 +81,16 @@ public class SteelTalonsLocalization extends SubsystemBase {
 
         if (camList != null && !DriverStation.isAutonomous()) {
             for (ApriltagCam cam : camList) {
-                Optional<SteelTalonsVisionMeasurement> estimate = LocalizationUtil.findConfidence(cam.getUpdate(refPose), refPose);
+                Optional<SteelTalonsVisionMeasurement> estimate = LocalizationUtil.findConfidence(cam.getUpdate(refPose), refPose, lastPose);
                 if (estimate.isPresent()) {
                     SteelTalonsVisionMeasurement m = estimate.get();
                     SteelTalonsLogger.post("Vision measurement", String.valueOf(m.getConfidence().get(0, 0)) + " - " + Timer.getFPGATimestamp());
                     poseEstimator.addVisionMeasurement(m.getPose(), m.getTimestamp(), m.getConfidence());
+                    lastPose = Optional.of(m.getPose());
                     field.getObject(cam.getName()).setPose(m.getPose());
-                } 
+                } else {
+                    lastPose = Optional.empty();
+                }
             }
 
         }
