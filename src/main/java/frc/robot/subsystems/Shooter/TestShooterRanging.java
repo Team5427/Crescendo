@@ -32,7 +32,7 @@ public class TestShooterRanging extends Command {
         tagCam = RobotContainer.getTagCam();
         rotPID = new ProfiledPIDController(kP, kI, kD, new Constraints(
             DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
-            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP * 2 
+            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP * 3 
         ));
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
         rotPID.setTolerance(Math.toRadians(1.5));

@@ -64,8 +64,8 @@ public class ShooterConstants {
             0.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-5.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -73,8 +73,8 @@ public class ShooterConstants {
             1.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-10.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -82,8 +82,8 @@ public class ShooterConstants {
             1.5, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-9.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -91,8 +91,8 @@ public class ShooterConstants {
             2.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-15.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -100,8 +100,8 @@ public class ShooterConstants {
             2.5, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-22.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -109,8 +109,8 @@ public class ShooterConstants {
             3.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-25.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -118,8 +118,8 @@ public class ShooterConstants {
             3.5, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-27), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -127,8 +127,8 @@ public class ShooterConstants {
             4.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-30.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -136,8 +136,8 @@ public class ShooterConstants {
             4.5, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-32.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
@@ -145,8 +145,8 @@ public class ShooterConstants {
             5.0, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-33.0), //SHOOTER ROTATION 
-                5500, //LEFT RPM
-                5500 //RIGHT RPM
+                5300, //LEFT RPM
+                5300 //RIGHT RPM
             )
         );
 
