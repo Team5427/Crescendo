@@ -13,13 +13,13 @@ public class IntakeHandoff extends Command {
     @Override
     public void initialize() {
         intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
-        intake.setLimits(50);
+        intake.setLimits(40);
     }
 
     @Override
     public void execute() {
 
-        if (intake.atGoal(2.0) && Shooter.getInstance().pivotAtGoal(1.0)){
+        if (intake.atHandoff() && Shooter.getInstance().atHandoff()){
             intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
         }
 

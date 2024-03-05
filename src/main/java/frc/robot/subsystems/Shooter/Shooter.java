@@ -98,6 +98,10 @@ public class Shooter extends SubsystemBase {
     return Math.abs(pivotMaster.getError()) < Units.degreesToRadians(degTol);
   }
 
+  public boolean atHandoff() {
+    return pivotAtGoal(1.0) && this.pivotSetpoint.equals(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
+  }
+
   public boolean ampAtGoal() {
     return Math.abs(ampMotor.getError()) < ShooterConstants.AMP_TOLERANCE_RAD.getRadians();
   }

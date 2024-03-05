@@ -66,16 +66,11 @@ public class TestShooterRanging extends Command {
         if (distance < 5.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
-                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0))), //3 degrees of offset for 60 degree angle
+                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
                 0.0,
                 0.0 
             );   
             
-            // config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
-            //     new Rotation2d(), 
-            //     0.0,
-            //     0.0 
-            // );
         } else {
             config = new ShootingConfiguration(
                 ShooterConstants.SHOOTER_PIVOT_STOW, 

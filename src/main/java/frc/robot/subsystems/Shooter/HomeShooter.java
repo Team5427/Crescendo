@@ -49,10 +49,10 @@ public class HomeShooter extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        shooter.setHomingPivot(false);
         shooter.getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-        shooter.setHomingPivot(false);
     }
     
 }

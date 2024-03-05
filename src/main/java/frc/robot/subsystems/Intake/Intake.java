@@ -7,6 +7,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -106,6 +107,10 @@ public class Intake extends SubsystemBase {
 
     public boolean atGoal(double degTol) {
         return Math.abs(pivot.getError()) < Units.degreesToRadians(degTol);
+    }
+
+    public boolean atHandoff() {
+        return atGoal(2.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS);
     }
 
     public boolean getHoming() {

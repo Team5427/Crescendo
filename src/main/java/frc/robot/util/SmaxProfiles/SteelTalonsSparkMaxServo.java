@@ -107,7 +107,8 @@ public class SteelTalonsSparkMaxServo {
 
     public void setPosition(double pos) {
         smaxEnc.setPosition(pos);
-        smaxController.reset(getPosition());
+        Timer.delay(0.15);
+        resetController();
     }
 
     public double getVelocity() {

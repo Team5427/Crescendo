@@ -19,7 +19,7 @@ public class HomeIntake extends Command {
 
         timer = new Timer();
         homingTargetDegrees = 1.0;
-        homingSecondsToFinish = 1.0;
+        homingSecondsToFinish = 0.5;
     }
 
     private void timerContinueHoming() {
@@ -47,9 +47,9 @@ public class HomeIntake extends Command {
 
     @Override
     public void end(boolean interrupted) {
+        intake.setHoming(false);
         intake.resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        intake.setHoming(false);
     }
     
 }
