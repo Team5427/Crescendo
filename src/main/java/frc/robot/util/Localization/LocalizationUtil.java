@@ -18,21 +18,21 @@ public class LocalizationUtil {
             double timestamp = estimate.get().timestampSeconds;
             Pose2d pose = estimate.get().estimatedPose.toPose2d();
             double diffFromRef = pose.getTranslation().minus(refPose.getTranslation()).getNorm();
-            double diffFromLast = pose.getTranslation().minus(lastPose.get().getTranslation()).getNorm();
+            // double diffFromLast = pose.getTranslation().minus(lastPose.get().getTranslation()).getNorm();
 
             boolean trustableA = 
                 diffFromRef < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP ||
                 MiscUtil.drivetrainSpeedMagnitude() < 2.0;
 
             boolean trustableB = lastPose.isPresent() ?
-                diffFromLast < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP :
+            pose.getTranslation().minus(lastPose.get().getTranslation()).getNorm() < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP :
                 diffFromRef < DrivetrainConstants.MAX_TRANSLATION_SPEED_M_PER_LOOP;
 
             boolean trustableC = 
                 pose.getX() < MiscUtil.fieldWidth && 
                 pose.getY() < MiscUtil.fieldHeight;
 
-            double stDev = trustableA && trustableB && trustableC ? 0.03 : Double.MAX_VALUE;
+            double stDev = true ? 0.03 : Double.MAX_VALUE;
             Matrix<N3, N1> confidence = VecBuilder.fill(stDev, stDev, Double.MAX_VALUE); //FIXME may need to tune
             return Optional.of(new SteelTalonsVisionMeasurement(pose, confidence, timestamp));
         } else {

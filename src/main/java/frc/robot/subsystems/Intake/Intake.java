@@ -9,6 +9,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.SmaxProfiles.SteelTalonsSparkMaxServo;
 
@@ -31,7 +32,7 @@ public class Intake extends SubsystemBase {
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = 60;
+        config.CurrentLimits.StatorCurrentLimit = 30;
 
         rollerTalon.getConfigurator().apply(config);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
@@ -40,7 +41,7 @@ public class Intake extends SubsystemBase {
         beamBreaker = new DigitalInput(IntakeConstants.BEAM_BREAKER_PORT);
         isHoming = false;
 
-        instance = this;    
+        instance = this; 
     }
 
     public static Intake getInstance() {
@@ -123,6 +124,8 @@ public class Intake extends SubsystemBase {
         } else {
             hardSetPivot(0.05);
         }
+        // CommandXboxController tester = new CommandXboxController(2);
+        // hardSetPivot(tester.getLeftX());
         log();
     }
 
@@ -143,7 +146,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void log() {
-        // SteelTalonsLogger.post("Intake pivot angle", pivot.getPosition());
+        SteelTalonsLogger.post("Intake pivot angle", pivot.getPosition());
         SteelTalonsLogger.post("Intake pivot setpoint", setpoint.getRadians());
         // SteelTalonsLogger.post("Intake pivot error", pivot.getError());
 

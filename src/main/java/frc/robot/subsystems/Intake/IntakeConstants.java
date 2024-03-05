@@ -35,7 +35,8 @@ public class IntakeConstants {
         ROLLER_CONFIG.isRotational = false;
         PIVOT_CONFIG.isRotational = true;
 
-        PIVOT_CONFIG.currentLimit = 45;
+        PIVOT_CONFIG.currentLimit = 55;
+        // ROLLER_CONFIG.currentLimit = 30;
 
         ROLLER_CONFIG.id = ROLLER_MOTOR_ID;
         PIVOT_CONFIG.id = PIVOT_MOTOR_ID;
@@ -47,7 +48,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.maxVel = ROLLER_CONFIG.getStandardMaxVelocity();
         ROLLER_CONFIG.maxAccel = ROLLER_CONFIG.maxVel * 4;
         PIVOT_CONFIG.maxVel = PIVOT_CONFIG.getStandardMaxVelocity() * 0.9;
-        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 3.25;
+        PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 2.75;
 
         ROLLER_CONFIG.inverted = false;
         PIVOT_CONFIG.inverted = true;

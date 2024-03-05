@@ -48,10 +48,10 @@ public class DrivetrainConstants {
     );
 
     public static final DriveConfig AMP_DRIVE_CONFIG = new DriveConfig(
-        Optional.of(new Rotation2d(Math.PI/2)), 
+        Optional.of(new Rotation2d(-Math.PI/2)), 
         0.5, 
         0.25, 
-        false
+        true
     );
 
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 1.0;

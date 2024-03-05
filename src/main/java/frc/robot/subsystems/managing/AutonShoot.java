@@ -35,7 +35,7 @@ public class AutonShoot extends Command {
 
     @Override
     public boolean isFinished() {
-        return !shooter.loaded() && timer.get() > 0.75;
+        return !shooter.loaded() && timer.get() > 1.0;
     }
 
     @Override

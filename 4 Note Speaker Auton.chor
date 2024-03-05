@@ -2715,6 +2715,104 @@
             "defaultControlIntervalCount": 40,
             "usesDefaultFieldObstacles": true,
             "circleObstacles": []
+        },
+        "B-1": {
+            "waypoints": [
+                {
+                    "x": 0.7063456773757935,
+                    "y": 4.378012180328369,
+                    "heading": -1.0516504074783237,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 2.6633033752441406,
+                    "y": 1.2329014539718628,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": false,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 7.817790508270264,
+                    "y": 0.7611348628997803,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 5.030872821807861,
+                    "y": 1.6697224378585815,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": false,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 5.030872821807861,
+                    "y": 1.6697224378585815,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": false,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 2.139118194580078,
+                    "y": 3.521843194961548,
+                    "heading": -0.7621463488180503,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                },
+                {
+                    "x": 7.791581153869629,
+                    "y": 2.141489028930664,
+                    "heading": 0,
+                    "isInitialGuess": false,
+                    "translationConstrained": true,
+                    "headingConstrained": true,
+                    "controlIntervalCount": 40
+                }
+            ],
+            "trajectory": [],
+            "constraints": [
+                {
+                    "scope": [
+                        "first"
+                    ],
+                    "type": "StopPoint"
+                },
+                {
+                    "scope": [
+                        "last"
+                    ],
+                    "type": "StopPoint"
+                },
+                {
+                    "scope": [
+                        2
+                    ],
+                    "type": "StopPoint"
+                },
+                {
+                    "scope": [
+                        5
+                    ],
+                    "type": "StopPoint"
+                }
+            ],
+            "usesControlIntervalGuessing": true,
+            "defaultControlIntervalCount": 40,
+            "usesDefaultFieldObstacles": true,
+            "circleObstacles": []
         }
     },
     "splitTrajectoriesAtStopPoints": true,

@@ -77,6 +77,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void setPivotSetpoint(Rotation2d setpoint) {
+    // pivotMaster.resetController();
     pivotSetpoint = setpoint;
   }
 
@@ -112,7 +113,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     CommandXboxController tester = new CommandXboxController(1);
-    if (MiscUtil.targetingInformation()[2] < 4.0 && loaded() && !tester.getHID().getBButton()) {
+    if (MiscUtil.targetingInformation()[2] < 4.0 && loaded() && !tester.getHID().getBButton() && !tester.getHID().getYButton()) {
       leftFlywheel.setSetpoint(4500, 0.0);
       rightFlywheel.setSetpoint(4500, 0.0);
   
@@ -139,7 +140,7 @@ public class Shooter extends SubsystemBase {
     }
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && !inPosition() && loaded()) {
-      feeder.setSetpoint(0.15, 0.0);
+      feeder.setSetpoint(0.0, 0.0);
     } else {
       feeder.setSetpoint(this.feederSetpoint, 0.0);
     }
@@ -196,7 +197,7 @@ public class Shooter extends SubsystemBase {
     SteelTalonsLogger.post("Shooter Right Speed", rightFlywheel.getVelocity());
     // SteelTalonsLogger.post("Feeder Speed", feeder.getVelocity());
     SteelTalonsLogger.post("Pivot Position", pivotMaster.getPosition());
-    // SteelTalonsLogger.post("Pivot Error", pivotMaster.getError());
+    SteelTalonsLogger.post("Pivot setpiint shooter", pivotMaster.getSetPoint());
     // SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
     SteelTalonsLogger.post("FLYWHEEL RAMPED", flywheelAtGoal());
     SteelTalonsLogger.post("Shooter Loaded", loaded());

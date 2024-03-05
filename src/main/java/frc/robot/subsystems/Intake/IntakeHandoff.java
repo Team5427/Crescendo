@@ -13,7 +13,7 @@ public class IntakeHandoff extends Command {
     @Override
     public void initialize() {
         intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
-        intake.setLimits(60);
+        intake.setLimits(50);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class IntakeHandoff extends Command {
     public void end(boolean interrupted) {
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        intake.setLimits(60);
+        intake.setLimits(30);
     }
 
 

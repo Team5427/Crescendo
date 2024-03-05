@@ -10,6 +10,7 @@ import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.MiscUtil;
+import frc.robot.util.SteelTalonsLogger;
 
 public class TestShooterRanging extends Command {
 
@@ -68,7 +69,13 @@ public class TestShooterRanging extends Command {
                 plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0))), //3 degrees of offset for 60 degree angle
                 0.0,
                 0.0 
-            );    
+            );   
+            
+            // config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
+            //     new Rotation2d(), 
+            //     0.0,
+            //     0.0 
+            // );
         } else {
             config = new ShootingConfiguration(
                 ShooterConstants.SHOOTER_PIVOT_STOW, 
@@ -77,7 +84,11 @@ public class TestShooterRanging extends Command {
             );
         }
 
+        SteelTalonsLogger.post("angle offset anglesss",(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0)).getDegrees()));
+        SteelTalonsLogger.post("movement angle offset",Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).getDegrees());
+
         shooter.setShootingConfigSetpoints(config);
+        // shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
         double angleEffort = tagCam.targetVisible() ? 
             rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
             -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
