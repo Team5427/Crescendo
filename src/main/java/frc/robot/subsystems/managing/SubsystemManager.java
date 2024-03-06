@@ -52,12 +52,6 @@ public class SubsystemManager {
         );
     }
 
-    public static Command autonStaticShootCommand() {
-        return new ParallelDeadlineGroup(
-                new FeedShooter(0, new Rotation2d(), false),
-                new TestShooterRanging());
-    }
-
     public static Command homeAll() {
         return new ParallelCommandGroup(
             new HomeIntake(),

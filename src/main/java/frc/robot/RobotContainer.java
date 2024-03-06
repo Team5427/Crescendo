@@ -10,16 +10,11 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Shooter.BumpFeeder;
 import frc.robot.subsystems.Shooter.Shooter;
-import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.subsystems.managing.AutonShoot;
@@ -63,20 +58,8 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("Use Intake", Intake.getInstance().getIntakeCommand());
-    NamedCommands.registerCommand("Eject Note", Intake.getInstance().getIntakeEjaculation());
-    NamedCommands.registerCommand("Feed Note", new ParallelDeadlineGroup(
-        new SequentialCommandGroup(
-            Shooter.getInstance().getShooterHandoff(),
-            new BumpFeeder(),
-            new InstantCommand(() -> {
-              Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
-                  ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-            })),
-        Intake.getInstance().getIntakeHandoff()));
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
     NamedCommands.registerCommand("Auton Shoot", new AutonShoot());
-    // NamedCommands.registerCommand("Pathfinding", SubsystemManager.pathFind());
   }
 
   public static ObjectDetector getNoteCam() {
