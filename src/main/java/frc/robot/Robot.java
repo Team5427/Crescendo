@@ -4,25 +4,43 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Intake.IntakeConstants;
+import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.util.LEDManager;
+import frc.robot.util.SteelTalonsLogger;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private DigitalInput zeroButton;
+
 
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
+    zeroButton = new DigitalInput(4);
+
   }
 
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     // LEDManager.updateManager();
+
+    if (!zeroButton.get()) {
+      Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
+      Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
+
+    }
+
+    // SteelTalonsLogger.post("zero butto", zeroButton.get());
   }
 
   @Override

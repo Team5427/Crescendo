@@ -3,6 +3,7 @@ package frc.robot.subsystems.Intake;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.util.SteelTalonsLogger;
 
 public class HomeIntake extends Command {
 
@@ -37,6 +38,7 @@ public class HomeIntake extends Command {
     public void execute() {
         if (Math.abs(intake.getPivot().getVelocity()) > Units.degreesToRadians(homingTargetDegrees)) {
             timerContinueHoming();
+            SteelTalonsLogger.post("intake homing", true);
         }
     }
 
@@ -50,6 +52,7 @@ public class HomeIntake extends Command {
         intake.setHoming(false);
         intake.resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
+        SteelTalonsLogger.post("intake homing", false);
     }
     
 }

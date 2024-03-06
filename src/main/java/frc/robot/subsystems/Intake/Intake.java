@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
     private DigitalInput beamBreaker;
 
     private double rollerSetpoint = IntakeConstants.INTAKE_SPEED_HOLD;
-    private Rotation2d setpoint = new Rotation2d();
+    private Rotation2d setpoint = IntakeConstants.STOWED_POS;
 
     private static Intake instance;
 
@@ -33,12 +33,14 @@ public class Intake extends SubsystemBase {
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = 30;
+        config.CurrentLimits.StatorCurrentLimit = 50;
 
         rollerTalon.getConfigurator().apply(config);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
         pivot.disableContinuousInput();
         resetPivotEncoder(IntakeConstants.HARDSTOP_POS);
+        // pivot.resetController();
+        // setPivotSetpoint(IntakeConstants.STOWED_POS);
         beamBreaker = new DigitalInput(IntakeConstants.BEAM_BREAKER_PORT);
         isHoming = false;
 
@@ -55,7 +57,8 @@ public class Intake extends SubsystemBase {
         // } else {
         //     pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel); 
         // }
-        pivot.resetController();
+        // pivot.resetController();
+        // Timer.delay(0.15);
         this.setpoint = setpoint;
     }
 
@@ -128,6 +131,7 @@ public class Intake extends SubsystemBase {
             hardSetRoller(rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S); //rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S
         } else {
             hardSetPivot(0.05);
+            hardSetRoller(0.0);
         }
         // CommandXboxController tester = new CommandXboxController(2);
         // hardSetPivot(tester.getLeftX());
@@ -164,6 +168,8 @@ public class Intake extends SubsystemBase {
         SteelTalonsLogger.post("Intake Loaded", sensorCovered());
         SteelTalonsLogger.post("intake at goal 5", atGoal(5));
         SteelTalonsLogger.post("intake setpoint roller", rollerSetpoint);
+
+        pivot.log();
     }
 
 }

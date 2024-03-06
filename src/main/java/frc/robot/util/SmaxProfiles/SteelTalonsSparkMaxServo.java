@@ -72,12 +72,12 @@ public class SteelTalonsSparkMaxServo {
 
     public void setRaw(double percent) {
         smaxController.reset(getPosition());
-        smax.set(percent);
+        smax.setVoltage(percent * 12);
     }
 
-    public void setAccel(double accel) {
-        smaxController.setConstraints(new Constraints(config.maxVel, accel));
-    }
+    // public void setAccel(double accel) {
+    //     smaxController.setConstraints(new Constraints(config.maxVel, accel));
+    // }
 
     public CANSparkMax getSmax() {
         return smax;
@@ -107,8 +107,6 @@ public class SteelTalonsSparkMaxServo {
 
     public void setPosition(double pos) {
         smaxEnc.setPosition(pos);
-        Timer.delay(0.15);
-        resetController();
     }
 
     public double getVelocity() {
@@ -138,8 +136,9 @@ public class SteelTalonsSparkMaxServo {
         SteelTalonsLogger.post(name + ": Temp (C)", smax.getMotorTemperature());
         SteelTalonsLogger.post(name + ": Is Braked? (Bool)", smax.getIdleMode().equals(IdleMode.kBrake));
         SteelTalonsLogger.post(name + ": Position (rad or Meters)", getPosition());
-        SteelTalonsLogger.post(name + ": Velocity (rad/s or Meters/s)", getVelocity());
-        SteelTalonsLogger.post(name + ": Setpoint (rad or Meters)", getSetPoint());
+        SteelTalonsLogger.post(name + ": Velocity (rads or Meters_s)", getVelocity());
+        SteelTalonsLogger.post(name + ": Goal (rad or Meters)", smaxController.getGoal().position);
+        SteelTalonsLogger.post(name + ": Setpoint (rad or Meters)", smaxController.getSetpoint().position);
         SteelTalonsLogger.post(name + ": Error (rad or Meters)", getError());
     }
 }

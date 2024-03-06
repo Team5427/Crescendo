@@ -1,5 +1,6 @@
 package frc.robot.io;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
@@ -34,6 +35,9 @@ public class OperatingControls {
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
         operatingController.povDown().onTrue(new FeedShooterClean());
+        operatingController.povLeft().onTrue(new InstantCommand(() -> {
+                Intake.getInstance().getPivot().resetController();
+        }));
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
         operatingController.y().whileTrue(new ScoreAmp());

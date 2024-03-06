@@ -121,9 +121,9 @@ public class SwerveDrivetrain extends SubsystemBase {
     @Override
     public void periodic() {
         Optional<Rotation2d> rotLock = driveConfig.getAngleLock();
-        setDeadzone(driveConfig.getDeadZone());
 
         if (DriverStation.isTeleop()) {
+            setDeadzone(driveConfig.getDeadZone());
 
             ChassisSpeeds calculatedSetpoint = setPoint.times(driveConfig.getSpeedScalar());
             if (rotLock.isPresent()) {
@@ -142,6 +142,8 @@ public class SwerveDrivetrain extends SubsystemBase {
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).setModuleState(states[i]);
             }
+        } else {
+            this.setDeadzone(0.25);
         }
 
         if (DriverStation.isDisabled()) {
