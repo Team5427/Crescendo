@@ -26,7 +26,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_robotContainer = new RobotContainer();
     zeroButton = new DigitalInput(4);
-
   }
 
   @Override

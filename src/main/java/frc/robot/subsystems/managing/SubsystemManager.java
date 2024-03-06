@@ -31,7 +31,7 @@ public class SubsystemManager {
     //             new ParallelCommandGroup(
     //                 Shooter.getInstance().getShooterHandoff().asProxy(),
     //                 Intake.getInstance().getIntakeHandoff()
-    //             ),
+    //             ).onlyIf(Intake.getInstance()::sensorCovered),
     //             new InstantCommand(() -> {
     //                 Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
     //                         ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
@@ -58,5 +58,13 @@ public class SubsystemManager {
             new HomeShooter(),
             new HomeAmp()
         );
-    }    
+    }   
+    
+    public static Command zeroAll() {
+        return new InstantCommand(() -> {
+            Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
+            Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
+            Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+        });
+    }
 }

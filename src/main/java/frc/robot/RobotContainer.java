@@ -7,10 +7,12 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Intake.Intake;
@@ -30,6 +32,9 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser;
   private Shooter shooter;
 
+  private DigitalInput input;
+  private Trigger zeroButton;
+
   private static ObjectDetector noteCam;
   private static ObjectDetector tagCam;
 
@@ -43,6 +48,10 @@ public class RobotContainer {
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
     tagCam = new ObjectDetector("limelight-front");
+
+    input = new DigitalInput(4);
+    zeroButton = new Trigger(input::get);
+    zeroButton.onTrue(SubsystemManager.zeroAll());
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 

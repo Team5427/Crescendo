@@ -21,12 +21,14 @@ public class AutonShoot extends Command {
     public void initialize() {
         timer.reset();
         timer.start();
+
     }
 
     @Override
     public void execute() {
-        ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(MiscUtil.targetingInformation()[2]);
-        shooter.setShootingConfigSetpoints(config);
+        // ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(MiscUtil.targetingInformation()[2]);
+
+        shooter.setShootingConfigSetpoints(ShooterConstants.TESTING_CONFIGURATION); //ONLY FOR TESTING RN
 
         if (timer.get() > 0.5 && shooter.flywheelAtGoal()) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);

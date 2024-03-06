@@ -52,6 +52,8 @@ public class ShooterConstants {
     public static final double FEEDER_FEED_SPEED = 2.5;
     public static final double FEEDER_INTAKE_SPEED = 1.0;
 
+    public static final ShootingConfiguration TESTING_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_ACTIVE, 5000, 5000);
+
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
         MiscUtil.getInversePoseInterpolator(), 
         MiscUtil.getShooterInterpolator()

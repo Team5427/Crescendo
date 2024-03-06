@@ -38,7 +38,7 @@ public class IntakeHandoff extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        System.err.println("RUNNIG INTAKE HANDOFF END");
+        System.err.println("RUNNIG INTAKE HANDOFF END interrupted: " + interrupted);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setLimits(50);

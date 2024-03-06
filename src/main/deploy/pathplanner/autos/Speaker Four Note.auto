@@ -28,22 +28,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "A-1.1"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Print"
-                      }
-                    }
-                  ]
+                  "pathName": "A-1.1"
                 }
               }
             ]
