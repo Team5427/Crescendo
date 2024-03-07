@@ -169,7 +169,7 @@ public class Intake extends SubsystemBase {
         SteelTalonsLogger.post("intake at goal 5", atGoal(5));
         SteelTalonsLogger.post("intake setpoint roller", rollerSetpoint);
 
-        pivot.log();
+        // pivot.log();
     }
 
 }

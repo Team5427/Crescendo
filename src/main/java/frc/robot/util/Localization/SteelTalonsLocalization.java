@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.MiscUtil;
@@ -99,6 +100,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         SteelTalonsLogger.post("targeting information perp", MiscUtil.targetingInformation()[1]);
         SteelTalonsLogger.post("targeting information distance", MiscUtil.targetingInformation()[2]);
         SteelTalonsLogger.post("targeting information angError", MiscUtil.targetingInformation()[3]);
+        SteelTalonsLogger.post("camera based targeting distance", RobotContainer.getTagCam().speakerDist());
     }
 
     public Pose2d getPose() {

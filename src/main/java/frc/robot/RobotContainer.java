@@ -32,7 +32,7 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser;
   private Shooter shooter;
 
-  private DigitalInput input;
+  private static DigitalInput input;
   private Trigger zeroButton;
 
   private static ObjectDetector noteCam;
@@ -50,8 +50,6 @@ public class RobotContainer {
     tagCam = new ObjectDetector("limelight-front");
 
     input = new DigitalInput(4);
-    zeroButton = new Trigger(input::get);
-    zeroButton.onTrue(SubsystemManager.zeroAll());
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
@@ -77,6 +75,10 @@ public class RobotContainer {
 
   public static ObjectDetector getTagCam() {
     return tagCam;
+  }
+
+  public static DigitalInput getLimitSwitch() {
+    return input;
   }
 
   public Command getAutonomousCommand() {

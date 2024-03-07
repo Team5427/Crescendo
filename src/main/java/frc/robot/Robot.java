@@ -12,6 +12,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeConstants;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
+import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.util.LEDManager;
 import frc.robot.util.SteelTalonsLogger;
 
@@ -25,7 +26,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     m_robotContainer = new RobotContainer();
-    zeroButton = new DigitalInput(4);
   }
 
   @Override
@@ -33,13 +33,13 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     // LEDManager.updateManager();
 
-    if (!zeroButton.get()) {
+    SteelTalonsLogger.post("zero butto", RobotContainer.getLimitSwitch().get());
+    if (!RobotContainer.getLimitSwitch().get()) {
+      System.err.println("YIPPEE HOMED EVERYTHING");
       Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
       Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
-
+      Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
     }
-
-    // SteelTalonsLogger.post("zero butto", zeroButton.get());
   }
 
   @Override

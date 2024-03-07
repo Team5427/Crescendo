@@ -8,7 +8,7 @@ public class ShooterHandoff extends Command {
 
     public ShooterHandoff() {
         shooter = Shooter.getInstance();
-        addRequirements(shooter);
+        // addRequirements(shooter);
     }
 
     @Override

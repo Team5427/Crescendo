@@ -22,35 +22,35 @@ import frc.robot.subsystems.Shooter.TestShooterRanging;
 
 public class SubsystemManager {
 
-    // public static Command getComplexIntakeCommand() {
-    //     return new SequentialCommandGroup(
-    //             new ConditionalCommand(
-    //                 Intake.getInstance().getIntakeCommand(), 
-    //                 Intake.getInstance().getIntakeCommand(), 
-    //                 DriverStation::isAutonomous),
-    //             new ParallelCommandGroup(
-    //                 Shooter.getInstance().getShooterHandoff().asProxy(),
-    //                 Intake.getInstance().getIntakeHandoff()
-    //             ).onlyIf(Intake.getInstance()::sensorCovered),
-    //             new InstantCommand(() -> {
-    //                 Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
-    //                         ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-    //                 Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-    //             }));
-    // }
-
     public static Command getComplexIntakeCommand() {
         return new SequentialCommandGroup(
-            new ConditionalCommand(
-                Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
-                Intake.getInstance().getIntakeCommand(), 
-                DriverStation::isAutonomous),
-            new ParallelCommandGroup(
-                Shooter.getInstance().getShooterHandoff().asProxy(),
-                Intake.getInstance().getIntakeHandoff()
-            )
-        );
+                new ConditionalCommand(
+                    Intake.getInstance().getIntakeCommand(), 
+                    Intake.getInstance().getIntakeCommand(), 
+                    DriverStation::isAutonomous),
+                new ParallelCommandGroup(
+                    Shooter.getInstance().getShooterHandoff(),
+                    Intake.getInstance().getIntakeHandoff().withTimeout(2.0)
+                ).onlyIf(Intake.getInstance()::sensorCovered),
+                new InstantCommand(() -> {
+                    Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
+                            ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+                    Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+                }));
     }
+
+    // public static Command getComplexIntakeCommand() {
+    //     return new SequentialCommandGroup(
+    //         new ConditionalCommand(
+    //             Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
+    //             Intake.getInstance().getIntakeCommand(), 
+    //             DriverStation::isAutonomous),
+    //         new ParallelCommandGroup(
+    //             Shooter.getInstance().getShooterHandoff(),
+    //             Intake.getInstance().getIntakeHandoff().withTimeout(2.0)
+    //         )
+    //     );
+    // }
 
     public static Command homeAll() {
         return new ParallelCommandGroup(
@@ -62,6 +62,7 @@ public class SubsystemManager {
     
     public static Command zeroAll() {
         return new InstantCommand(() -> {
+            System.err.println("YIPPEE HOMED EVERYTHING");
             Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
             Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
             Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());

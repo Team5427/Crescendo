@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Vision;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -12,6 +13,12 @@ public class ObjectDetector extends SubsystemBase {
 
     private static final double inRangeConst = 7.0;
     private static final double xProportional = -0.025; // 0.1
+
+    private static final double TAG_CAM_HEIGHT_M = 0.15978;
+    private static final Rotation2d TAG_CAM_ANGLE = Rotation2d.fromDegrees(35);
+    private static final double TAG_CAM_DIST_TO_CENTER_M = 0.30073;
+
+    private static final double TAG_HEIGHT = 1.45098;
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
@@ -61,6 +68,15 @@ public class ObjectDetector extends SubsystemBase {
             return (targetInfo()[0] - offsetDeg) * xProportional;
         } else {
             return 0.0;
+        }
+    }
+
+    public double speakerDist() {
+        if (targetVisible()) {
+            double dH = TAG_HEIGHT - TAG_CAM_HEIGHT_M;
+            return (dH / Math.tan(Math.toRadians(targetInfo()[1]) + TAG_CAM_ANGLE.getRadians())) + TAG_CAM_DIST_TO_CENTER_M;
+        } else {
+            return Double.NaN;
         }
     }
 }
