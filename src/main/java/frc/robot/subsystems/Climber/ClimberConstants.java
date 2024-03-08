@@ -21,10 +21,10 @@ public class ClimberConstants {
 
     public static final double CLIMB_TOLERANCE = Units.inchesToMeters(1.0);
 
-    public static void configureClimber(TalonFX motor) {
+    public static void configureClimber(TalonFX motor, boolean inversion) {
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = 40.0;
+        config.CurrentLimits.StatorCurrentLimit = 35.0;
 
         Slot0Configs pidConfigs = new Slot0Configs();
         pidConfigs.kP = 0.0;
@@ -39,7 +39,7 @@ public class ClimberConstants {
         motor.getConfigurator().apply(feedbackConfigs);
 
         motor.setNeutralMode(NeutralModeValue.Brake);
-        motor.setInverted(false);
+        motor.setInverted(inversion);
     }
 
     public static double getClimberRotationsToMeters(double rotations) {

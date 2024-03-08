@@ -4,8 +4,8 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.MiscUtil;
@@ -125,9 +125,9 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     CommandXboxController tester = new CommandXboxController(1);
-    if (MiscUtil.targetingInformation()[2] < 4.0 && loaded() && !tester.getHID().getBButton() && !tester.getHID().getYButton()) {
-      leftFlywheel.setSetpoint(4500, 0.0);
-      rightFlywheel.setSetpoint(4500, 0.0);
+    if (MiscUtil.targetingInformation()[2] < 4.0 && loaded() && !tester.getHID().getBButton() && !tester.getHID().getYButton() && DriverStation.isTeleop()) {
+      leftFlywheel.setSetpoint(ShooterConstants.FLYWHEEL_REV_SPEED_RPM, 0.0);
+      rightFlywheel.setSetpoint(ShooterConstants.FLYWHEEL_REV_SPEED_RPM, 0.0);
   
     } else {
       leftFlywheel.setSetpoint(this.leftShooterSetpoint, 0.0);

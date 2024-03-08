@@ -6,7 +6,6 @@ import frc.robot.RobotContainer;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.ShootingConfiguration;
-import frc.robot.util.MiscUtil;
 
 public class AutonShoot extends Command {
     private Shooter shooter;
@@ -31,14 +30,14 @@ public class AutonShoot extends Command {
 
         shooter.setShootingConfigSetpoints(config); //ONLY FOR TESTING RN
 
-        if (timer.get() > 0.5 && shooter.flywheelAtGoal() && shooter.pivotAtGoal(1.0)) {
+        if (timer.get() > 0.25 && shooter.flywheelAtGoal() && shooter.pivotAtGoal(1.0)) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
         }
     }
 
     @Override
     public boolean isFinished() {
-        return !shooter.loaded() && timer.get() > 1.0;
+        return !shooter.loaded() && timer.get() > 0.5;
     }
 
     @Override

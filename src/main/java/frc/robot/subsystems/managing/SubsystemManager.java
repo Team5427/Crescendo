@@ -1,25 +1,22 @@
 package frc.robot.subsystems.managing;
 
-import java.sql.Driver;
 import java.util.function.BooleanSupplier;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.Intake.Backshot;
 import frc.robot.subsystems.Intake.HomeIntake;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Intake.IntakeCommand;
 import frc.robot.subsystems.Intake.IntakeConstants;
-import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
-import frc.robot.subsystems.Shooter.TestShooterRanging;
 
 public class SubsystemManager {
 
@@ -35,7 +32,7 @@ public class SubsystemManager {
                 ).onlyIf(Intake.getInstance()::sensorCovered),
                 new ConditionalCommand(
                     new InstantCommand(() -> {
-                        Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+                        Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM, ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM);
                         Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
                     }), 
                     new InstantCommand(() -> {
@@ -83,5 +80,12 @@ public class SubsystemManager {
             Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
             Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
         });
+    }
+
+    public static Command cumAndGo() {
+        return new SequentialCommandGroup(
+            new IntakeCommand().withTimeout(3.0),
+            new Backshot().onlyIf(Intake.getInstance()::sensorCovered)
+        );
     }
 }

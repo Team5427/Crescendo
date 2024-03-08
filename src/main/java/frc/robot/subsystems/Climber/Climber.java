@@ -1,8 +1,8 @@
 package frc.robot.subsystems.Climber;
 
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -14,6 +14,8 @@ public class Climber extends SubsystemBase {
 
     private double setpoint;
 
+    private CommandXboxController commandController;
+
     private static Climber instance;
 
     public Climber() {
@@ -21,10 +23,11 @@ public class Climber extends SubsystemBase {
         rightClimber = new TalonFX(ClimberConstants.RIGHT_CLIMBER_ID);
         leftClimber = new TalonFX(ClimberConstants.LEFT_CLIMBER_ID);
 
-        ClimberConstants.configureClimber(rightClimber);
-        ClimberConstants.configureClimber(leftClimber);
+        ClimberConstants.configureClimber(rightClimber, false);
+        ClimberConstants.configureClimber(leftClimber, false);
 
         setpoint = ClimberConstants.STOW_POSITION;
+        commandController = new CommandXboxController(1);
 
         instance = this;
     }
@@ -45,21 +48,31 @@ public class Climber extends SubsystemBase {
         return ClimberConstants.getClimberRotationsToMeters(leftClimber.getPosition().getValueAsDouble());
     }
 
+    public void setRaw(double left, double right) {
+        leftClimber.set(left);
+        rightClimber.set(right);
+    };
+
+    public void stopBoth() {
+        leftClimber.stopMotor();
+        leftClimber.stopMotor();
+    }
+
     @Override
     public void periodic() {
-
-        CommandXboxController test = new CommandXboxController(2);
-
-        double heightChange = test.getHID().getRightTriggerAxis() - test.getHID().getLeftTriggerAxis();
-        setpoint += (heightChange > 0.1) ? heightChange: 0;
-
-        PositionVoltage position = new PositionVoltage(setpoint);
-        leftClimber.setControl(position);
-        rightClimber.setControl(position);
+        double left = -commandController.getLeftY();
+        double right = -commandController.getRightY();
+        if (
+            DriverStation.isTeleopEnabled() && 
+            (Math.abs(left) > 0.5 || 
+            Math.abs(right) > 0.5)) {
+            
+            setRaw(left * 0.8, right * 0.8);
+        }
     }
 
     public Command getClimbCommand() {
         return new ChainClimb();
     }
-    
+
 }
