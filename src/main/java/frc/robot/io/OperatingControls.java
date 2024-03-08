@@ -2,6 +2,7 @@ package frc.robot.io;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.FeedShooter;
@@ -12,6 +13,8 @@ import frc.robot.subsystems.Shooter.TestShooterRanging;
 import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.subsystems.managing.Unstuck;
+import frc.robot.util.LEDManager;
+import frc.robot.util.LEDManager.LEDState;
 
 public class OperatingControls {
 
@@ -41,6 +44,14 @@ public class OperatingControls {
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
         operatingController.y().whileTrue(new ScoreAmp());
-        
+
+        operatingController.leftStick().whileTrue(new InstantCommand(() -> {
+                LEDManager.getInstance().setState(LEDState.kAmpSignal);
+        }).finallyDo(LEDManager.getInstance()::resetStates));
+
+        operatingController.rightStick().whileTrue(new InstantCommand(() -> {
+                LEDManager.getInstance().setState(LEDState.kCoopSignal);
+        }).finallyDo(LEDManager.getInstance()::resetStates));
+
     }
 }

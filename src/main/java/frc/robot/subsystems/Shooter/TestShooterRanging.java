@@ -6,11 +6,14 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
+import frc.robot.util.LEDManager;
 import frc.robot.util.MiscUtil;
 import frc.robot.util.SteelTalonsLogger;
+import frc.robot.util.LEDManager.LEDState;
 
 public class TestShooterRanging extends Command {
 
@@ -43,6 +46,8 @@ public class TestShooterRanging extends Command {
     @Override
     public void initialize() {
         rotPID.reset(drivetrain.getRotation().getRadians());
+
+        LEDManager.getInstance().setState(LEDState.kTargeting);
     }
 
     @Override
@@ -110,6 +115,8 @@ public class TestShooterRanging extends Command {
         drivetrain.adjustSpeeds(new ChassisSpeeds());
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+
+        LEDManager.getInstance().resetStates();
     }
 
     public Rotation2d rotationalOTF(double parallelSpeed, double distance) {

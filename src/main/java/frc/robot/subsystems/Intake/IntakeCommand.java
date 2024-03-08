@@ -4,6 +4,8 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.util.LEDManager;
+import frc.robot.util.LEDManager.LEDState;
 
 public class IntakeCommand extends Command {
 
@@ -19,6 +21,7 @@ public class IntakeCommand extends Command {
     public void initialize() {
         intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING);
+        LEDManager.getInstance().setState(LEDState.kIntaking);
 
     }
 
@@ -43,6 +46,8 @@ public class IntakeCommand extends Command {
         // SwerveDrivetrain.getInstance().adjustSpeeds(new ChassisSpeeds());
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
+
+        LEDManager.getInstance().setState(intake.sensorCovered() ? LEDState.kIntakeFull : LEDState.kEmpty);
     }
 
 }

@@ -15,6 +15,7 @@ import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.util.LEDManager;
 import frc.robot.util.SteelTalonsLogger;
+import frc.robot.util.LEDManager.LEDState;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -35,7 +36,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    LEDManager.getInstance().setState(LEDState.kDisabled);
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -48,7 +51,9 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void disabledExit() {}
+  public void disabledExit() {
+    LEDManager.getInstance().resetStates();
+  }
 
   @Override
   public void autonomousInit() {

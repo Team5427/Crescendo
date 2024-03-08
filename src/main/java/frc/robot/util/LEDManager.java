@@ -6,11 +6,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.managing.SubsystemManager;
 
 public class LEDManager extends SubsystemBase {
 
-    public static enum LED_State {
+    public static enum LEDState {
         kDisabled, //static red
         kEmpty, //static white
         kIntaking, //flashing orange - 10 Hz
@@ -34,7 +36,7 @@ public class LEDManager extends SubsystemBase {
     private AddressableLEDBuffer ledBuffer;
     private int ledCount;
 
-    private LED_State ledState;
+    private LEDState ledState;
 
     private int tick;
 
@@ -47,7 +49,7 @@ public class LEDManager extends SubsystemBase {
         led.start();
         tick = 0;
 
-        ledState = LED_State.kDisabled;
+        ledState = LEDState.kDisabled;
 
         instance = this;
     }
@@ -56,11 +58,11 @@ public class LEDManager extends SubsystemBase {
         return instance;
     }
 
-    public void setState(LED_State state) {
+    public void setState(LEDState state) {
         ledState = state;
     }
 
-    public LED_State getState() {
+    public LEDState getState() {
         return ledState;
     }
 
@@ -71,7 +73,7 @@ public class LEDManager extends SubsystemBase {
     }
 
     public void updateManager() {
-        // tick = ledState != LED_State.kPickedUp ? 0: tick;
+        // tick = ledState != LEDState.kPickedUp ? 0: tick;
         switch (ledState) {
 
         }
@@ -82,6 +84,16 @@ public class LEDManager extends SubsystemBase {
     @Override
     public void periodic() {
         //do all the update manager stuff here
+    }
+
+    public void resetStates() {
+        if (Shooter.getInstance().loaded()) {
+            setState(LEDState.kShooterLoaded);
+        } else if (Intake.getInstance().sensorCovered()) {
+            setState(LEDState.kIntakeFull);
+        } else {
+            setState(LEDState.kEmpty);
+        }
     }
     
 }
