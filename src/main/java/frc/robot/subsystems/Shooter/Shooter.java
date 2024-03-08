@@ -102,6 +102,14 @@ public class Shooter extends SubsystemBase {
     return pivotAtGoal(1.0) && this.pivotSetpoint.equals(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
   }
 
+  public boolean atStow() {
+    return pivotAtGoal(1.0) && this.pivotSetpoint.equals(ShooterConstants.SHOOTER_PIVOT_STOW);
+  }
+
+  public boolean notAtStow() {
+    return !atStow();
+  }
+
   public boolean ampAtGoal() {
     return Math.abs(ampMotor.getError()) < ShooterConstants.AMP_TOLERANCE_RAD.getRadians();
   }

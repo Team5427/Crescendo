@@ -50,7 +50,8 @@ public class TestShooterRanging extends Command {
         double[] targetingInformation = MiscUtil.targetingInformation();
         double parallelSpeed = targetingInformation[0];
         double perpSpeed = targetingInformation[1];
-        double distance = targetingInformation[2];
+        // double distance = targetingInformation[2];
+        double distance = RobotContainer.getTagCam().speakerDist();
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
         Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
 
@@ -63,7 +64,7 @@ public class TestShooterRanging extends Command {
         // );
 
         // adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
-        if (distance < 5.0) {
+        if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
                 plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle

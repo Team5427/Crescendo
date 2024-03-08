@@ -32,21 +32,20 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
     // LEDManager.updateManager();
-
-    SteelTalonsLogger.post("zero butto", RobotContainer.getLimitSwitch().get());
-    if (!RobotContainer.getLimitSwitch().get()) {
-      System.err.println("YIPPEE HOMED EVERYTHING");
-      Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
-      Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
-      Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
-    }
   }
 
   @Override
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+    SteelTalonsLogger.post("zero butto", RobotContainer.getLimitSwitch().get());
+    if (!RobotContainer.getLimitSwitch().get()) {
+      Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
+      Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
+      Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+    }
+  }
 
   @Override
   public void disabledExit() {}

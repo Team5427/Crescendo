@@ -74,7 +74,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             1.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-8.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-5.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -83,62 +83,53 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             1.5, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-9.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-6.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
-            2.0, //DISTANCE METERS
+            2.1, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-15.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-13.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
-            2.5, //DISTANCE METERS
+            2.76, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-24.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-20.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
-            3.0, //DISTANCE METERS
+            3.395, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-27.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-23.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
-            3.5, //DISTANCE METERS
+            4.07, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-27), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-25.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );
 
         SHOOTER_PIVOT_TARGET_MAP.put(
-            4.0, //DISTANCE METERS
+            4.66, //DISTANCE METERS
             new ShootingConfiguration(
                 Rotation2d.fromDegrees(-30.0), //SHOOTER ROTATION 
-                5300, //LEFT RPM
-                5300 //RIGHT RPM
-            )
-        );
-
-        SHOOTER_PIVOT_TARGET_MAP.put(
-            4.5, //DISTANCE METERS
-            new ShootingConfiguration(
-                Rotation2d.fromDegrees(-32.0), //SHOOTER ROTATION 
-                5300, //LEFT RPM
+                5100, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );
@@ -146,8 +137,17 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             5.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-33.0), //SHOOTER ROTATION 
-                5300, //LEFT RPM
+                Rotation2d.fromDegrees(-32.0), //SHOOTER ROTATION 
+                5100, //LEFT RPM
+                5300 //RIGHT RPM
+            )
+        );
+
+        SHOOTER_PIVOT_TARGET_MAP.put(
+            5.5, //DISTANCE METERS
+            new ShootingConfiguration(
+                Rotation2d.fromDegrees(-34.0), //SHOOTER ROTATION 
+                5100, //LEFT RPM
                 5300 //RIGHT RPM
             )
         );

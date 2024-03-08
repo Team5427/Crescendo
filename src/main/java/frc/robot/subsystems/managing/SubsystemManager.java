@@ -1,6 +1,7 @@
 package frc.robot.subsystems.managing;
 
 import java.sql.Driver;
+import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,18 +26,33 @@ public class SubsystemManager {
     public static Command getComplexIntakeCommand() {
         return new SequentialCommandGroup(
                 new ConditionalCommand(
-                    Intake.getInstance().getIntakeCommand(), 
+                    Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
                     Intake.getInstance().getIntakeCommand(), 
                     DriverStation::isAutonomous),
                 new ParallelCommandGroup(
                     Shooter.getInstance().getShooterHandoff(),
-                    Intake.getInstance().getIntakeHandoff().withTimeout(2.0)
+                    Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
                 ).onlyIf(Intake.getInstance()::sensorCovered),
-                new InstantCommand(() -> {
-                    Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
-                            ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-                    Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-                }));
+                new ConditionalCommand(
+                    new InstantCommand(() -> {
+                        Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+                        Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+                    }), 
+                    new InstantCommand(() -> {
+                        Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+                        Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+                    }), 
+                    new BooleanSupplier() {
+                        public boolean getAsBoolean() {
+                            return DriverStation.isAutonomous() && Shooter.getInstance().loaded();
+                        };
+                    }
+                )
+        ).handleInterrupt(() -> {
+            Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
+            ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+            Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+        });
     }
 
     // public static Command getComplexIntakeCommand() {
