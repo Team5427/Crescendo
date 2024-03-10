@@ -33,7 +33,15 @@ public class LEDManager extends SubsystemBase {
     private LEDState ledState;
 
     private Timer tickTimer;
-    private boolean doIncrease;
+    private boolean statusBoolean;
+    private boolean thresholdReached;
+    private int tickCount;
+
+    private static final Color LED_OFF = new Color(0, 0, 0);
+    private static final Color LED_WHITE = new Color(255, 255, 255);
+    private static final Color LED_RED = new Color(255, 0, 0);
+    private static final Color LED_GREEN = new Color(0, 255, 0);
+    private static final Color LED_BLUE = new Color(0, 0, 255);
 
     public LEDManager() {
         led = new AddressableLED(ledPort);
@@ -46,7 +54,7 @@ public class LEDManager extends SubsystemBase {
         ledState = LEDState.kDisabled;
 
         tickTimer = new Timer();
-        doIncrease = true;
+        statusBoolean = true;
 
         instance = this;
     }
@@ -56,7 +64,8 @@ public class LEDManager extends SubsystemBase {
     }
 
     public void setState(LEDState state) {
-        ledState = state;
+        if (thresholdReached)
+            ledState = state;
     }
 
     public LEDState getState() {
@@ -66,13 +75,34 @@ public class LEDManager extends SubsystemBase {
     @Override
     public void periodic() {
         switch (ledState) {
-            default:
-                for (int i = 0; i < ledCount; i++) {
-                    ledBuffer.setLED(i, oscillate(
-                        new Color(0, 0, 0), new Color(255, 255, 255), i)
-                    );
-                }
+            case kDisabled:
+                oscillate(LED_OFF, LED_RED, ledCount);
                 break;
+            case kIntakeFull:
+                fillStrip(LED_BLUE);
+                break;
+            case kShooterLoaded:
+                fillStrip(LED_GREEN);
+                break;
+            case kTargeting:
+                blinkStrip(LED_GREEN, 5);
+            default:
+                oscillateStrip(LED_OFF, LED_WHITE);
+                break;
+        }
+    }
+
+    private void fillStrip(Color color) {
+        for (int i = 0; i < ledCount; i++) {
+            ledBuffer.setLED(i, color);
+        }
+    }
+
+    private void oscillateStrip(Color firstColor, Color secondColor) {
+        for (int i = 0; i < ledCount; i++) {
+            ledBuffer.setLED(i, oscillate(
+                firstColor, secondColor, i)
+            );
         }
     }
 
@@ -83,11 +113,11 @@ public class LEDManager extends SubsystemBase {
         redGreater = secondColor.red - firstColor.red > 0;
         blueGreater = secondColor.blue - firstColor.blue > 0;
         greenGreater = secondColor.green - firstColor.green > 0;
-        if (doIncrease) {
+        if (statusBoolean) {
             newColor = new Color(
-                currentColor.red + (currentColor.red % (firstColor.red - secondColor.red)),
-                currentColor.blue + (currentColor.blue % (firstColor.blue - secondColor.blue)),
-                currentColor.green + (currentColor.green % (firstColor.green - secondColor.green))
+                currentColor.red + (currentColor.red % ((firstColor.red - secondColor.red) * 5)),
+                currentColor.blue + (currentColor.blue % ((firstColor.blue - secondColor.blue) * 5)),
+                currentColor.green + (currentColor.green % ((firstColor.green - secondColor.green) * 5))
             );
 
             boolean redComplete, blueComplete, greenComplete;
@@ -96,14 +126,14 @@ public class LEDManager extends SubsystemBase {
             greenComplete = greenGreater ? currentColor.green > secondColor.green: currentColor.green < secondColor.green;
 
             if (redComplete && blueComplete && greenComplete) {
-                doIncrease = false;
+                statusBoolean = false;
             }
 
         } else {
             newColor = new Color(
-                currentColor.red - (currentColor.red % (firstColor.red - secondColor.red)),
-                currentColor.blue - (currentColor.blue % (firstColor.blue - secondColor.blue)),
-                currentColor.green - (currentColor.green % (firstColor.green - secondColor.green))
+                currentColor.red - (currentColor.red % ((firstColor.red - secondColor.red) * 5)),
+                currentColor.blue - (currentColor.blue % ((firstColor.blue - secondColor.blue) * 5)),
+                currentColor.green - (currentColor.green % ((firstColor.green - secondColor.green) * 5))
             );
 
             boolean redComplete, blueComplete, greenComplete;
@@ -112,11 +142,32 @@ public class LEDManager extends SubsystemBase {
             greenComplete = greenGreater ? currentColor.green < secondColor.green: currentColor.green > secondColor.green;
 
             if (redComplete && blueComplete && greenComplete) {
-                doIncrease = true;
+                statusBoolean = true;
             }
         }
 
         return newColor;
+    }
+
+    private void blinkStrip(Color color, int thresholdCount) {
+        if (tickCount < thresholdCount) {
+            thresholdReached = false;
+            if (tickTimer.get() > 0.025) {
+                statusBoolean = !statusBoolean;
+                thresholdCount += statusBoolean ? 1: 0;
+            }
+        } else {
+            thresholdReached = true;
+            thresholdCount = 0;
+        }
+
+        for (int i = 0; i < ledCount; i++) {
+            if (statusBoolean) {
+                ledBuffer.setLED(i, color);
+            } else {
+                ledBuffer.setLED(i, LED_OFF);
+            }
+        }
     }
 
     public void resetStates() {

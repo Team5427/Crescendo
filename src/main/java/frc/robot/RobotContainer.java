@@ -22,6 +22,7 @@ import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.subsystems.managing.AutonShoot;
 import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.util.AutonUtil;
+import frc.robot.util.LEDManager;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.Localization.SteelTalonsLocalization;
 
@@ -31,6 +32,7 @@ public class RobotContainer {
   private Intake intake;
   private SendableChooser<Command> autoChooser;
   private Shooter shooter;
+  private LEDManager ledManager;
 
   private static DigitalInput input;
   private Trigger zeroButton;
@@ -45,6 +47,7 @@ public class RobotContainer {
 
     intake = new Intake();
     shooter = new Shooter();
+    ledManager = new LEDManager();
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
     tagCam = new ObjectDetector("limelight-front");
