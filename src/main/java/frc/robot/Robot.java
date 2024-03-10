@@ -20,6 +20,7 @@ import frc.robot.util.LEDManager.LEDState;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
+
   private RobotContainer m_robotContainer;
   private DigitalInput zeroButton;
 
@@ -32,7 +33,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-    // LEDManager.updateManager();
+    LEDManager.getInstance().updateManager();
   }
 
   @Override

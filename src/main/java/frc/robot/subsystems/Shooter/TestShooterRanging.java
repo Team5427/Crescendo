@@ -22,7 +22,7 @@ public class TestShooterRanging extends Command {
     private ProfiledPIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 1.5; //FIXME
+    private static final double kP = 1.75; //FIXME
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
@@ -56,7 +56,7 @@ public class TestShooterRanging extends Command {
         double parallelSpeed = targetingInformation[0];
         double perpSpeed = targetingInformation[1];
         // double distance = targetingInformation[2];
-        double distance = RobotContainer.getTagCam().speakerDist();
+        double distance = RobotContainer.getTagCam().targetVisible() ? RobotContainer.getTagCam().speakerDist() : targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
         Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
 
@@ -68,7 +68,7 @@ public class TestShooterRanging extends Command {
         //     0.0 
         // );
 
-        // adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
+        adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
         if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).

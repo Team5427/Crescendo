@@ -4,7 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [],
   "autoFolders": [
-    "Basic Four Note"
+    "Basic Four Note",
+    "Bottom Four Note"
   ],
   "defaultMaxVel": 1.85,
   "defaultMaxAccel": 1.0,

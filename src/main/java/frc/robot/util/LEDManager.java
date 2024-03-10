@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Intake.Intake;
@@ -11,6 +12,7 @@ import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.managing.SubsystemManager;
 
 public class LEDManager extends SubsystemBase {
+
 
     public static enum LEDState {
         kDisabled, //static red
@@ -27,6 +29,9 @@ public class LEDManager extends SubsystemBase {
     private static LEDManager instance;
 
     private Color currentColor;
+    private double colorFreq = Double.NaN;
+    private Color setColor;
+    private Timer loopTimer;
 
     private static final int ledPort = 0;
     private static final double updateDelay = 0.02;
@@ -34,7 +39,7 @@ public class LEDManager extends SubsystemBase {
 
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
-    private int ledCount;
+    private static final int ledCount = 95;
 
     private LEDState ledState;
 
@@ -49,8 +54,14 @@ public class LEDManager extends SubsystemBase {
         led.start();
         tick = 0;
 
-        ledState = LEDState.kDisabled;
+        loopTimer = new Timer();
 
+        ledState = LEDState.kDisabled;
+        this.currentColor = Color.kDarkRed;
+        setColor = Color.kDarkRed;
+
+
+        loopTimer.start();
         instance = this;
     }
 
@@ -67,14 +78,71 @@ public class LEDManager extends SubsystemBase {
     }
 
     private void fillLED() {
-        for (int i = 0; i < ledCount; i++) {
-            ledBuffer.setLED(i, currentColor);
+
+
+        if (!Double.isNaN(colorFreq) && loopTimer.get() > (1.0 / colorFreq)) {
+            if (setColor == Color.kBlack) {
+                this.setColor = currentColor;
+            } else if (setColor == currentColor) {
+                this.setColor = Color.kBlack;
+            }
+            loopTimer.reset();
+            loopTimer.start();
+        } else {
+            setColor = currentColor;
         }
+
+        for (int i = 0; i < ledCount; i++) {
+            ledBuffer.setLED(i, setColor);
+        }
+        led.setData(ledBuffer);
     }
 
     public void updateManager() {
         // tick = ledState != LEDState.kPickedUp ? 0: tick;
         switch (ledState) {
+            case kDisabled:
+                this.currentColor = Color.kDarkRed;
+                colorFreq = Double.NaN;
+                break;
+
+            case kEmpty:
+                this.currentColor = Color.kGray;
+                colorFreq = Double.NaN;
+
+            case kIntaking:
+                this.currentColor = Color.kDarkOrange;
+                colorFreq = 5;
+            
+            case kIntakeFull:
+                this.currentColor = Color.kDarkBlue;
+                colorFreq = Double.NaN;
+
+            case kHandingOff:
+                this.currentColor = Color.kDarkOrange;
+                colorFreq = 5;
+
+            case kShooterLoaded:
+                this.currentColor = Color.kDarkGreen;
+                colorFreq = Double.NaN;
+
+            case kTargeting:
+                this.currentColor = Color.kDarkGreen;
+                colorFreq = 10;
+            
+            case kAmpSignal:
+                this.currentColor = Color.kYellow;
+                colorFreq = 10;
+
+            case kCoopSignal:
+                this.currentColor = Color.kCyan;
+                colorFreq = 10;
+
+            default:
+                this.currentColor = Color.kRed;
+                colorFreq = Double.NaN;
+                System.err.println("stuck on default");
+
 
         }
 
@@ -83,7 +151,9 @@ public class LEDManager extends SubsystemBase {
 
     @Override
     public void periodic() {
-        //do all the update manager stuff here
+        updateManager();
+
+        SteelTalonsLogger.post("LED State", ledState.name());
     }
 
     public void resetStates() {

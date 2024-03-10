@@ -63,11 +63,11 @@ public class Climber extends SubsystemBase {
         double left = -commandController.getLeftY();
         double right = -commandController.getRightY();
         if (
-            DriverStation.isTeleopEnabled() && 
-            (Math.abs(left) > 0.5 || 
-            Math.abs(right) > 0.5)) {
-            
-            setRaw(left * 0.8, right * 0.8);
+            DriverStation.isTeleopEnabled()) {
+                setRaw(
+                    Math.abs(left) > 0.5 ? left * 0.8 : 0.0, 
+                    Math.abs(right) > 0.5 ? right * 0.8 : 0.0
+                );                    
         }
     }
 
