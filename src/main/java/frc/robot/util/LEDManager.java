@@ -2,13 +2,11 @@ package frc.robot.util;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.Shooter;
-import frc.robot.subsystems.managing.SubsystemManager;
 
 public class LEDManager extends SubsystemBase {
 
@@ -26,11 +24,7 @@ public class LEDManager extends SubsystemBase {
 
     private static LEDManager instance;
 
-    private Color currentColor;
-
     private static final int ledPort = 0;
-    private static final double updateDelay = 0.02;
-    private static final double pickUpThreshold = 1.0;
 
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
@@ -38,7 +32,8 @@ public class LEDManager extends SubsystemBase {
 
     private LEDState ledState;
 
-    private int tick;
+    private Timer tickTimer;
+    private boolean doIncrease;
 
     public LEDManager() {
         led = new AddressableLED(ledPort);
@@ -47,9 +42,11 @@ public class LEDManager extends SubsystemBase {
         led.setLength(ledCount);
         led.setData(ledBuffer);
         led.start();
-        tick = 0;
 
         ledState = LEDState.kDisabled;
+
+        tickTimer = new Timer();
+        doIncrease = true;
 
         instance = this;
     }
@@ -66,24 +63,60 @@ public class LEDManager extends SubsystemBase {
         return ledState;
     }
 
-    private void fillLED() {
-        for (int i = 0; i < ledCount; i++) {
-            ledBuffer.setLED(i, currentColor);
-        }
-    }
-
-    public void updateManager() {
-        // tick = ledState != LEDState.kPickedUp ? 0: tick;
-        switch (ledState) {
-
-        }
-
-        fillLED();
-    }
-
     @Override
     public void periodic() {
-        //do all the update manager stuff here
+        switch (ledState) {
+            default:
+                for (int i = 0; i < ledCount; i++) {
+                    ledBuffer.setLED(i, oscillate(
+                        new Color(0, 0, 0), new Color(255, 255, 255), i)
+                    );
+                }
+                break;
+        }
+    }
+
+    private Color oscillate(Color firstColor, Color secondColor, int bufferIdx) {
+        Color newColor;
+        Color currentColor = ledBuffer.getLED(bufferIdx);
+        boolean redGreater, blueGreater, greenGreater;
+        redGreater = secondColor.red - firstColor.red > 0;
+        blueGreater = secondColor.blue - firstColor.blue > 0;
+        greenGreater = secondColor.green - firstColor.green > 0;
+        if (doIncrease) {
+            newColor = new Color(
+                currentColor.red + (currentColor.red % (firstColor.red - secondColor.red)),
+                currentColor.blue + (currentColor.blue % (firstColor.blue - secondColor.blue)),
+                currentColor.green + (currentColor.green % (firstColor.green - secondColor.green))
+            );
+
+            boolean redComplete, blueComplete, greenComplete;
+            redComplete = redGreater ? currentColor.red > secondColor.red: currentColor.red < secondColor.red;
+            blueComplete = blueGreater ? currentColor.blue > secondColor.blue: currentColor.blue < secondColor.blue;
+            greenComplete = greenGreater ? currentColor.green > secondColor.green: currentColor.green < secondColor.green;
+
+            if (redComplete && blueComplete && greenComplete) {
+                doIncrease = false;
+            }
+
+        } else {
+            newColor = new Color(
+                currentColor.red - (currentColor.red % (firstColor.red - secondColor.red)),
+                currentColor.blue - (currentColor.blue % (firstColor.blue - secondColor.blue)),
+                currentColor.green - (currentColor.green % (firstColor.green - secondColor.green))
+            );
+
+            boolean redComplete, blueComplete, greenComplete;
+            redComplete = redGreater ? currentColor.red < secondColor.red: currentColor.red > secondColor.red;
+            blueComplete = blueGreater ? currentColor.blue < secondColor.blue: currentColor.blue > secondColor.blue;
+            greenComplete = greenGreater ? currentColor.green < secondColor.green: currentColor.green > secondColor.green;
+
+            if (redComplete && blueComplete && greenComplete) {
+                doIncrease = true;
+            }
+        }
+
+        return newColor;
     }
 
     public void resetStates() {
