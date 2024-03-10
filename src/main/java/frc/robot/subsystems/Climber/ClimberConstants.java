@@ -10,8 +10,8 @@ import edu.wpi.first.math.util.Units;
 
 public class ClimberConstants {
 
-    public static final int RIGHT_CLIMBER_ID = 28;
-    public static final int LEFT_CLIMBER_ID = 27;
+    public static final int RIGHT_CLIMBER_ID = 27;
+    public static final int LEFT_CLIMBER_ID = 28;
 
     private static final double axleDiameterMeters = Units.inchesToMeters(1);
 

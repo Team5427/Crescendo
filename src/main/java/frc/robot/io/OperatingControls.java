@@ -45,13 +45,13 @@ public class OperatingControls {
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
         operatingController.y().whileTrue(new ScoreAmp());
 
-        operatingController.leftStick().whileTrue(new InstantCommand(() -> {
-                LEDManager.getInstance().setState(LEDState.kAmpSignal);
-        }).finallyDo(LEDManager.getInstance()::resetStates));
+        // operatingController.leftStick().whileTrue(new InstantCommand(() -> {
+        //         LEDManager.getInstance().setState(LEDState.kAmpSignal);
+        // }).finallyDo(LEDManager.getInstance()::resetStates));
 
-        operatingController.rightStick().whileTrue(new InstantCommand(() -> {
-                LEDManager.getInstance().setState(LEDState.kCoopSignal);
-        }).finallyDo(LEDManager.getInstance()::resetStates));
+        // operatingController.rightStick().whileTrue(new InstantCommand(() -> {
+        //         LEDManager.getInstance().setState(LEDState.kCoopSignal);
+        // }).finallyDo(LEDManager.getInstance()::resetStates));
 
     }
 }

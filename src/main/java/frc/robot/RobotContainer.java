@@ -15,7 +15,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
+import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
@@ -33,6 +35,7 @@ public class RobotContainer {
   private SendableChooser<Command> autoChooser;
   private Shooter shooter;
   private LEDManager ledManager;
+  private Climber climber;
 
   private static DigitalInput input;
   private Trigger zeroButton;
@@ -51,6 +54,8 @@ public class RobotContainer {
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
     tagCam = new ObjectDetector("limelight-front");
+
+    climber = new Climber();
 
     input = new DigitalInput(4);
 

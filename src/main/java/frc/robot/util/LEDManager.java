@@ -10,6 +10,7 @@ import frc.robot.subsystems.Shooter.Shooter;
 
 public class LEDManager extends SubsystemBase {
 
+
     public static enum LEDState {
         kDisabled, //static red
         kEmpty, //static white
@@ -28,7 +29,7 @@ public class LEDManager extends SubsystemBase {
 
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
-    private int ledCount;
+    private static final int ledCount = 95;
 
     private LEDState ledState;
 
@@ -50,8 +51,6 @@ public class LEDManager extends SubsystemBase {
         led.setLength(ledCount);
         led.setData(ledBuffer);
         led.start();
-
-        ledState = LEDState.kDisabled;
 
         tickTimer = new Timer();
         statusBoolean = true;
