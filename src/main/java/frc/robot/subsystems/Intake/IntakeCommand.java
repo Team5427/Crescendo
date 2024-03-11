@@ -22,7 +22,6 @@ public class IntakeCommand extends Command {
         intake.setPivotSetpoint(IntakeConstants.INTAKING_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING);
         LEDManager.getInstance().setState(LEDState.kIntaking);
-
     }
 
     @Override
@@ -46,6 +45,10 @@ public class IntakeCommand extends Command {
         // SwerveDrivetrain.getInstance().adjustSpeeds(new ChassisSpeeds());
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
+
+        if (!interrupted) {
+            LEDManager.getInstance().setState(LEDManager.LEDState.kIntakeFull);
+        }
 
         LEDManager.getInstance().setState(intake.sensorCovered() ? LEDState.kIntakeFull : LEDState.kEmpty);
     }

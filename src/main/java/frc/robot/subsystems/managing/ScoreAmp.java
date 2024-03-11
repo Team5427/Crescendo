@@ -5,6 +5,7 @@ import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
+import frc.robot.util.LEDManager;
 
 public class ScoreAmp extends Command {
 
@@ -24,6 +25,7 @@ public class ScoreAmp extends Command {
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_AMP);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM, ShooterConstants.FLYWHEEL_AMP_SPEED_RPM);
         drivetrain.setDriveConfig(DrivetrainConstants.AMP_DRIVE_CONFIG);
+        LEDManager.getInstance().setState(LEDManager.LEDState.kAmpSignal);
     }
 
     @Override

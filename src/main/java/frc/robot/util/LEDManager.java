@@ -41,6 +41,7 @@ public class LEDManager extends SubsystemBase {
     private static final Color LED_OFF = new Color(0, 0, 0);
     private static final Color LED_WHITE = new Color(255, 255, 255);
     private static final Color LED_RED = new Color(255, 0, 0);
+    private static final Color LED_YELLOW = new Color(255, 225, 0);
     private static final Color LED_GREEN = new Color(0, 255, 0);
     private static final Color LED_BLUE = new Color(0, 0, 255);
 
@@ -85,6 +86,13 @@ public class LEDManager extends SubsystemBase {
                 break;
             case kTargeting:
                 blinkStrip(LED_GREEN, 5);
+                break;
+            case kHandingOff:
+                blinkStrip(LED_BLUE, 5);
+                break;
+            case kAmpSignal:
+                blinkStrip(LED_YELLOW, 5);
+                break;
             default:
                 oscillateStrip(LED_OFF, LED_WHITE);
                 break;
