@@ -77,15 +77,20 @@ public class LEDManager extends SubsystemBase {
     private void fillLED() {
 
 
-        if (!Double.isNaN(colorFreq) && loopTimer.get() > (1.0 / colorFreq)) {
+
+        if (!Double.isNaN(colorFreq) && loopTimer.get() >= (1.0 / colorFreq)) {
+            // System.err.println(currentColor);
+            // System.err.println(loopTimer.get());
             if (setColor == Color.kBlack) {
                 this.setColor = currentColor;
             } else if (setColor == currentColor) {
                 this.setColor = Color.kBlack;
+                System.err.println(setColor + "Going to Setting Black");
+                System.err.println(loopTimer.get());
             }
             loopTimer.reset();
             loopTimer.start();
-        } else {
+        } else if (Double.isNaN(colorFreq)) {
             setColor = currentColor;
         }
 
@@ -110,7 +115,7 @@ public class LEDManager extends SubsystemBase {
 
             case kIntaking:
                 this.currentColor = Color.kDarkOrange;
-                colorFreq = 5;
+                colorFreq = 5.0;
                 break;
             
             case kIntakeFull:
@@ -120,7 +125,7 @@ public class LEDManager extends SubsystemBase {
 
             case kHandingOff:
                 this.currentColor = Color.kDarkOrange;
-                colorFreq = 5;
+                colorFreq = 5.0;
                 break;
 
             case kShooterLoaded:
@@ -130,17 +135,17 @@ public class LEDManager extends SubsystemBase {
 
             case kTargeting:
                 this.currentColor = Color.kDarkGreen;
-                colorFreq = 10;
+                colorFreq = 10.0;
                 break;
             
             case kAmpSignal:
                 this.currentColor = Color.kYellow;
-                colorFreq = 10;
+                colorFreq = 10.0;
                 break;
 
             case kCoopSignal:
                 this.currentColor = Color.kCyan;
-                colorFreq = 10;
+                colorFreq = 10.0;
                 break;
 
             default:
