@@ -109,34 +109,42 @@ public class LEDManager extends SubsystemBase {
             case kEmpty:
                 this.currentColor = Color.kGray;
                 colorFreq = Double.NaN;
+                break;
 
             case kIntaking:
                 this.currentColor = Color.kDarkOrange;
                 colorFreq = 5;
+                break;
             
             case kIntakeFull:
                 this.currentColor = Color.kDarkBlue;
                 colorFreq = Double.NaN;
+                break;
 
             case kHandingOff:
                 this.currentColor = Color.kDarkOrange;
                 colorFreq = 5;
+                break;
 
             case kShooterLoaded:
                 this.currentColor = Color.kDarkGreen;
                 colorFreq = Double.NaN;
+                break;
 
             case kTargeting:
                 this.currentColor = Color.kDarkGreen;
                 colorFreq = 10;
+                break;
             
             case kAmpSignal:
                 this.currentColor = Color.kYellow;
                 colorFreq = 10;
+                break;
 
             case kCoopSignal:
                 this.currentColor = Color.kCyan;
                 colorFreq = 10;
+                break;
 
             default:
                 this.currentColor = Color.kRed;
