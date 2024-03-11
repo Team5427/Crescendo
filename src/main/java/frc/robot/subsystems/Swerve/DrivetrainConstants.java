@@ -118,8 +118,8 @@ public class DrivetrainConstants {
         currConfigs.SupplyCurrentLimitEnable = true;
         currConfigs.StatorCurrentLimit = 60;
         currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 80;
-        currConfigs.SupplyTimeThreshold = 0.2;
+        currConfigs.SupplyCurrentThreshold = 90;
+        currConfigs.SupplyTimeThreshold = 0.1;
         motor.getConfigurator().apply(currConfigs);
 
         motor.setNeutralMode(NeutralModeValue.Brake);
