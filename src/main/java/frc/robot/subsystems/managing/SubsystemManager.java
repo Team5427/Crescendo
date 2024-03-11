@@ -25,7 +25,7 @@ public class SubsystemManager {
                 new ConditionalCommand(
                     Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
                     Intake.getInstance().getIntakeCommand(), 
-                    DriverStation::isAutonomous),
+                    DriverStation::isAutonomous).onlyIf(() -> {return !Shooter.getInstance().loaded();}),
                 new ParallelCommandGroup(
                     Shooter.getInstance().getShooterHandoff(),
                     Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
@@ -38,12 +38,8 @@ public class SubsystemManager {
                     new InstantCommand(() -> {
                         Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
                         Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-                    }), 
-                    new BooleanSupplier() {
-                        public boolean getAsBoolean() {
-                            return DriverStation.isAutonomous() && Shooter.getInstance().loaded();
-                        };
-                    }
+                    }),
+                    () -> {return DriverStation.isAutonomous() && Shooter.getInstance().loaded();}
                 )
         ).handleInterrupt(() -> {
             Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
