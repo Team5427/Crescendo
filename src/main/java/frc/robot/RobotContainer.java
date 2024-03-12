@@ -75,7 +75,7 @@ public class RobotContainer {
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
-    NamedCommands.registerCommand("Auton Shoot", new AutonShoot());
+    NamedCommands.registerCommand("Auton Shoot", new AutonShoot(false));
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
   }
 

@@ -78,20 +78,23 @@ public class LEDManager extends SubsystemBase {
 
 
 
-        if (!Double.isNaN(colorFreq) && loopTimer.get() >= (1.0 / colorFreq)) {
+        if (!Double.isNaN(colorFreq)) {
+            if (loopTimer.get() >= (1.0 / colorFreq)) {
+                if (setColor == Color.kBlack) {
+                    this.setColor = currentColor;
+                } else if (setColor == currentColor) {
+                    this.setColor = Color.kBlack;
+                    System.err.println(setColor + "Going to Setting Black");
+                    System.err.println(loopTimer.get());
+                }
+                loopTimer.reset();
+                loopTimer.start();
+            }
             // System.err.println(currentColor);
             // System.err.println(loopTimer.get());
-            if (setColor == Color.kBlack) {
-                this.setColor = currentColor;
-            } else if (setColor == currentColor) {
-                this.setColor = Color.kBlack;
-                System.err.println(setColor + "Going to Setting Black");
-                System.err.println(loopTimer.get());
-            }
-            loopTimer.reset();
-            loopTimer.start();
-        } else if (Double.isNaN(colorFreq)) {
+        } else  {
             setColor = currentColor;
+            loopTimer.reset();
         }
 
         for (int i = 0; i < ledCount; i++) {
@@ -114,7 +117,7 @@ public class LEDManager extends SubsystemBase {
                 break;
 
             case kIntaking:
-                this.currentColor = Color.kDarkOrange;
+                this.currentColor = Color.kOrange;
                 colorFreq = 5.0;
                 break;
             
