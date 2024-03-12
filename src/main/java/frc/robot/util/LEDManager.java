@@ -68,6 +68,8 @@ public class LEDManager extends SubsystemBase {
 
     public void setState(LEDState state) {
         ledState = state;
+        loopTimer.reset();
+        loopTimer.start();
     }
 
     public LEDState getState() {
@@ -84,8 +86,8 @@ public class LEDManager extends SubsystemBase {
                     this.setColor = currentColor;
                 } else if (setColor == currentColor) {
                     this.setColor = Color.kBlack;
-                    System.err.println(setColor + "Going to Setting Black");
-                    System.err.println(loopTimer.get());
+                } else {
+                    this.setColor = currentColor;
                 }
                 loopTimer.reset();
                 loopTimer.start();

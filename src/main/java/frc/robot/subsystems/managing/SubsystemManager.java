@@ -1,7 +1,5 @@
 package frc.robot.subsystems.managing;
 
-import java.util.function.BooleanSupplier;
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -13,6 +11,7 @@ import frc.robot.subsystems.Intake.HomeIntake;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeCommand;
 import frc.robot.subsystems.Intake.IntakeConstants;
+import frc.robot.subsystems.Shooter.BumpFeederIn;
 import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
@@ -27,7 +26,10 @@ public class SubsystemManager {
                     Intake.getInstance().getIntakeCommand(), 
                     DriverStation::isAutonomous).onlyIf(() -> {return !Shooter.getInstance().loaded();}),
                 new ParallelCommandGroup(
-                    Shooter.getInstance().getShooterHandoff(),
+                    new SequentialCommandGroup(
+                        Shooter.getInstance().getShooterHandoff(),
+                        new BumpFeederIn() //hopefully never needs this
+                    ),
                     Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
                 ).onlyIf(Intake.getInstance()::sensorCovered),
                 new ConditionalCommand(
@@ -47,19 +49,6 @@ public class SubsystemManager {
             Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
         });
     }
-
-    // public static Command getComplexIntakeCommand() {
-    //     return new SequentialCommandGroup(
-    //         new ConditionalCommand(
-    //             Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
-    //             Intake.getInstance().getIntakeCommand(), 
-    //             DriverStation::isAutonomous),
-    //         new ParallelCommandGroup(
-    //             Shooter.getInstance().getShooterHandoff(),
-    //             Intake.getInstance().getIntakeHandoff().withTimeout(2.0)
-    //         )
-    //     );
-    // }
 
     public static Command homeAll() {
         return new ParallelCommandGroup(

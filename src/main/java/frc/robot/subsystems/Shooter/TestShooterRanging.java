@@ -6,7 +6,6 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
@@ -26,7 +25,7 @@ public class TestShooterRanging extends Command {
     private static final double kI = 0.0;
     private static final double kD = 0.0;
 
-    private static final double VISION_PARALLEL_P_SCALAR = 0.47; //increase to make PID stronger during movement
+    private static final double VISION_PARALLEL_P_SCALAR = 0.55; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist
 
@@ -97,7 +96,7 @@ public class TestShooterRanging extends Command {
         if (tagCam.targetVisible()) {
             rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);
         } else {
-            rotPID.setP(kP);
+            rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);
         }
         
         drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 

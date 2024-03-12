@@ -91,7 +91,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean pivotAtGoal() {
-    return Math.abs(pivotMaster.getError()) < ShooterConstants.PIVOT_TOLERANCE_RAD.getRadians();
+    return pivotAtGoal(ShooterConstants.PIVOT_TOLERANCE_RAD.getRadians());
   }
 
   public boolean pivotAtGoal(double degTol) {

@@ -27,13 +27,13 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        // SwerveDrivetrain.getInstance().adjustSpeeds(
-        //     new ChassisSpeeds(
-        //         0, 
-        //         0, 
-        //         RobotContainer.getNoteCam().noteDriveAdjustment()
-        //     )
-        // );
+        SwerveDrivetrain.getInstance().adjustSpeeds(
+            new ChassisSpeeds(
+                0, 
+                0, 
+                RobotContainer.getNoteCam().noteDriveAdjustment()
+            )
+        );
     }
 
     @Override
@@ -43,7 +43,7 @@ public class IntakeCommand extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        // SwerveDrivetrain.getInstance().adjustSpeeds(new ChassisSpeeds());
+        SwerveDrivetrain.getInstance().adjustSpeeds(new ChassisSpeeds());
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
 

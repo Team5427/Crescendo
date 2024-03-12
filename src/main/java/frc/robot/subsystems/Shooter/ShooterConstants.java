@@ -50,7 +50,7 @@ public class ShooterConstants {
     public static final double FLYWHEEL_REV_SPEED_RPM = 5000;
 
     public static final double FEEDER_HOLD_SPEED = -0.00; // 0.0
-    // public static final double FEEDER_BUMP_SPEED = 0.03;
+    public static final double FEEDER_BUMP_SPEED = 0.1;
     public static final double FEEDER_FEED_SPEED = 2.5;
     public static final double FEEDER_INTAKE_SPEED = 1.0;
 

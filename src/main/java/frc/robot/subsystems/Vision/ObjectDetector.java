@@ -52,20 +52,16 @@ public class ObjectDetector extends SubsystemBase {
         return tv && (targetInfo()[1] < inRangeConst);
     }
 
+    public Rotation2d targetXRot() {
+        return Rotation2d.fromDegrees(-targetInfo()[0]);
+    }
+
     public double noteDriveAdjustment() {
 
         double x = targetInfo()[0];
 
         if (noteInRange()) {
             return x * xProportional; // may need to scale with y too FIXME
-        } else {
-            return 0.0;
-        }
-    }
-
-    public double speakerDriveAdjustment(double offsetDeg) {
-        if (targetVisible()) {
-            return (targetInfo()[0] - offsetDeg) * xProportional;
         } else {
             return 0.0;
         }

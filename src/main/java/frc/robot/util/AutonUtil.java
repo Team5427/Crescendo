@@ -1,11 +1,15 @@
 package frc.robot.util;
 
+import java.util.Optional;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.Localization.SteelTalonsLocalization;
@@ -34,6 +38,15 @@ public class AutonUtil extends SubsystemBase {
             SwerveDrivetrain.getInstance()
         );
 
+        PPHolonomicDriveController.setRotationTargetOverride(() -> {
+            if (RobotContainer.getNoteCam().noteInRange()) {
+                return Optional.of(
+                    SteelTalonsLocalization.getInstance().getPose().getRotation().plus(
+                    RobotContainer.getNoteCam().targetXRot()));
+            } else {
+                return Optional.empty();
+            }
+        });
     }
 
     public static void registerCommands() {
