@@ -113,7 +113,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean atHandoff() {
-        return atGoal(2.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS);
+        return atGoal(2.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS) && pivot.getSetPoint() == IntakeConstants.HANDOFF_POS.getRadians();
     }
 
     public boolean getHoming() {

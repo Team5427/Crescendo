@@ -89,7 +89,7 @@ public class SteelTalonsSparkMaxServo {
     }
 
     public double getSetPoint() {
-        return setPoint;
+        return smaxController.getGoal().position;
     }
 
     public void forceStop() {

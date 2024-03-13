@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,6 +30,8 @@ public class SwerveDrivetrain extends SubsystemBase {
     private ChassisSpeeds adjustment = new ChassisSpeeds();
     private DriveConfig driveConfig = DrivetrainConstants.DEFAULT_DRIVE_CONFIG;
     private ProfiledPIDController rotController;
+
+    private double lastTime;
 
     public SwerveDrivetrain() {
         instance = this;
@@ -72,6 +75,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         ));
 
         rotController.enableContinuousInput(-Math.PI, Math.PI);
+
+        lastTime = Timer.getFPGATimestamp();
 
     }
 
@@ -136,14 +141,14 @@ public class SwerveDrivetrain extends SubsystemBase {
                 calculatedSetpoint = setPoint;
                 rotController.reset(getRotation().getRadians());
             }
-            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Units.millisecondsToSeconds(20)));
+            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Timer.getFPGATimestamp() - lastTime));
             SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S);
             
             for (int i = 0; i < modules.size(); i++) {
                 modules.get(i).setModuleState(states[i]);
             }
         } else {
-            this.setDeadzone(0.25);
+            setDeadzone(0.25);
         }
 
         if (DriverStation.isDisabled()) {
@@ -153,6 +158,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         } 
 
         log();
+
+        lastTime = Timer.getFPGATimestamp();
     }
 
     public void setStatesAuton(SwerveModuleState[] states) {

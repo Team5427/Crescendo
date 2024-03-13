@@ -15,14 +15,12 @@ import frc.robot.util.MiscUtil;
 public class AutonShoot extends Command {
     private Shooter shooter;
     private SwerveDrivetrain swerve;
-    private Timer timer;
     private boolean useVision;
     private PIDController visionPID;
 
     public AutonShoot(boolean useVision) {
         shooter = Shooter.getInstance();
         swerve = SwerveDrivetrain.getInstance();
-        timer = new Timer();
         addRequirements(shooter);
         this.useVision = useVision;
         visionPID = new PIDController(2.25, 0, 0);
@@ -31,8 +29,6 @@ public class AutonShoot extends Command {
 
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
         visionPID.reset();
 
     }
@@ -57,7 +53,7 @@ public class AutonShoot extends Command {
         }
 
 
-        if (timer.get() > 0.25 && shooter.flywheelAtGoal() && shooter.pivotAtGoal(1.0) && (visionPID.atSetpoint() || !useVision)) {
+        if (shooter.flywheelAtGoal() && shooter.pivotAtGoal(1.0) && (visionPID.atSetpoint() || !useVision)) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
         }
 
