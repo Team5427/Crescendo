@@ -11,12 +11,14 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Shooter.BumpFeederIn;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
@@ -75,7 +77,10 @@ public class RobotContainer {
 
   private void registerNamedCommands() {
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
-    NamedCommands.registerCommand("Auton Shoot", new AutonShoot(false));
+    NamedCommands.registerCommand("Auton Shoot", new SequentialCommandGroup(
+      new BumpFeederIn().withTimeout(2.0),
+      new AutonShoot(true)
+    ));
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
   }
 

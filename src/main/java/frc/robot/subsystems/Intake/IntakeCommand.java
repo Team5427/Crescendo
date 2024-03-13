@@ -1,6 +1,7 @@
 package frc.robot.subsystems.Intake;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
@@ -27,13 +28,15 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        SwerveDrivetrain.getInstance().adjustSpeeds(
-            new ChassisSpeeds(
-                0, 
-                0, 
-                RobotContainer.getNoteCam().noteDriveAdjustment()
-            )
-        );
+        if (!DriverStation.isAutonomous()) {
+            SwerveDrivetrain.getInstance().adjustSpeeds(
+                new ChassisSpeeds(
+                    0, 
+                    0, 
+                    RobotContainer.getNoteCam().noteDriveAdjustment()
+                )
+            );    
+        }
     }
 
     @Override

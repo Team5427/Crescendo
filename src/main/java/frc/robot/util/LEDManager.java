@@ -68,8 +68,8 @@ public class LEDManager extends SubsystemBase {
 
     public void setState(LEDState state) {
         ledState = state;
-        loopTimer.reset();
-        loopTimer.start();
+        // loopTimer.reset();
+        // loopTimer.start();
     }
 
     public LEDState getState() {
@@ -120,7 +120,7 @@ public class LEDManager extends SubsystemBase {
 
             case kIntaking:
                 this.currentColor = Color.kOrange;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
                 break;
             
             case kIntakeFull:
@@ -129,8 +129,8 @@ public class LEDManager extends SubsystemBase {
                 break;
 
             case kHandingOff:
-                this.currentColor = Color.kDarkOrange;
-                colorFreq = 5.0;
+                this.currentColor = Color.kOrangeRed;
+                colorFreq = 10.0;
                 break;
 
             case kShooterLoaded:
@@ -140,17 +140,17 @@ public class LEDManager extends SubsystemBase {
 
             case kTargeting:
                 this.currentColor = Color.kDarkGreen;
-                colorFreq = 10.0;
+                colorFreq = 20.0;
                 break;
             
             case kAmpSignal:
                 this.currentColor = Color.kYellow;
-                colorFreq = 10.0;
+                colorFreq = 40.0;
                 break;
 
             case kCoopSignal:
-                this.currentColor = Color.kCyan;
-                colorFreq = 10.0;
+                this.currentColor = Color.kPurple;
+                colorFreq = 40.0;
                 break;
 
             default:

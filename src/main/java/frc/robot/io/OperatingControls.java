@@ -10,6 +10,7 @@ import frc.robot.subsystems.Shooter.FeedShooterClean;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TestShooterRanging;
+import frc.robot.subsystems.managing.AutonShoot;
 import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.subsystems.managing.Unstuck;
@@ -29,11 +30,6 @@ public class OperatingControls {
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new Unstuck());
-        // operatingController.y()
-        
-        //         .onTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
-        operatingController.x().onTrue(Shooter.getInstance().getFeedCommand(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM,
-                ShooterConstants.SHOOTER_PIVOT_AMP));
 
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
@@ -44,14 +40,18 @@ public class OperatingControls {
         // operatingController.x().onTrue(new ShooterHandoff());
         // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
         operatingController.y().whileTrue(new ScoreAmp());
+        operatingController.x().onTrue(new AutonShoot(true));
 
-        // operatingController.leftStick().whileTrue(new InstantCommand(() -> {
-        //         LEDManager.getInstance().setState(LEDState.kAmpSignal);
-        // }).finallyDo(LEDManager.getInstance()::resetStates));
+        operatingController.leftStick().whileTrue(new RunCommand(() -> {
+                LEDManager.getInstance().setState(LEDState.kAmpSignal);
+                System.err.println("this thing");
+        }).handleInterrupt(LEDManager.getInstance()::resetStates));
 
-        // operatingController.rightStick().whileTrue(new InstantCommand(() -> {
-        //         LEDManager.getInstance().setState(LEDState.kCoopSignal);
-        // }).finallyDo(LEDManager.getInstance()::resetStates));
+        operatingController.rightStick().whileTrue(new RunCommand(() -> {
+                LEDManager.getInstance().setState(LEDState.kCoopSignal);
+        }).handleInterrupt(LEDManager.getInstance()::resetStates));
+
+        
 
     }
 }

@@ -3,6 +3,7 @@ package frc.robot.subsystems.Vision;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -12,7 +13,7 @@ public class ObjectDetector extends SubsystemBase {
     private boolean tv;
 
     private static final double inRangeConst = 7.0;
-    private static final double xProportional = -0.05; // 0.1
+    private static final double xProportional = -0.025; // 0.1
 
     private static final double TAG_CAM_HEIGHT_M = 0.15978;
     private static final Rotation2d TAG_CAM_ANGLE = Rotation2d.fromDegrees(35);
@@ -49,7 +50,7 @@ public class ObjectDetector extends SubsystemBase {
     }
 
     public boolean noteInRange() {
-        return tv && (targetInfo()[1] < inRangeConst);
+        return tv && (targetInfo()[1] < inRangeConst) && DriverStation.isAutonomous() ? targetInfo()[1] > -9.0 : true;
     }
 
     public Rotation2d targetXRot() {

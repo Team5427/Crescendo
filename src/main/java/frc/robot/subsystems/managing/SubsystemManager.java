@@ -27,8 +27,7 @@ public class SubsystemManager {
                     DriverStation::isAutonomous).onlyIf(() -> {return !Shooter.getInstance().loaded();}),
                 new ParallelCommandGroup(
                     new SequentialCommandGroup(
-                        Shooter.getInstance().getShooterHandoff(),
-                        new BumpFeederIn() //hopefully never needs this
+                        Shooter.getInstance().getShooterHandoff() //hopefully never needs this
                     ),
                     Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
                 ).onlyIf(Intake.getInstance()::sensorCovered),

@@ -25,8 +25,8 @@ public class AutonShoot extends Command {
         timer = new Timer();
         addRequirements(shooter);
         this.useVision = useVision;
-        visionPID = new PIDController(1.5, 0, 0);
-        visionPID.setTolerance(Math.toRadians(2.0));
+        visionPID = new PIDController(2.25, 0, 0);
+        visionPID.setTolerance(Math.toRadians(5.0));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class AutonShoot extends Command {
 
         config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(RobotContainer.getTagCam().speakerDist()).adjustBy(
             Rotation2d.fromDegrees(0.0).
-            plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - RobotContainer.getTagCam().speakerDist()))), //4 degrees of offset for 60 degree angle
+            plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0) * 0.2 * (5 - RobotContainer.getTagCam().speakerDist()))), //4 degrees of offset for 60 degree angle
             0.0,
             0.0 
         );  
@@ -53,7 +53,7 @@ public class AutonShoot extends Command {
         shooter.setShootingConfigSetpoints(config);
 
         if (useVision) {
-            swerve.setSpeedsAuton(new ChassisSpeeds(0, 0, visionPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), 0.0)));
+            swerve.setSpeedsAuton(new ChassisSpeeds(0, 0, visionPID.calculate(RobotContainer.getTagCam().targetVisible() ? Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]) : -MiscUtil.targetingInformation()[3], 0.0)));
         }
 
 

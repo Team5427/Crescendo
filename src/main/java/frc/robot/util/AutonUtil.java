@@ -16,8 +16,8 @@ import frc.robot.util.Localization.SteelTalonsLocalization;
 
 public class AutonUtil extends SubsystemBase {
 
-    private final double CHOREO_TRANSLATION_KP = 12.0; // 8.0
-    private final double CHOREO_ROTATION_KP = 4.0; // 3.5
+    private final double CHOREO_TRANSLATION_KP = 10.0; // 8.0
+    private final double CHOREO_ROTATION_KP = 3.5; // 3.5
 
     public AutonUtil() {
         AutoBuilder.configureHolonomic(
@@ -38,15 +38,15 @@ public class AutonUtil extends SubsystemBase {
             SwerveDrivetrain.getInstance()
         );
 
-        PPHolonomicDriveController.setRotationTargetOverride(() -> {
-            if (RobotContainer.getNoteCam().noteInRange()) {
-                return Optional.of(
-                    SteelTalonsLocalization.getInstance().getPose().getRotation().plus(
-                    RobotContainer.getNoteCam().targetXRot()));
-            } else {
-                return Optional.empty();
-            }
-        });
+        // PPHolonomicDriveController.setRotationTargetOverride(() -> {
+        //     if (RobotContainer.getNoteCam().noteInRange()) {
+        //         return Optional.of(
+        //             SteelTalonsLocalization.getInstance().getPose().getRotation().plus(
+        //             RobotContainer.getNoteCam().targetXRot()));
+        //     } else {
+        //         return Optional.empty();
+        //     }
+        // });
     }
 
     public static void registerCommands() {
