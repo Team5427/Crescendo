@@ -39,19 +39,19 @@ public class AutonShoot extends Command {
 
         ShootingConfiguration config = new ShootingConfiguration(new Rotation2d(), 0, 0);
 
-        config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(RobotContainer.getTagCam().speakerDist()).adjustBy(
-            Rotation2d.fromDegrees(0.0).
-            plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0) * 0.2 * (5 - RobotContainer.getTagCam().speakerDist()))), //4 degrees of offset for 60 degree angle
-            0.0,
-            0.0 
-        );  
-
-        shooter.setShootingConfigSetpoints(config);
-
         if (useVision) {
-            swerve.setSpeedsAuton(new ChassisSpeeds(0, 0, visionPID.calculate(RobotContainer.getTagCam().targetVisible() ? Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]) : -MiscUtil.targetingInformation()[3], 0.0)));
-        }
+            config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(RobotContainer.getTagCam().speakerDist()).adjustBy(
+                Rotation2d.fromDegrees(0.0).
+                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0) * 0.2 * (5 - RobotContainer.getTagCam().speakerDist()))), //4 degrees of offset for 60 degree angle
+                0.0,
+                0.0 
+            );
 
+            swerve.setSpeedsAuton(new ChassisSpeeds(0, 0, visionPID.calculate(RobotContainer.getTagCam().targetVisible() ? Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]) : -MiscUtil.targetingInformation()[3], 0.0)));
+        } else {
+            config = new ShootingConfiguration(ShooterConstants.SHOOTER_PIVOT_ACTIVE, 5200, 5200);
+        }
+        shooter.setShootingConfigSetpoints(config);
 
         if (shooter.flywheelAtGoal() && shooter.pivotAtGoal(1.0) && (visionPID.atSetpoint() || !useVision)) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);

@@ -32,8 +32,8 @@ public class OperatingControls {
         operatingController.a().onTrue(new Unstuck());
 
         operatingController.b().whileTrue(new TestShooterRanging());
-        operatingController.povUp().onTrue(new FeedShooter(0, null, false));
         operatingController.povDown().onTrue(new FeedShooterClean());
+        operatingController.povUp().onTrue(new AutonShoot(false));
 
         operatingController.y().whileTrue(new ScoreAmp());
         operatingController.x().onTrue(new AutonShoot(true));
