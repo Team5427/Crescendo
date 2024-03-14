@@ -40,7 +40,7 @@ public class SubsystemManager {
                         Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
                         Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
                     }),
-                    () -> {return DriverStation.isAutonomous() && Shooter.getInstance().loaded();}
+                    () -> {return DriverStation.isAutonomous();}
                 )
         ).handleInterrupt(() -> {
             Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,

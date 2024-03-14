@@ -33,7 +33,7 @@ public class IntakeHandoff extends Command {
 
     @Override
     public boolean isFinished() {
-        return Shooter.getInstance().inPosition();
+        return Shooter.getInstance().inPosition() && Shooter.getInstance().atStow();
     }
 
     @Override

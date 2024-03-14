@@ -1,5 +1,7 @@
 package frc.robot.subsystems.Shooter;
 
+import java.sql.Driver;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -129,6 +131,10 @@ public class Shooter extends SubsystemBase {
       leftFlywheel.setSetpoint(ShooterConstants.FLYWHEEL_REV_SPEED_RPM, 0.0);
       rightFlywheel.setSetpoint(ShooterConstants.FLYWHEEL_REV_SPEED_RPM, 0.0);
   
+    } else if (DriverStation.isAutonomous()) {
+      leftFlywheel.setSetpoint(ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM, 0.0);
+      rightFlywheel.setSetpoint(ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM, 0.0);
+
     } else {
       leftFlywheel.setSetpoint(this.leftShooterSetpoint, 0.0);
       rightFlywheel.setSetpoint(this.rightShooterSetpoint, 0.0);  
