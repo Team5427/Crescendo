@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Shooter;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -18,7 +19,7 @@ public class TestShooterRanging extends Command {
 
     private Shooter shooter;
     private SwerveDrivetrain drivetrain;
-    private ProfiledPIDController rotPID;
+    private PIDController rotPID;
     private ObjectDetector tagCam;
 
     private static final double kP = 1.75; //FIXME
@@ -33,10 +34,7 @@ public class TestShooterRanging extends Command {
         shooter = Shooter.getInstance();
         drivetrain = SwerveDrivetrain.getInstance();
         tagCam = RobotContainer.getTagCam();
-        rotPID = new ProfiledPIDController(kP, kI, kD, new Constraints(
-            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
-            DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP * 3 
-        ));
+        rotPID = new PIDController(kP, kI, kD);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
         rotPID.setTolerance(Math.toRadians(1.5));
 
@@ -44,7 +42,6 @@ public class TestShooterRanging extends Command {
 
     @Override
     public void initialize() {
-        rotPID.reset(drivetrain.getRotation().getRadians());
 
         LEDManager.getInstance().setState(LEDState.kTargeting);
     }
@@ -54,18 +51,12 @@ public class TestShooterRanging extends Command {
         double[] targetingInformation = MiscUtil.targetingInformation();
         double parallelSpeed = targetingInformation[0];
         double perpSpeed = targetingInformation[1];
-        // double distance = targetingInformation[2];
         double distance = RobotContainer.getTagCam().targetVisible() ? RobotContainer.getTagCam().speakerDist() : targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
         Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
 
         Rotation2d adjustmentSetpoint = new Rotation2d();
         ShootingConfiguration config;
-        // ShootingConfiguration config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
-        //     new Rotation2d(), 
-        //     0.0,
-        //     0.0 
-        // );
 
         adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
         if (distance < 7.0) {
@@ -79,8 +70,8 @@ public class TestShooterRanging extends Command {
         } else {
             config = new ShootingConfiguration(
                 ShooterConstants.SHOOTER_PIVOT_STOW, 
-                5500, 
-                5500
+                5300, 
+                5300
             );
         }
 

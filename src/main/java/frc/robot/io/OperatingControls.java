@@ -34,11 +34,7 @@ public class OperatingControls {
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
         operatingController.povDown().onTrue(new FeedShooterClean());
-        operatingController.povLeft().onTrue(new InstantCommand(() -> {
-                Intake.getInstance().getPivot().resetController();
-        }));
-        // operatingController.x().onTrue(new ShooterHandoff());
-        // operatingController.back().onTrue(SubsystemManager.pathFind()); // verify this is correct
+        
         operatingController.y().whileTrue(new ScoreAmp());
         operatingController.x().onTrue(new AutonShoot(true));
 

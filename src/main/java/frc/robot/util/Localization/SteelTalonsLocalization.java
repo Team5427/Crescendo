@@ -31,6 +31,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private AprilTagFieldLayout aprilTagFieldLayout;
     private ArrayList<ApriltagCam> camList;
     private Optional<Pose2d> lastPose = Optional.empty();
+    private Pose2d refPose = new Pose2d();
 
     private final String leftCamName = "leftcam";
     private final String rightCamName = "rightcam";
@@ -75,7 +76,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         SwerveDriveWheelPositions dtWheelPositions = SwerveDrivetrain.getInstance().getWheelPositions();
         Rotation2d gyroAngle = SwerveDrivetrain.getInstance().getRotation();
         poseEstimator.update(gyroAngle, dtWheelPositions);
-        Pose2d refPose = poseEstimator.getEstimatedPosition();
+        refPose = poseEstimator.getEstimatedPosition();
 
         field.setRobotPose(getPose());
         SteelTalonsLogger.postComplex("Field 2d", field);
@@ -113,6 +114,9 @@ public class SteelTalonsLocalization extends SubsystemBase {
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             newPose
         );
+
+        lastPose = Optional.of(poseEstimator.getEstimatedPosition());
+        refPose = newPose;
     }
 
     public Translation2d translationFromSpeaker() {

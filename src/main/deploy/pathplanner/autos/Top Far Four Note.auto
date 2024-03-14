@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4361315965652466,
-      "y": 6.287659645080566
+      "x": 1.441908597946167,
+      "y": 5.573664665222168
     },
     "rotation": 0.0
   },
@@ -11,6 +11,12 @@
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        },
         {
           "type": "parallel",
           "data": {

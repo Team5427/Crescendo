@@ -209,7 +209,7 @@ public class ShooterConstants {
         shooterRightFlywheelConfig.id = SHOOTER_RIGHT_FLYWHEEL_MOTOR_ID;
         ampPivotConfig.id = AMP_PIVOT_MOTOR_ID;
 
-        shooterPivotConfig.currentLimit = 55;
+        shooterPivotConfig.currentLimit = 35;
         feederRollerConfig.currentLimit = 30;
         shooterLeftFlywheelConfig.currentLimit = 55;
         shooterRightFlywheelConfig.currentLimit = 55;
