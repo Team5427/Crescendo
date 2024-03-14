@@ -26,7 +26,7 @@ public class OperatingControls {
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());
 
-        operatingController.leftBumper().whileTrue(new ScoreAmp());
+        operatingController.leftBumper().whileTrue(new FeedShooter(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE, true));
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new Unstuck());
@@ -34,7 +34,7 @@ public class OperatingControls {
         operatingController.b().whileTrue(new TestShooterRanging());
         operatingController.povUp().onTrue(new FeedShooter(0, null, false));
         operatingController.povDown().onTrue(new FeedShooterClean());
-        
+
         operatingController.y().whileTrue(new ScoreAmp());
         operatingController.x().onTrue(new AutonShoot(true));
 

@@ -59,7 +59,7 @@ public class TestShooterRanging extends Command {
         ShootingConfiguration config;
 
         adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
-        if (distance < 7.0) {
+        if (distance < 7.0 || !tagCam.targetVisible()) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
                 plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
@@ -68,15 +68,15 @@ public class TestShooterRanging extends Command {
             );   
             
         } else {
-            config = new ShootingConfiguration(
-                ShooterConstants.SHOOTER_PIVOT_STOW, 
+            config = new ShootingConfiguration( //EMERGENCY IF CANT SEE TARGET
+                ShooterConstants.SHOOTER_PIVOT_ACTIVE, 
                 5300, 
                 5300
             );
         }
 
-        SteelTalonsLogger.post("angle offset anglesss",(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0)).getDegrees()));
-        SteelTalonsLogger.post("movement angle offset",Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).getDegrees());
+
+        SteelTalonsLogger.post("On the fly adjustment", adjustmentSetpoint.getRadians());
 
         shooter.setShootingConfigSetpoints(config);
         // shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
