@@ -45,9 +45,12 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     SteelTalonsLogger.post("zero butto", RobotContainer.getLimitSwitch().get());
     if (!RobotContainer.getLimitSwitch().get()) {
+      LEDManager.getInstance().setState(LEDState.kEmpty);
       Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
       Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
       Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+    } else {
+      LEDManager.getInstance().setState(LEDState.kDisabled);
     }
   }
 
