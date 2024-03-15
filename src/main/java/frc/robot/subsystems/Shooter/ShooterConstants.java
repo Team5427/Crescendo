@@ -45,7 +45,7 @@ public class ShooterConstants {
     public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-170.0);
 
     public static final double FLYWHEEL_STATIC_SPEED_RPM = 1000;
-    public static final double FLYWHEEL_AMP_SPEED_RPM = 1200;
+    public static final double FLYWHEEL_AMP_SPEED_RPM = 1800;
     public static final double FLYWHEEL_AUTON_SPEED_RPM = 5300;
     public static final double FLYWHEEL_REV_SPEED_RPM = 5000;
 

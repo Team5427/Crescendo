@@ -19,7 +19,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.SteelTalonsLogger;
+import frc.robot.util.Localization.SteelTalonsLocalization;
 
 public class SwerveDrivetrain extends SubsystemBase {
     
@@ -135,11 +137,11 @@ public class SwerveDrivetrain extends SubsystemBase {
                 calculatedSetpoint = new ChassisSpeeds(
                     calculatedSetpoint.vxMetersPerSecond, 
                     calculatedSetpoint.vyMetersPerSecond, 
-                    rotController.calculate(getRotation().getRadians(), rotLock.get().getRadians())
+                    rotController.calculate(SteelTalonsLocalization.getInstance().getPose().getRotation().getRadians(), rotLock.get().getRadians())
                 );
             } else {
                 calculatedSetpoint = setPoint;
-                rotController.reset(getRotation().getRadians());
+                rotController.reset(SteelTalonsLocalization.getInstance().getPose().getRotation().getRadians());
             }
             SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Timer.getFPGATimestamp() - lastTime));
             SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S);
@@ -200,7 +202,7 @@ public class SwerveDrivetrain extends SubsystemBase {
             cv[i] = cv[i] * trigger;
         }
         
-        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], this.getRotation()) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
+        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], MiscUtil.isBlue() ? SteelTalonsLocalization.getInstance().getPose().getRotation() : SteelTalonsLocalization.getInstance().getPose().getRotation().plus(Rotation2d.fromDegrees(180))) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
     }
 
     public void log() {
