@@ -75,6 +75,7 @@ public class SwerveModule {
         SteelTalonsLogger.post(name + " position", getModulePosition().distanceMeters);
         SteelTalonsLogger.post(name + " angle", getModuleState().angle.getRadians());
         SteelTalonsLogger.post(name + " absolute angle", canCoder.getAbsolutePosition().getValueAsDouble());
+        SteelTalonsLogger.post(name + " drive motor error", driveMotor.getClosedLoopError().getValueAsDouble());
         // steerMotor.log();
     }
 }

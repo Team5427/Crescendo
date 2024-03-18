@@ -28,7 +28,7 @@ public class TempIntakeEjaculation extends Command {
 
     @Override
     public boolean isFinished() {
-        return !intake.sensorCovered() && timer.get() > 1.0;
+        return !intake.sensorCovered() && timer.get() > 2.0;
     }
 
     @Override

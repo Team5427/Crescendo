@@ -211,6 +211,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("Drivetrain Setpoint Theta", setPoint.omegaRadiansPerSecond);
         SteelTalonsLogger.post("x speed", getVelocityVector().vxMetersPerSecond);
         SteelTalonsLogger.post("y speed", getVelocityVector().vyMetersPerSecond);
+        SteelTalonsLogger.post("Delta Time", Timer.getFPGATimestamp() - lastTime);
         // modules.get(0).log("front left");
         // modules.get(1).log("front right");
         // modules.get(2).log("back left");

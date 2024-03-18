@@ -24,7 +24,7 @@ public class AutonShoot extends Command {
         addRequirements(shooter);
         this.useVision = useVision;
         visionPID = new PIDController(2.75, 0, 0);
-        visionPID.setTolerance(Math.toRadians(5.0), Math.toRadians(10));
+        visionPID.setTolerance(Math.toRadians(5.0), Math.toRadians(2));
     }
 
     @Override

@@ -44,6 +44,7 @@ public class TestShooterRanging extends Command {
     public void initialize() {
 
         LEDManager.getInstance().setState(LEDState.kTargeting);
+        rotPID.reset();
     }
 
     @Override

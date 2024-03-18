@@ -50,7 +50,7 @@ public class ObjectDetector extends SubsystemBase {
     }
 
     public boolean noteInRange() {
-        return tv && (targetInfo()[1] < inRangeConst) && DriverStation.isAutonomous() ? targetInfo()[1] > -9.0 : true;
+        return tv && (targetInfo()[1] < inRangeConst);
     }
 
     public Rotation2d targetXRot() {
