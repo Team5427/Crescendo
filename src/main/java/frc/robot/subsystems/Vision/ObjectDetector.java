@@ -62,7 +62,7 @@ public class ObjectDetector extends SubsystemBase {
         double x = targetInfo()[0];
 
         if (noteInRange()) {
-            return x * xProportional; // may need to scale with y too FIXME
+            return x * -xProportional; // may need to scale with y too FIXME
         } else {
             return 0.0;
         }

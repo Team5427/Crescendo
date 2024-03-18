@@ -129,28 +129,24 @@ public class SwerveDrivetrain extends SubsystemBase {
     public void periodic() {
         Optional<Rotation2d> rotLock = driveConfig.getAngleLock();
 
-        if (DriverStation.isTeleop()) {
-            setDeadzone(driveConfig.getDeadZone());
+        setDeadzone(driveConfig.getDeadZone());
 
-            ChassisSpeeds calculatedSetpoint = setPoint.times(driveConfig.getSpeedScalar());
-            if (rotLock.isPresent()) {
-                calculatedSetpoint = new ChassisSpeeds(
-                    calculatedSetpoint.vxMetersPerSecond, 
-                    calculatedSetpoint.vyMetersPerSecond, 
-                    rotController.calculate(SteelTalonsLocalization.getInstance().getPose().getRotation().getRadians(), rotLock.get().getRadians())
-                );
-            } else {
-                calculatedSetpoint = setPoint;
-                rotController.reset(SteelTalonsLocalization.getInstance().getPose().getRotation().getRadians());
-            }
-            SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Timer.getFPGATimestamp() - lastTime));
-            SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S);
-            
-            for (int i = 0; i < modules.size(); i++) {
-                modules.get(i).setModuleState(states[i]);
-            }
+        ChassisSpeeds calculatedSetpoint = setPoint.times(driveConfig.getSpeedScalar());
+        if (rotLock.isPresent()) {
+            calculatedSetpoint = new ChassisSpeeds(
+                calculatedSetpoint.vxMetersPerSecond, 
+                calculatedSetpoint.vyMetersPerSecond, 
+                rotController.calculate(SteelTalonsLocalization.getInstance().getPose().getRotation().getRadians(), rotLock.get().getRadians())
+            );
         } else {
-            setDeadzone(0.25);
+            calculatedSetpoint = setPoint;
+            rotController.reset(SteelTalonsLocalization.getInstance().getPose().getRotation().getRadians());
+        }
+        SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(calculatedSetpoint.plus(adjustment), Timer.getFPGATimestamp() - lastTime));
+        SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S);
+        
+        for (int i = 0; i < modules.size(); i++) {
+            modules.get(i).setModuleState(states[i]);
         }
 
         if (DriverStation.isDisabled()) {
@@ -164,20 +160,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         lastTime = Timer.getFPGATimestamp();
     }
 
-    public void setStatesAuton(SwerveModuleState[] states) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
-        for (int i = 0; i < modules.size(); i++) {
-            modules.get(i).setModuleState(states[i]);
-        }
-    }
-
     public void setSpeedsAuton(ChassisSpeeds speeds) {
-        SwerveModuleState[] states = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.discretize(speeds, Units.millisecondsToSeconds(20)));
-        this.setPoint = speeds;
-        SwerveDriveKinematics.desaturateWheelSpeeds(states, DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S); //FIXME
-        for (int i = 0; i < modules.size(); i++) {
-            modules.get(i).setModuleState(states[i]);
-        }
+        setSetpoint(speeds);
     }
 
     public ChassisSpeeds getVelocityVector() {

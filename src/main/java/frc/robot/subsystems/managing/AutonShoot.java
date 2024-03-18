@@ -47,7 +47,7 @@ public class AutonShoot extends Command {
                 0.0 
             );
 
-            swerve.setSpeedsAuton(new ChassisSpeeds(0, 0, visionPID.calculate(RobotContainer.getTagCam().targetVisible() ? Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]) : -MiscUtil.targetingInformation()[3], 0.0)));
+            swerve.adjustSpeeds(new ChassisSpeeds(0, 0, visionPID.calculate(RobotContainer.getTagCam().targetVisible() ? Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]) : -MiscUtil.targetingInformation()[3], 0.0)));
         } else {
             config = new ShootingConfiguration(ShooterConstants.SHOOTER_PIVOT_ACTIVE, 5200, 5200);
         }

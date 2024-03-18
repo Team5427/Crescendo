@@ -31,15 +31,13 @@ public class IntakeCommand extends Command {
 
     @Override
     public void execute() {
-        if (!DriverStation.isAutonomous() && controller.getLeftTriggerAxis() < 0.25) {
-            SwerveDrivetrain.getInstance().adjustSpeeds(
-                new ChassisSpeeds(
-                    0, 
-                    0, 
-                    RobotContainer.getNoteCam().noteDriveAdjustment()
-                )
-            );    
-        }
+        SwerveDrivetrain.getInstance().adjustSpeeds(
+            new ChassisSpeeds(
+                0, 
+                RobotContainer.getNoteCam().noteDriveAdjustment(),
+                0
+            )
+        );    
     }
 
     @Override
