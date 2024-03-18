@@ -38,11 +38,11 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-15.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromRadians(-0.872); //-35.8
     public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-24.0);
-    public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-24.0);
+    public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-22.0);
     public static final Rotation2d SHOOTER_PIVOT_MAX_ROT = Rotation2d.fromDegrees(-55.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
-    public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-170.0);
+    public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-165.0);
 
     public static final double FLYWHEEL_STATIC_SPEED_RPM = 1000;
     public static final double FLYWHEEL_AMP_SPEED_RPM = 1800;
@@ -52,7 +52,7 @@ public class ShooterConstants {
     public static final double FEEDER_HOLD_SPEED = -0.00; // 0.0
     public static final double FEEDER_BUMP_SPEED = 0.1;
     public static final double FEEDER_FEED_SPEED = 2.5;
-    public static final double FEEDER_INTAKE_SPEED = 1.0;
+    public static final double FEEDER_INTAKE_SPEED = 0.8;
 
     public static final ShootingConfiguration TESTING_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_ACTIVE, 5000, 5000);
 

@@ -24,7 +24,7 @@ public class AutonShoot extends Command {
         addRequirements(shooter);
         this.useVision = useVision;
         visionPID = new PIDController(2.75, 0, 0);
-        visionPID.setTolerance(Math.toRadians(5.0));
+        visionPID.setTolerance(Math.toRadians(5.0), Math.toRadians(10));
     }
 
     @Override
@@ -42,7 +42,7 @@ public class AutonShoot extends Command {
         if (useVision) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(RobotContainer.getTagCam().speakerDist()).adjustBy(
                 Rotation2d.fromDegrees(0.0).
-                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0) * 0.2 * (5 - RobotContainer.getTagCam().speakerDist()))), //4 degrees of offset for 60 degree angle
+                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - RobotContainer.getTagCam().speakerDist()))), //4 degrees of offset for 60 degree angle
                 0.0,
                 0.0 
             );
