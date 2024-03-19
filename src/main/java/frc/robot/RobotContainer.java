@@ -60,7 +60,7 @@ public class RobotContainer {
 
     climber = new Climber();
 
-    input = new DigitalInput(4);
+    input = new DigitalInput(3);
 
     registerNamedCommands(); // Register commands BEFORE any other auton shenanigans
 
@@ -76,7 +76,7 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
+    NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand(null));
     NamedCommands.registerCommand("Auton Shoot", new SequentialCommandGroup(
       new BumpFeederIn().withTimeout(1.0),
       new AutonShoot(true)

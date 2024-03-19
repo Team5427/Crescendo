@@ -15,7 +15,7 @@ import frc.robot.util.MiscUtil;
 import frc.robot.util.SteelTalonsLogger;
 import frc.robot.util.LEDManager.LEDState;
 
-public class TestShooterRanging extends Command {
+public class TargetSpeaker extends Command {
 
     private Shooter shooter;
     private SwerveDrivetrain drivetrain;
@@ -30,7 +30,7 @@ public class TestShooterRanging extends Command {
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist
 
-    public TestShooterRanging() {
+    public TargetSpeaker() {
         shooter = Shooter.getInstance();
         drivetrain = SwerveDrivetrain.getInstance();
         tagCam = RobotContainer.getTagCam();

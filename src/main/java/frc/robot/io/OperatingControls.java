@@ -9,7 +9,7 @@ import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.FeedShooterClean;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
-import frc.robot.subsystems.Shooter.TestShooterRanging;
+import frc.robot.subsystems.Shooter.TargetSpeaker;
 import frc.robot.subsystems.managing.AutonShoot;
 import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
@@ -21,17 +21,18 @@ public class OperatingControls {
 
     public OperatingControls(CommandXboxController operatingController) {
         operatingController.leftTrigger(0.1).onTrue(
-                SubsystemManager.getComplexIntakeCommand());
+                SubsystemManager.getComplexIntakeCommand(operatingController));
 
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());
 
-        operatingController.leftBumper().whileTrue(new FeedShooter(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE, true));
+        // operatingController.leftBumper().whileTrue(new FeedShooter(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE, true));
+        operatingController.leftBumper().whileTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new Unstuck());
 
-        operatingController.b().whileTrue(new TestShooterRanging());
+        operatingController.b().whileTrue(new TargetSpeaker());
         operatingController.povDown().onTrue(new FeedShooterClean());
         operatingController.povUp().onTrue(new AutonShoot(false));
 

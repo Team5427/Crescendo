@@ -1,11 +1,15 @@
 package frc.robot.subsystems.managing;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Backshot;
 import frc.robot.subsystems.Intake.HomeIntake;
 import frc.robot.subsystems.Intake.Intake;
@@ -19,19 +23,24 @@ import frc.robot.subsystems.Shooter.ShooterConstants;
 
 public class SubsystemManager {
 
-    public static Command getComplexIntakeCommand() {
+    public static Command getComplexIntakeCommand(CommandXboxController operatingController) {
         return new SequentialCommandGroup(
-                new ConditionalCommand(
+                new ConditionalCommand( // Intaking Note
                     Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
                     Intake.getInstance().getIntakeCommand(), 
                     DriverStation::isAutonomous).onlyIf(() -> {return !Shooter.getInstance().loaded();}),
-                new ParallelCommandGroup(
-                    new SequentialCommandGroup(
-                        Shooter.getInstance().getShooterHandoff() //hopefully never needs this
-                    ),
+                new ParallelCommandGroup( // Adjusting note if not handoff properly
+                    new RunCommand(() -> {
+                        if (operatingController != null) {
+                            operatingController.getHID().setRumble(RumbleType.kBothRumble, 0.75);
+                            Timer.delay(0.1);
+                            operatingController.getHID().setRumble(RumbleType.kBothRumble, 0.0);
+                        }
+                    }),
+                    Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
                     Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
                 ).onlyIf(Intake.getInstance()::sensorCovered),
-                new ConditionalCommand(
+                new ConditionalCommand( // Rev up flywheels to static or auton speeds
                     new InstantCommand(() -> {
                         Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM, ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM);
                         Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);

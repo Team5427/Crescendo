@@ -5,8 +5,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class FeedShooterClean extends Command {
 
-    Shooter shooter;
-    Timer timer;
+    private Shooter shooter;
+    private Timer timer;
 
     public FeedShooterClean() {
         shooter = Shooter.getInstance();
