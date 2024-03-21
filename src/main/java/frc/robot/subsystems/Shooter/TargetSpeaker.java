@@ -22,11 +22,11 @@ public class TargetSpeaker extends Command {
     private PIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 1.75; //FIXME
+    private static final double kP = 2.5; //FIXME
     private static final double kI = 0.0;
-    private static final double kD = 0.0;
+    private static final double kD = 0.18;
 
-    private static final double VISION_PARALLEL_P_SCALAR = 0.75; //increase to make PID stronger during movement
+    private static final double VISION_PARALLEL_P_SCALAR = 0.0; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist
 
@@ -52,7 +52,7 @@ public class TargetSpeaker extends Command {
         double[] targetingInformation = MiscUtil.targetingInformation();
         double parallelSpeed = targetingInformation[0];
         double perpSpeed = targetingInformation[1];
-        double distance = RobotContainer.getTagCam().targetVisible() ? RobotContainer.getTagCam().speakerDist() : targetingInformation[2];
+        double distance = targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
         Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
 
@@ -60,7 +60,7 @@ public class TargetSpeaker extends Command {
         ShootingConfiguration config;
 
         adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
-        if (distance < 7.0 || !tagCam.targetVisible()) {
+        if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
                 plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle

@@ -126,6 +126,7 @@ public class MiscUtil {
         SteelTalonsLocalization localization = SteelTalonsLocalization.getInstance();
         SwerveDrivetrain drivetrain = SwerveDrivetrain.getInstance();
         Translation2d translation = localization.translationFromSpeaker();
+
         double distance = translation.getNorm();
         Rotation2d angError = 
             translation.getAngle(). //the angle of the line from the speaker to the bot
@@ -138,7 +139,7 @@ public class MiscUtil {
         double parallelSpeed = velocityMag * translation.getAngle().minus(velocityRot).getSin();
         double perpSpeed = velocityMag * translation.getAngle().minus(velocityRot).getCos();
 
-        return new double[]{-parallelSpeed, perpSpeed, distance, angError.getRadians(), translation.getAngle().getRadians()};
+        return new double[]{MiscUtil.isBlue() ? -parallelSpeed : parallelSpeed, MiscUtil.isBlue() ? perpSpeed : -perpSpeed, distance, angError.getRadians(), translation.getAngle().getRadians()};
     }
 
     public static double DTrotToMeters(double rotations) {

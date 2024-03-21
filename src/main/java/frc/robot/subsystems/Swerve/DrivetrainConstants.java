@@ -34,7 +34,7 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0)
+    public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (15.0 / 50.0) * (28.0 / 15.0) * (15.0 / 45.0)
             * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
     public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; // BEING USED IN PATH FINDER
     public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.0;
@@ -57,7 +57,7 @@ public class DrivetrainConstants {
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 1.0;
     public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 3;
 
-    public static final double MAX_TRANSLATION_SPEED_M_PER_LOOP = 1.0;
+    public static final double MAX_TRANSLATION_SPEED_M_PER_LOOP = 0.5;
 
     public static final int FRONT_LEFT_CANCODER_ID = 12;
     public static final int FRONT_RIGHT_CANCODER_ID = 13;
@@ -110,37 +110,37 @@ public class DrivetrainConstants {
         motor.getConfigurator().apply(velConstants);
 
         FeedbackConfigs feedbackConfigs = new FeedbackConfigs();
-        feedbackConfigs.SensorToMechanismRatio = (50.0 / 16.0) * (16.0 / 28.0) * (45.0 / 15.0);
+        feedbackConfigs.SensorToMechanismRatio = (50.0 / 15.0) * (15.0 / 28.0) * (45.0 / 15.0);
         motor.getConfigurator().apply(feedbackConfigs);
 
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
         currConfigs.StatorCurrentLimitEnable = true;
         currConfigs.SupplyCurrentLimitEnable = true;
-        currConfigs.StatorCurrentLimit = 60;
+        currConfigs.StatorCurrentLimit = 65;
         currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 70;
+        currConfigs.SupplyCurrentThreshold = 80;
         currConfigs.SupplyTimeThreshold = 0.1;
         motor.getConfigurator().apply(currConfigs);
 
         motor.setNeutralMode(NeutralModeValue.Brake);
     }
 
-    public static STSmaxConfig configureDriveNeo(STSmaxConfig config) {
+    // public static STSmaxConfig configureDriveNeo(STSmaxConfig config) {
 
-        config.kP = 0.02;
-        config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
-        config.kD = 0.0;
+    //     config.kP = 0.02;
+    //     config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
+    //     config.kD = 0.0;
 
-        config.currentLimit = 40;
+    //     config.currentLimit = 40;
 
-        config.isRotational = false;
+    //     config.isRotational = false;
 
-        config.gearing = (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
-        config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
-        config.idleMode = IdleMode.kBrake;
+    //     config.gearing = (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
+    //     config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
+    //     config.idleMode = IdleMode.kBrake;
 
-        return config;
-    }
+    //     return config;
+    // }
 
     public static STSmaxConfig configureSteerNeo(STSmaxConfig config) {
         config.currentLimit = 20;

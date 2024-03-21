@@ -13,6 +13,7 @@ public class Unstuck extends Command {
     public Unstuck() {
         shooter = Shooter.getInstance();
         intake = Intake.getInstance();
+        addRequirements(shooter, intake);
     }
 
     @Override

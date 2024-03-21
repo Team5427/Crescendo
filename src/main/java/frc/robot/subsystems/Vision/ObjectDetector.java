@@ -13,7 +13,7 @@ public class ObjectDetector extends SubsystemBase {
     private boolean tv;
 
     private static final double inRangeConst = 7.0;
-    private static final double xProportional = -0.025; // 0.1
+    private static final double xProportional = -0.0125; // 0.1
 
     private static final double TAG_CAM_HEIGHT_M = 0.15978;
     private static final Rotation2d TAG_CAM_ANGLE = Rotation2d.fromDegrees(35);
@@ -62,7 +62,7 @@ public class ObjectDetector extends SubsystemBase {
         double x = targetInfo()[0];
 
         if (noteInRange()) {
-            return x * -xProportional; // may need to scale with y too FIXME
+            return x * xProportional; // may need to scale with y too FIXME
         } else {
             return 0.0;
         }

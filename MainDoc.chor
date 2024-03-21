@@ -5,7 +5,7 @@
         "rotationalInertia": 5.276959657343984,
         "motorMaxTorque": 0.6,
         "motorMaxVelocity": 4500,
-        "gearing": 5.36,
+        "gearing": 5.357142857,
         "wheelbase": 0.5778496879611685,
         "trackWidth": 0.5778496879611685,
         "bumperLength": 0.9080495096532648,
