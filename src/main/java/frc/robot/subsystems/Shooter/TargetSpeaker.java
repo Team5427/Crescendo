@@ -5,6 +5,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.DrivetrainConstants;
@@ -96,11 +97,24 @@ public class TargetSpeaker extends Command {
         drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
             angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond
         ));
+
+        if (
+            DriverStation.isAutonomousEnabled() && 
+            shooter.pivotAtGoal(1.0) && 
+            shooter.flywheelAtGoal() && 
+            rotPID.atSetpoint()
+        ) {
+            shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return false;
+        if (DriverStation.isAutonomous()) {
+            return !shooter.loaded();
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -108,6 +122,7 @@ public class TargetSpeaker extends Command {
         drivetrain.adjustSpeeds(new ChassisSpeeds());
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+        shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
 
         LEDManager.getInstance().resetStates();
     }

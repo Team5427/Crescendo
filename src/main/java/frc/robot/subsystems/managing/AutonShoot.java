@@ -23,7 +23,7 @@ public class AutonShoot extends Command {
         swerve = SwerveDrivetrain.getInstance();
         addRequirements(shooter);
         this.useVision = useVision;
-        visionPID = new PIDController(2.75, 0, 0);
+        visionPID = new PIDController(8.0, 0, 0.1);
         visionPID.setTolerance(Math.toRadians(5.0), Math.toRadians(2));
     }
 

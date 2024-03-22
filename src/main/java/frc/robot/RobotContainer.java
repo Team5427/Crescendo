@@ -20,6 +20,7 @@ import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.BumpFeederIn;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.TargetSpeaker;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
@@ -79,7 +80,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand(null));
     NamedCommands.registerCommand("Auton Shoot", new SequentialCommandGroup(
       new BumpFeederIn().withTimeout(1.0),
-      new AutonShoot(true)
+      new TargetSpeaker()
     ));
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
   }

@@ -25,9 +25,9 @@ public class IntakeHandoff extends Command {
             intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
         }
 
-        // if (Shooter.getInstance().loaded()) {
-        //     intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        // }
+        if (Shooter.getInstance().loaded()) {
+            intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
+        }
 
     }
 
