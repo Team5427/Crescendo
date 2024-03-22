@@ -22,13 +22,14 @@ public class TargetSpeaker extends Command {
     private PIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 2.5; //FIXME
+    private static final double kP = 8.0; //FIXME
     private static final double kI = 0.0;
-    private static final double kD = 0.18;
+    private static final double kD = 0.1;
 
     private static final double VISION_PARALLEL_P_SCALAR = 0.0; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
-    //DEGREES - this value is meant for 2 meters dist
+    //DEGREES - this value is meant for 2 meters dist\\
+
 
     public TargetSpeaker() {
         shooter = Shooter.getInstance();
@@ -55,6 +56,7 @@ public class TargetSpeaker extends Command {
         double distance = targetingInformation[2];
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
         Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
+
 
         Rotation2d adjustmentSetpoint = new Rotation2d();
         ShootingConfiguration config;

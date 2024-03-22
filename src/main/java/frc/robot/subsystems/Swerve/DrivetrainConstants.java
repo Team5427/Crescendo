@@ -19,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 
 public class DrivetrainConstants {
@@ -34,9 +35,9 @@ public class DrivetrainConstants {
 
     public static final int PIGEON_CAN_ID = 16;
 
-    public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (15.0 / 50.0) * (28.0 / 15.0) * (15.0 / 45.0)
+    public static final double MAX_PHYSICAL_SPEED_M_S = (5800 * (15.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0)
             * WHEEL_DIAMETER_METERS * Math.PI) / (60.0);
-    public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 5; // BEING USED IN PATH FINDER
+    public static final double MAX_ACCEL = MAX_PHYSICAL_SPEED_M_S * 6; // BEING USED IN PATH FINDER
     public static final double THRESHOLD_STOPPING_M_S_COMPETITION = 0.0;
     public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.75;
 
@@ -104,13 +105,14 @@ public class DrivetrainConstants {
 
     public static void configureDriveTalon(TalonFX motor) {
         Slot0Configs velConstants = new Slot0Configs();
-        velConstants.kP = 0.1; // FIXME
-        velConstants.kS = 0.0; // FIXME
-        velConstants.kV = 12 / (MAX_PHYSICAL_SPEED_M_S);
+        velConstants.kP = 0.75; // 0.4 FIXME
+        velConstants.kS = 0.0; // 0.25 FIXME
+        velConstants.kV = 12.0 / (MiscUtil.DTmetersToRot(MAX_PHYSICAL_SPEED_M_S));
+        velConstants.kA = 20.0 / (MiscUtil.DTmetersToRot(MAX_ACCEL));
         motor.getConfigurator().apply(velConstants);
 
         FeedbackConfigs feedbackConfigs = new FeedbackConfigs();
-        feedbackConfigs.SensorToMechanismRatio = (50.0 / 15.0) * (15.0 / 28.0) * (45.0 / 15.0);
+        feedbackConfigs.SensorToMechanismRatio = (50.0 / 15.0) * (16.0 / 28.0) * (45.0 / 15.0);
         motor.getConfigurator().apply(feedbackConfigs);
 
         CurrentLimitsConfigs currConfigs = new CurrentLimitsConfigs();
