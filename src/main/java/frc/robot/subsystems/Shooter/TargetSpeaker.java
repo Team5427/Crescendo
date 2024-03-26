@@ -1,5 +1,7 @@
 package frc.robot.subsystems.Shooter;
 
+import java.sql.Driver;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -23,9 +25,9 @@ public class TargetSpeaker extends Command {
     private PIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 8.0; //FIXME
+    private static final double kP = 6.0; //FIXME
     private static final double kI = 0.0;
-    private static final double kD = 0.1;
+    private static final double kD = 0.15;
 
     private static final double VISION_PARALLEL_P_SCALAR = 0.0; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
@@ -38,7 +40,8 @@ public class TargetSpeaker extends Command {
         tagCam = RobotContainer.getTagCam();
         rotPID = new PIDController(kP, kI, kD);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
-        rotPID.setTolerance(Math.toRadians(1.5));
+        rotPID.setTolerance(Math.toRadians(4.5), Math.toRadians(2.0));
+        addRequirements(shooter);
 
     }
 
@@ -62,7 +65,7 @@ public class TargetSpeaker extends Command {
         Rotation2d adjustmentSetpoint = new Rotation2d();
         ShootingConfiguration config;
 
-        adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS
+        adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS WOW
         if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
@@ -79,14 +82,15 @@ public class TargetSpeaker extends Command {
             );
         }
 
+        double angleEffort = tagCam.targetVisible() ? 
+        rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
+        -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
+
 
         SteelTalonsLogger.post("On the fly adjustment", adjustmentSetpoint.getRadians());
 
         shooter.setShootingConfigSetpoints(config);
         // shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
-        double angleEffort = tagCam.targetVisible() ? 
-            rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
-            -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
 
         if (tagCam.targetVisible()) {
             rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);
@@ -99,10 +103,11 @@ public class TargetSpeaker extends Command {
         ));
 
         if (
-            DriverStation.isAutonomousEnabled() && 
-            shooter.pivotAtGoal(1.0) && 
+            (DriverStation.isAutonomousEnabled() && 
+            shooter.pivotAtGoal(0.25) && 
+            shooter.pivotAtVelGoal(0.5) &&
             shooter.flywheelAtGoal() && 
-            rotPID.atSetpoint()
+            rotPID.atSetpoint()) || (DriverStation.getMatchTime() > 14.5 && DriverStation.isAutonomous())
         ) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
         }

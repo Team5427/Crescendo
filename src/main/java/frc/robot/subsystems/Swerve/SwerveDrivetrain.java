@@ -71,7 +71,7 @@ public class SwerveDrivetrain extends SubsystemBase {
             ) //BACK RIGHT
         );
 
-        rotController = new ProfiledPIDController(3.0, 0, 0, new Constraints(
+        rotController = new ProfiledPIDController(8.0, 0, 0.25, new Constraints(
             DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP, 
             DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         ));

@@ -125,6 +125,10 @@ public class SteelTalonsSparkMaxServo {
         }
     }
 
+    public double getVelError() {
+        return smaxController.getVelocityError();
+    }
+
     public void resetController() {
         smaxController.reset(getPosition());
     }

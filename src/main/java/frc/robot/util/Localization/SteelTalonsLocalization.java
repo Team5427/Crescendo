@@ -60,7 +60,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             new Pose2d(), 
-            VecBuilder.fill(0.25, 0.25, 0.0), 
+            VecBuilder.fill(9999.9, 9999.0, 0.0), 
             VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
         );
 

@@ -10,6 +10,8 @@ import frc.robot.subsystems.Shooter.FeedShooterClean;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TargetSpeaker;
+import frc.robot.subsystems.Swerve.DrivetrainConstants;
+import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.managing.AutonShoot;
 import frc.robot.subsystems.managing.ScoreAmp;
 import frc.robot.subsystems.managing.SubsystemManager;
@@ -37,11 +39,18 @@ public class OperatingControls {
         operatingController.povUp().onTrue(new AutonShoot(false));
 
         operatingController.y().whileTrue(new ScoreAmp());
-        operatingController.x().onTrue(new AutonShoot(true));
+
+        operatingController.x().whileTrue(new RunCommand(() -> {
+                SwerveDrivetrain.getInstance().setDriveConfig(DrivetrainConstants.SHUTTLE_DRIVE_CONFIG);
+                Shooter.getInstance().setShootingConfigSetpoints(ShooterConstants.SHUTTLE_CONFIGURATION);
+        }).finallyDo(() -> {
+                SwerveDrivetrain.getInstance().setDriveConfig(DrivetrainConstants.DEFAULT_DRIVE_CONFIG);
+                Shooter.getInstance().setShootingConfigSetpoints(ShooterConstants.DEFAULT_CONFIGURATION);
+        }));
+
 
         operatingController.leftStick().whileTrue(new RunCommand(() -> {
                 LEDManager.getInstance().setState(LEDState.kAmpSignal);
-                System.err.println("this thing");
         }).handleInterrupt(LEDManager.getInstance()::resetStates));
 
         operatingController.rightStick().whileTrue(new RunCommand(() -> {

@@ -29,14 +29,7 @@ public class SubsystemManager {
                     Intake.getInstance().getIntakeCommand().withTimeout(3.0), 
                     Intake.getInstance().getIntakeCommand(), 
                     DriverStation::isAutonomous).onlyIf(() -> {return !Shooter.getInstance().loaded();}),
-                new ParallelCommandGroup( // Adjusting note if not handoff properly
-                    // new RunCommand(() -> {
-                    //     if (operatingController != null) {
-                    //         operatingController.getHID().setRumble(RumbleType.kBothRumble, 0.75);
-                    //         Timer.delay(0.1);
-                    //         operatingController.getHID().setRumble(RumbleType.kBothRumble, 0.0);
-                    //     }
-                    // }),
+                new ParallelCommandGroup(
                     Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
                     Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
                 ).onlyIf(Intake.getInstance()::sensorCovered),

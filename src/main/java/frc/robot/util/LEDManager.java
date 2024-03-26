@@ -36,7 +36,7 @@ public class LEDManager extends SubsystemBase {
 
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
-    private static final int ledCount = 95;
+    private static final int ledCount = 112;
 
     private LEDState ledState;
 

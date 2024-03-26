@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Vision;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -12,8 +13,9 @@ public class ObjectDetector extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
 
-    private static final double inRangeConst = 7.0;
-    private static final double xProportional = -0.0125; // 0.1
+    private static final double inRangeConst = 6.5;
+    private static final double xProportional = -0.03; // 0.1
+    private PIDController pid;
 
     private static final double TAG_CAM_HEIGHT_M = 0.15978;
     private static final Rotation2d TAG_CAM_ANGLE = Rotation2d.fromDegrees(35);
@@ -23,12 +25,18 @@ public class ObjectDetector extends SubsystemBase {
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
+        pid = new PIDController(0.035, 0.0, 0.0);
+
     }
 
     @Override
     public void periodic() {
         tv = table_m.getEntry("tv").getDouble(0.0) == 1.0;
         SmartDashboard.putBoolean("entry limelight" + table_m.getPath(), tv);
+        if (noteInRange()) {
+        } else {
+            pid.reset();
+        }
     }
 
     public boolean targetVisible() {
@@ -60,10 +68,12 @@ public class ObjectDetector extends SubsystemBase {
     public double noteDriveAdjustment() {
 
         double x = targetInfo()[0];
+        double y = targetInfo()[1];
 
         if (noteInRange()) {
-            return x * xProportional; // may need to scale with y too FIXME
+            return pid.calculate(x, 0.0); // may need to scale with y too FIXME
         } else {
+            pid.reset();
             return 0.0;
         }
     }

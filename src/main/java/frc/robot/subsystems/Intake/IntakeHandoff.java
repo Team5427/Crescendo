@@ -26,6 +26,7 @@ public class IntakeHandoff extends Command {
         }
 
         if (Shooter.getInstance().loaded()) {
+            System.err.println("stowed position");
             intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         }
 
@@ -39,7 +40,7 @@ public class IntakeHandoff extends Command {
     @Override
     public void end(boolean interrupted) {
         // System.err.println("RUNNIG INTAKE HANDOFF END interrupted: " + interrupted);
-        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
+        intake.setRollerSetpoint(0.0);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setLimits(50);
     }

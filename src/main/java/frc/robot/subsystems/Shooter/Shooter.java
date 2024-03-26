@@ -100,6 +100,10 @@ public class Shooter extends SubsystemBase {
     return Math.abs(pivotMaster.getError()) < Units.degreesToRadians(degTol);
   }
 
+  public boolean pivotAtVelGoal(double degTol) {
+    return Math.abs(pivotMaster.getVelError()) < Units.degreesToRadians(degTol);
+  }
+
   public boolean atHandoff() {
     return pivotAtGoal(1.0) && this.pivotSetpoint.equals(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
   }

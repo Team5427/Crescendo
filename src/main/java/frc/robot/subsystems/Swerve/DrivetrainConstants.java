@@ -55,8 +55,15 @@ public class DrivetrainConstants {
         true
     );
 
+    public static final DriveConfig SHUTTLE_DRIVE_CONFIG = new DriveConfig(
+        Optional.of(MiscUtil.isBlue() ? new Rotation2d((Math.PI * 5) / 6) : new Rotation2d(Math.PI / 6)), 
+        1.0, 
+        0.0, 
+        true
+    );
+
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 1.0;
-    public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 3;
+    public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 4;
 
     public static final double MAX_TRANSLATION_SPEED_M_PER_LOOP = 0.5;
 
