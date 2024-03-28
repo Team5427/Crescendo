@@ -56,7 +56,7 @@ public class RobotContainer {
     shooter = new Shooter();
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
-    tagCam = new ObjectDetector("limelight-front");
+    tagCam = new ObjectDetector("limelight-front"); //change to limelight-shooter
 
     leds = new LEDManager();
 

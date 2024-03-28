@@ -1,0 +1,168 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4245039224624634,
+      "y": 5.536125659942627
+    },
+    "rotation": -2.846204909011108e-27
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H-1.1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Complex Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H-1.2"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Complex Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H-1.3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Complex Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H-1.4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H-1.5"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Complex Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H-1.6"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "H-1.7"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Complex Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "H-1.8"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Auton Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Upper 5 Note",
+  "choreoAuto": true
+}

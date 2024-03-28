@@ -139,7 +139,18 @@ public class MiscUtil {
         double parallelSpeed = velocityMag * translation.getAngle().minus(velocityRot).getSin();
         double perpSpeed = velocityMag * translation.getAngle().minus(velocityRot).getCos();
 
-        return new double[]{MiscUtil.isBlue() ? -parallelSpeed : parallelSpeed, MiscUtil.isBlue() ? perpSpeed : -perpSpeed, distance, angError.getRadians(), translation.getAngle().getRadians()};
+        Rotation2d translationAngle = translation.getAngle();
+
+        if (MiscUtil.isBlue()) {
+            // parallelSpeed = -parallelSpeed;
+        } else {
+            translationAngle = MiscUtil.flip(translationAngle);
+            // perpSpeed = -perpSpeed;
+            // parallelSpeed = -parallelSpeed;
+            
+        }
+
+        return new double[]{MiscUtil.isBlue() ? -parallelSpeed : parallelSpeed, MiscUtil.isBlue() ? perpSpeed : -perpSpeed, distance, angError.getRadians(), translationAngle.getRadians()};
     }
 
     public static double DTrotToMeters(double rotations) {

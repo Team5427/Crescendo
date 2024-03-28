@@ -27,7 +27,7 @@ public class FeedShooterClean extends Command {
 
     @Override
     public boolean isFinished() {
-        return (!shooter.loaded() & timer.get() > 0.5) || (shooter.getShooterPivot().getSetPoint() == ShooterConstants.SHOOTER_PIVOT_STOW.getRadians());
+        return (!shooter.loaded() && timer.get() > 0.5); //removed shooter at stow as a return parameter
     }
 
     @Override

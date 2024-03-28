@@ -26,7 +26,7 @@ public class IntakeHandoff extends Command {
         }
 
         if (Shooter.getInstance().loaded()) {
-            System.err.println("stowed position");
+            // System.err.println("stowed position");
             intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         }
 

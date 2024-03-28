@@ -56,7 +56,7 @@ public class DrivetrainConstants {
     );
 
     public static final DriveConfig SHUTTLE_DRIVE_CONFIG = new DriveConfig(
-        Optional.of(MiscUtil.isBlue() ? new Rotation2d((Math.PI * 5) / 6) : new Rotation2d(Math.PI / 6)), 
+        Optional.of(new Rotation2d(-Math.PI / 6)), 
         1.0, 
         0.0, 
         true

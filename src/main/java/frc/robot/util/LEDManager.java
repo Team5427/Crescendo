@@ -20,7 +20,8 @@ public class LEDManager extends SubsystemBase {
         kShooterLoaded, //static green
         kAmpSignal, //flashing yellow - 20 Hz
         kCoopSignal, //flashing purple - 20 Hz
-        kTargeting //flashing green - 10 Hz
+        kTargeting, //flashing green - 10 Hz
+        kShuttle //flashing red
     }
 
     private static LEDManager instance;
@@ -152,6 +153,10 @@ public class LEDManager extends SubsystemBase {
                 this.currentColor = Color.kPurple;
                 colorFreq = 40.0;
                 break;
+
+            case kShuttle:
+                this.currentColor = Color.kRed;
+                colorFreq = 20.0;
 
             default:
                 this.currentColor = Color.kRed;

@@ -43,9 +43,11 @@ public class OperatingControls {
         operatingController.x().whileTrue(new RunCommand(() -> {
                 SwerveDrivetrain.getInstance().setDriveConfig(DrivetrainConstants.SHUTTLE_DRIVE_CONFIG);
                 Shooter.getInstance().setShootingConfigSetpoints(ShooterConstants.SHUTTLE_CONFIGURATION);
+                LEDManager.getInstance().setState(LEDState.kTargeting);
         }).finallyDo(() -> {
                 SwerveDrivetrain.getInstance().setDriveConfig(DrivetrainConstants.DEFAULT_DRIVE_CONFIG);
                 Shooter.getInstance().setShootingConfigSetpoints(ShooterConstants.DEFAULT_CONFIGURATION);
+                LEDManager.getInstance().resetStates();
         }));
 
 

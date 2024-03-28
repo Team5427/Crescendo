@@ -1,16 +1,11 @@
 package frc.robot.subsystems.Shooter;
 
-import java.sql.Driver;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.subsystems.Vision.ObjectDetector;
 import frc.robot.util.LEDManager;
@@ -30,7 +25,7 @@ public class TargetSpeaker extends Command {
     private static final double kD = 0.15;
 
     private static final double VISION_PARALLEL_P_SCALAR = 0.0; //increase to make PID stronger during movement
-    private static final double OTF_ROT_PARALLEL = 7.5; //increase to make it compensate for parallel movement more
+    private static final double OTF_ROT_PARALLEL = 9.0; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist\\
 
 
@@ -69,7 +64,7 @@ public class TargetSpeaker extends Command {
         if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
-                plus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (4.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
+                minus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
                 0.0,
                 0.0 
             );   
