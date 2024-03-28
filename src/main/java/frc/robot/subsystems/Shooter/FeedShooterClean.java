@@ -20,9 +20,9 @@ public class FeedShooterClean extends Command {
         timer.reset();
         timer.start();
 
-        if (shooter.getShooterPivot().getSetPoint() == ShooterConstants.SHOOTER_PIVOT_STOW.getRadians()) {
-            shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
-        }
+        // if (shooter.getShooterPivot().getSetPoint() == ShooterConstants.SHOOTER_PIVOT_STOW.getRadians()) {
+        //     shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
+        // }
     }
 
     @Override

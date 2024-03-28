@@ -34,13 +34,13 @@ public class IntakeHandoff extends Command {
 
     @Override
     public boolean isFinished() {
-        return Shooter.getInstance().inPosition() && Shooter.getInstance().atStow();
+        return Shooter.getInstance().inPosition() || Shooter.getInstance().atStow();
     }
 
     @Override
     public void end(boolean interrupted) {
         // System.err.println("RUNNIG INTAKE HANDOFF END interrupted: " + interrupted);
-        intake.setRollerSetpoint(0.0);
+        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_ZERO);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setLimits(50);
     }

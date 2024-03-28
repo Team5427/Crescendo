@@ -31,7 +31,7 @@ public class SubsystemManager {
                     DriverStation::isAutonomous).onlyIf(() -> {return !Shooter.getInstance().loaded();}),
                 new ParallelCommandGroup(
                     Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
-                    Intake.getInstance().getIntakeHandoff().onlyWhile(Shooter.getInstance()::notAtStow)
+                    Intake.getInstance().getIntakeHandoff()
                 ).onlyIf(Intake.getInstance()::sensorCovered),
                 new ConditionalCommand( // Rev up flywheels to static or auton speeds
                     new InstantCommand(() -> {

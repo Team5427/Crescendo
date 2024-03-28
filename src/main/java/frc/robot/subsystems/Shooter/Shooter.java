@@ -156,7 +156,7 @@ public class Shooter extends SubsystemBase {
     }
 
     if (homingAmp) {
-      hardSetAmp(0.08);
+      hardSetAmp(0.1);
     } else {
       ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
     }

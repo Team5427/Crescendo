@@ -34,6 +34,6 @@ public class ShooterHandoff extends Command {
         // shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         // System.err.println("finished shooter handoff");
 
-        LEDManager.getInstance().setState(shooter.loaded() ? LEDState.kShooterLoaded : LEDState.kIntakeFull);
+        LEDManager.getInstance().resetStates();
     }
 }

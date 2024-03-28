@@ -25,6 +25,7 @@ public class IntakeConstants {
     public static final double INTAKE_SPEED_HOLD = 0.75;
     public static final double INTAKE_SPEED_EJECTING = -2.2;
     public static final double INTAKE_SPEED_EJECTING_MAX = -5.5;
+    public static final double INTAKE_SPEED_ZERO = 0.0;
 
     public static final double PIVOT_TOLERANCE_RAD = (Units.degreesToRadians(3.5));
 
