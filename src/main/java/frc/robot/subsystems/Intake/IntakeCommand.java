@@ -53,7 +53,7 @@ public class IntakeCommand extends Command {
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
 
-        LEDManager.getInstance().setState(intake.sensorCovered() ? LEDState.kIntakeFull : LEDState.kEmpty);
+        LEDManager.getInstance().resetStates();
     }
 
 }

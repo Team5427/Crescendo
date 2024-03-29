@@ -71,7 +71,7 @@ public class SwerveModule {
     } 
 
     public void log(String name) {
-        SteelTalonsLogger.post(name + " velocity", MiscUtil.DTmetersToRot(getModuleState().speedMetersPerSecond));
+        SteelTalonsLogger.post(name + " velocity", getModuleState().speedMetersPerSecond);
         SteelTalonsLogger.post(name + " velocity setpoint", driveMotor.getClosedLoopReference().getValueAsDouble());
         SteelTalonsLogger.post(name + " position", getModulePosition().distanceMeters);
         SteelTalonsLogger.post(name + " angle", getModuleState().angle.getRadians());
