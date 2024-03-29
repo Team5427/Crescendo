@@ -64,7 +64,7 @@ public class TargetSpeaker extends Command {
         if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
-                minus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * (3.0 / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
+                minus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * ((DriverStation.isAutonomousEnabled() ? -3.5 : 1.5) / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
                 0.0,
                 0.0 
             );   
@@ -102,7 +102,7 @@ public class TargetSpeaker extends Command {
             shooter.pivotAtGoal(0.25) && 
             shooter.pivotAtVelGoal(0.5) &&
             shooter.flywheelAtGoal() && 
-            rotPID.atSetpoint()) || (DriverStation.getMatchTime() > 14.5 && DriverStation.isAutonomous())
+            rotPID.atSetpoint())
         ) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
         }
