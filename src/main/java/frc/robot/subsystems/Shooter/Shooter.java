@@ -29,7 +29,7 @@ public class Shooter extends SubsystemBase {
   private double rightShooterSetpoint = 0.0;
   private double feederSetpoint = 0.0;
   private Rotation2d ampSetpoint = new Rotation2d();
-  private Rotation2d pivotSetpoint = new Rotation2d();
+  private Rotation2d pivotSetpoint = ShooterConstants.SHOOTER_PIVOT_STOW;
   private boolean homingPivot = false;
   private boolean homingAmp = false;
 

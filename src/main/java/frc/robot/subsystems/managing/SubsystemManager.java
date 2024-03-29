@@ -32,23 +32,18 @@ public class SubsystemManager {
                 new ParallelCommandGroup(
                     Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
                     Intake.getInstance().getIntakeHandoff()
-                ).onlyIf(Intake.getInstance()::sensorCovered),
-                new ConditionalCommand( // Rev up flywheels to static or auton speeds
-                    new InstantCommand(() -> {
-                        Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM, ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM);
-                        Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-                    }), 
-                    new InstantCommand(() -> {
-                        Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-                        Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-                    }),
-                    () -> {return DriverStation.isAutonomous();}
-                )
-        ).handleInterrupt(() -> {
-            Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM,
-            ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
-            Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
-        });
+                ).onlyIf(Intake.getInstance()::sensorCovered)
+        )
+        // .finallyDo(() -> {
+        //     if (DriverStation.isAutonomous()) {
+        //         Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM, ShooterConstants.FLYWHEEL_AUTON_SPEED_RPM);
+        //         Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+        //     } else {
+        //         Shooter.getInstance().setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+        //         Shooter.getInstance().setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
+        //     }
+        // })
+        ;
     }
 
     public static Command homeAll() {

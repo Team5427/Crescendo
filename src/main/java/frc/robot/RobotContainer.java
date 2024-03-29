@@ -81,7 +81,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand(null));
     NamedCommands.registerCommand("Auton Shoot", new SequentialCommandGroup(
       // new BumpFeederIn().withTimeout(1.0),
-      new WaitUntilCommand(Shooter.getInstance()::atStow),
+      new WaitUntilCommand(Shooter.getInstance()::atStow).withTimeout(1.0),
       new TargetSpeaker()
     ));
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
