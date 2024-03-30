@@ -87,11 +87,13 @@ public class SteelTalonsLocalization extends SubsystemBase {
         poseEstimator.update(gyroAngle, dtWheelPositions);
         if (DriverStation.isAutonomous()) {
             poseOdometry.update(gyroAngle, dtWheelPositions);
+            field.setRobotPose(getOdometryPose());
+        } else {
+            field.setRobotPose(getPose());
         }
 
         refPose = poseEstimator.getEstimatedPosition();
 
-        field.setRobotPose(getPose());
         SteelTalonsLogger.postComplex("Field 2d", field);
 
         if (camList != null) {
@@ -143,6 +145,8 @@ public class SteelTalonsLocalization extends SubsystemBase {
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             newPose
         );
+
+        resetPose(newPose);
     }
 
     public Translation2d translationFromSpeaker() {
