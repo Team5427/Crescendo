@@ -37,7 +37,7 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_HARDSTOP = Rotation2d.fromDegrees(0.0);
     public static final Rotation2d SHOOTER_PIVOT_STOW = Rotation2d.fromDegrees(-9.0);
     public static final Rotation2d SHOOTER_PIVOT_HANDOFF = Rotation2d.fromRadians(-0.872); //-35.8
-    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-26.0);
+    public static final Rotation2d SHOOTER_PIVOT_AMP = Rotation2d.fromDegrees(-25.0);
     public static final Rotation2d SHOOTER_PIVOT_ACTIVE = Rotation2d.fromDegrees(-22.0);
     public static final Rotation2d SHOOTER_PIVOT_SHUTTLE = Rotation2d.fromDegrees(-35.0);
     public static final Rotation2d SHOOTER_PIVOT_MAX_ROT = Rotation2d.fromDegrees(-55.0);
