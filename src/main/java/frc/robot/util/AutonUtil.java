@@ -21,8 +21,8 @@ public class AutonUtil extends SubsystemBase {
 
     public AutonUtil() {
         AutoBuilder.configureHolonomic(
-            SteelTalonsLocalization.getInstance()::getPose, 
-            SteelTalonsLocalization.getInstance()::resetPose, 
+            SteelTalonsLocalization.getInstance()::getOdometryPose, 
+            SteelTalonsLocalization.getInstance()::resetOdometryPose, 
             SwerveDrivetrain.getInstance()::getVelocityVector, 
             SwerveDrivetrain.getInstance()::setSpeedsAuton, 
             new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class

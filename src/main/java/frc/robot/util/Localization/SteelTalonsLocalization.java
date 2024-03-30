@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveDriveWheelPositions;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -39,6 +40,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private final Transform3d rightRobotToCam = new Transform3d(Units.inchesToMeters(-12.842), Units.inchesToMeters(-11.992), Units.inchesToMeters(9.385), new Rotation3d(0, Math.toRadians(-35), Math.PI));
 
     private SwerveDrivePoseEstimator poseEstimator;
+    private SwerveDriveOdometry poseOdometry; //used in auton only  - for intake pathing
 
     private Field2d field;
 
@@ -60,8 +62,15 @@ public class SteelTalonsLocalization extends SubsystemBase {
             SwerveDrivetrain.getInstance().getRotation(), 
             SwerveDrivetrain.getInstance().getWheelPositions().positions, 
             new Pose2d(), 
-            VecBuilder.fill(9999.9, 9999.0, 0.0), 
+            VecBuilder.fill(2.5, 2.5, 0.0), 
             VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
+        );
+
+        poseOdometry = new SwerveDriveOdometry(
+            DrivetrainConstants.SWERVE_DRIVE_KINEMATICS, 
+            SwerveDrivetrain.getInstance().getRotation(), 
+            SwerveDrivetrain.getInstance().getWheelPositions().positions, 
+            new Pose2d()
         );
 
         field = new Field2d();
@@ -76,12 +85,16 @@ public class SteelTalonsLocalization extends SubsystemBase {
         SwerveDriveWheelPositions dtWheelPositions = SwerveDrivetrain.getInstance().getWheelPositions();
         Rotation2d gyroAngle = SwerveDrivetrain.getInstance().getRotation();
         poseEstimator.update(gyroAngle, dtWheelPositions);
+        if (DriverStation.isAutonomous()) {
+            poseOdometry.update(gyroAngle, dtWheelPositions);
+        }
+
         refPose = poseEstimator.getEstimatedPosition();
 
         field.setRobotPose(getPose());
         SteelTalonsLogger.postComplex("Field 2d", field);
 
-        if (camList != null && !DriverStation.isAutonomous()) {
+        if (camList != null) {
             for (ApriltagCam cam : camList) {
                 Optional<SteelTalonsVisionMeasurement> estimate = LocalizationUtil.findConfidence(cam.getUpdate(refPose), refPose, lastPose);
                 if (estimate.isPresent()) {
@@ -109,6 +122,10 @@ public class SteelTalonsLocalization extends SubsystemBase {
         return poseEstimator.getEstimatedPosition();
     }
 
+    public Pose2d getOdometryPose() {
+        return poseOdometry.getPoseMeters();
+    }
+
     public void resetPose(Pose2d newPose) {
         poseEstimator.resetPosition(
             SwerveDrivetrain.getInstance().getRotation(), 
@@ -118,6 +135,14 @@ public class SteelTalonsLocalization extends SubsystemBase {
 
         lastPose = Optional.of(poseEstimator.getEstimatedPosition());
         refPose = newPose;
+    }
+
+    public void resetOdometryPose(Pose2d newPose) {
+        poseOdometry.resetPosition(
+            SwerveDrivetrain.getInstance().getRotation(), 
+            SwerveDrivetrain.getInstance().getWheelPositions().positions, 
+            newPose
+        );
     }
 
     public Translation2d translationFromSpeaker() {
