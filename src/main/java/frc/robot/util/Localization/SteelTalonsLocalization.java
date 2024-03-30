@@ -149,6 +149,12 @@ public class SteelTalonsLocalization extends SubsystemBase {
         resetPose(newPose);
     }
 
+    public void resetCameras() {
+        for (ApriltagCam cam : camList) {
+            cam.resetCamera();
+        }
+    }
+
     public Translation2d translationFromSpeaker() {
         return MiscUtil.isBlue() ? getPose().getTranslation().minus(MiscUtil.speaker_Pose.getTranslation()) : getPose().getTranslation().minus(MiscUtil.flip(MiscUtil.speaker_Pose.getTranslation()));
     }

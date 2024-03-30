@@ -14,6 +14,7 @@ public class PilotingControls {
             SteelTalonsLocalization.getInstance().resetPose(
                 MiscUtil.isBlue() ? MiscUtil.resetPose()[0] : MiscUtil.resetPose()[1]
             );
+            SteelTalonsLocalization.getInstance().resetCameras();
             SwerveDrivetrain.getInstance().resetGyro(new Rotation2d());
         }, SteelTalonsLocalization.getInstance()));
 

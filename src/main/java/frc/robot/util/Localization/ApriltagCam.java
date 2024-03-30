@@ -30,4 +30,10 @@ public class ApriltagCam {
     public String getName() {
         return cam.getName();
     }
+
+    public void resetCamera() {
+        cam = new PhotonCamera(cam.getName());
+        estimator = new PhotonPoseEstimator(estimator.getFieldTags(), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, estimator.getRobotToCameraTransform());
+        estimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
+    }
 }
