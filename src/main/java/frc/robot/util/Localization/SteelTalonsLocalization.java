@@ -135,7 +135,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
             newPose
         );
 
-        lastPose = Optional.of(poseEstimator.getEstimatedPosition());
+        lastPose = Optional.empty();
         refPose = newPose;
     }
 
