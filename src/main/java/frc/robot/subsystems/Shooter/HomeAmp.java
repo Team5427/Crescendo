@@ -18,8 +18,8 @@ public class HomeAmp extends Command {
         // addRequirements(shooter);
 
         timer = new Timer();
-        homingTargetDegrees = 0.75;
-        homingSecondsToFinish = 0.5;
+        homingTargetDegrees = 0.5;
+        homingSecondsToFinish = 1.0;
     }
 
     private void timerContinueHoming() {

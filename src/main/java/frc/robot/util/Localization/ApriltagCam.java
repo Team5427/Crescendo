@@ -19,7 +19,7 @@ public class ApriltagCam {
     public ApriltagCam(String name, Transform3d robotToCam, AprilTagFieldLayout fieldLayout) {
         cam = new PhotonCamera(name);
         estimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cam, robotToCam);
-        estimator.setMultiTagFallbackStrategy(PoseStrategy.CLOSEST_TO_REFERENCE_POSE);
+        estimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     }
 
     public Optional<EstimatedRobotPose> getUpdate(Pose2d refPose) {

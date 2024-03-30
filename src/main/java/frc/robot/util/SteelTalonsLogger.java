@@ -31,4 +31,7 @@ public class SteelTalonsLogger {
             return;
         }
     }
+    public static void WOW(){
+        System.err.println("WOW");
+    }
 }

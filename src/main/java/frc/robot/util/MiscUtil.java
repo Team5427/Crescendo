@@ -164,7 +164,7 @@ public class MiscUtil {
     public static double drivetrainSpeedMagnitude() {
         double x = SwerveDrivetrain.getInstance().getVelocityVector().vxMetersPerSecond;
         double y = SwerveDrivetrain.getInstance().getVelocityVector().vyMetersPerSecond;
-        return Math.hypot(x, y);
+        return Math.sqrt(x * x + y * y);
     }
 
 }
