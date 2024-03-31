@@ -29,7 +29,7 @@ public class ShooterConstants {
 
     private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.25);
 
-    public static final double FLYWHEEL_TOLERANCE_RPM = 100.0;
+    public static final double FLYWHEEL_TOLERANCE_RPM = 200.0;
     public static final double FEEDER_TOLERANCE_M_S = 0.2;
     public static final Rotation2d PIVOT_TOLERANCE_RAD = new Rotation2d(Math.toRadians(0.25));
     public static final Rotation2d AMP_TOLERANCE_RAD = new Rotation2d(Math.toRadians(1.25));

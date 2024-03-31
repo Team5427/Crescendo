@@ -99,7 +99,7 @@ public class TargetSpeaker extends Command {
 
         if (
             (DriverStation.isAutonomousEnabled() && 
-            shooter.pivotAtGoal(0.25) && 
+            shooter.pivotAtGoal(0.5) && 
             shooter.pivotAtVelGoal(0.5) &&
             shooter.flywheelAtGoal() && 
             rotPID.atSetpoint())

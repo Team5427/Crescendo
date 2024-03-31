@@ -225,7 +225,7 @@ public class Shooter extends SubsystemBase {
     SteelTalonsLogger.post("Shooter Loaded", loaded());
     SteelTalonsLogger.post("Note Ready To Shoot", inPosition());
     // SteelTalonsLogger.post("top in position", !beamBreak.get());
-    // SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
+    SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
     // SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
     SteelTalonsLogger.post("pivot at goal 3", pivotAtGoal(3));
   }
