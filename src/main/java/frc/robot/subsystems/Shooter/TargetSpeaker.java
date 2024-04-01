@@ -4,6 +4,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
@@ -92,10 +93,11 @@ public class TargetSpeaker extends Command {
         } else {
             rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);
         }
-        
-        drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
-            angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond
-        ));
+        if (new XboxController(0).getLeftTriggerAxis() < 0.5) {
+            drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
+                angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond
+            ));
+        }
 
         if (
             (DriverStation.isAutonomousEnabled() && 

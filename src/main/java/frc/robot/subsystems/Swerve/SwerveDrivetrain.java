@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -132,7 +133,7 @@ public class SwerveDrivetrain extends SubsystemBase {
         setDeadzone(driveConfig.getDeadZone());
 
         ChassisSpeeds calculatedSetpoint = setPoint.times(driveConfig.getSpeedScalar());
-        if (rotLock.isPresent()) {
+        if (rotLock.isPresent() && new XboxController(0).getLeftTriggerAxis() < 0.5) {
             if (!MiscUtil.isBlue()) {
                 rotLock = Optional.of(MiscUtil.flip(rotLock.get()));
             }
@@ -189,7 +190,9 @@ public class SwerveDrivetrain extends SubsystemBase {
             cv[i] = cv[i] * trigger;
         }
         
-        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], MiscUtil.isBlue() ? SteelTalonsLocalization.getInstance().getPose().getRotation() : SteelTalonsLocalization.getInstance().getPose().getRotation().plus(Rotation2d.fromDegrees(180))) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
+        // return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], MiscUtil.isBlue() ? SteelTalonsLocalization.getInstance().getPose().getRotation() : SteelTalonsLocalization.getInstance().getPose().getRotation().plus(Rotation2d.fromDegrees(180))) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
+        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], getRotation()) : new ChassisSpeeds(cv[0], cv[1], cv[2]); //may cause issues, but doesn't screw with driving
+
     }
 
     public void log() {
