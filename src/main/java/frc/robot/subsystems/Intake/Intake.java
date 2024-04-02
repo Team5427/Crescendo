@@ -29,7 +29,7 @@ public class Intake extends SubsystemBase {
 
     public Intake () {
         IntakeConstants.configureIntake();
-        rollerTalon = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID);
+        rollerTalon = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID, "*");
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.CurrentLimits.StatorCurrentLimitEnable = true;

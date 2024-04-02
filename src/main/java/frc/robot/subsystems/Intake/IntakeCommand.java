@@ -52,6 +52,7 @@ public class IntakeCommand extends Command {
         SwerveDrivetrain.getInstance().adjustSpeeds(new ChassisSpeeds());
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
+        System.err.println("Intake interrupted - " + interrupted);
 
         LEDManager.getInstance().resetStates();
     }

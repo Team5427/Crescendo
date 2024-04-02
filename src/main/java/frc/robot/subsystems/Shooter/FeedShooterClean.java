@@ -17,6 +17,7 @@ public class FeedShooterClean extends Command {
     @Override
     public void initialize() {
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
+        timer = new Timer();
         timer.reset();
         timer.start();
 
@@ -33,6 +34,7 @@ public class FeedShooterClean extends Command {
     @Override
     public void end(boolean interrupted) {
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
+        System.err.println("finishing shooter feed clean");
     }
 
 

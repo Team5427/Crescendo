@@ -19,9 +19,9 @@ public class Climber extends SubsystemBase {
     private static Climber instance;
 
     public Climber() {
-        //men
-        rightClimber = new TalonFX(ClimberConstants.RIGHT_CLIMBER_ID);
-        leftClimber = new TalonFX(ClimberConstants.LEFT_CLIMBER_ID);
+        
+        rightClimber = new TalonFX(ClimberConstants.RIGHT_CLIMBER_ID, "*");
+        leftClimber = new TalonFX(ClimberConstants.LEFT_CLIMBER_ID, "*");
 
         ClimberConstants.configureClimber(rightClimber, false);
         ClimberConstants.configureClimber(leftClimber, false);

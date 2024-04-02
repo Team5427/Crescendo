@@ -38,7 +38,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
     public SwerveDrivetrain() {
         instance = this;
-        gyro = new Pigeon2(DrivetrainConstants.PIGEON_CAN_ID);
+        gyro = new Pigeon2(DrivetrainConstants.PIGEON_CAN_ID, "*");
         gyro.reset();
         DrivetrainConstants.configureMotors();
         modules = List.of(

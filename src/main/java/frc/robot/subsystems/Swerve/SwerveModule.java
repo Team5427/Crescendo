@@ -22,13 +22,13 @@ public class SwerveModule {
     
     public SwerveModule(int talonID, TalonFXConfiguration driveConfig, STSmaxConfig steerConfig, int canCoderID, double offset) {
 
-        driveMotor = new TalonFX(talonID);
+        driveMotor = new TalonFX(talonID, "*");
         driveMotor.getConfigurator().apply(driveConfig);
         DrivetrainConstants.configureDriveTalon(driveMotor);
 
         steerMotor = new SteelTalonsSparkMaxSimpleServo(DrivetrainConstants.configureSteerNeo(steerConfig));
 
-        canCoder = new CANcoder(canCoderID);
+        canCoder = new CANcoder(canCoderID, "*");
         DrivetrainConstants.configureCanCoder(canCoder, offset);
 
         driveMotor.setPosition(0);
