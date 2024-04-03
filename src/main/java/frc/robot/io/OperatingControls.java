@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.FeedShooterClean;
+import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TargetSpeaker;
@@ -23,13 +24,13 @@ public class OperatingControls {
 
     public OperatingControls(CommandXboxController operatingController) {
         operatingController.leftTrigger(0.1).onTrue(
-                SubsystemManager.getComplexIntakeCommand(operatingController));
+                SubsystemManager.getComplexIntakeCommand(operatingController).andThen(new HomeAmp()));
 
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());
 
         // operatingController.leftBumper().whileTrue(new FeedShooter(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE, true));
-        operatingController.leftBumper().whileTrue(Shooter.getInstance().getFeedCommand(5200, ShooterConstants.SHOOTER_PIVOT_ACTIVE));
+        operatingController.leftBumper().onTrue(new HomeAmp());
         operatingController.rightBumper().onTrue(SubsystemManager.homeAll());
 
         operatingController.a().onTrue(new Unstuck());

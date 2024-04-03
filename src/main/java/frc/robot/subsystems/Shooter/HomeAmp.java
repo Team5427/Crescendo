@@ -3,6 +3,7 @@ package frc.robot.subsystems.Shooter;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class HomeAmp extends Command {
 
@@ -19,7 +20,7 @@ public class HomeAmp extends Command {
 
         timer = new Timer();
         homingTargetDegrees = 0.5;
-        homingSecondsToFinish = 1.0;
+        homingSecondsToFinish = 0.5;
     }
 
     private void timerContinueHoming() {
@@ -30,28 +31,33 @@ public class HomeAmp extends Command {
     @Override
     public void initialize() {
         shooter.setHomingAmp(true);
-        shooter.setFlywheelSetpoint(0.0, 0.0);
+        // shooter.setFlywheelSetpoint(0.0, 0.0);
         timerContinueHoming();
+        System.err.println("started home amp");
     }
 
     @Override
     public void execute() {
-        if (Math.abs(shooter.getShooterPivot().getVelocity()) > Units.degreesToRadians(homingTargetDegrees)) {
+        if (Math.abs(shooter.getShooterAmp().getVelocity()) > Units.degreesToRadians(homingTargetDegrees)) {
             timerContinueHoming();
+        }
+        System.err.println("homing amp still timer: " + timer.get());
+        if (shooter.getAmpSetpoint().equals(ShooterConstants.AMP_DEPLOYED)) {
+            CommandScheduler.getInstance().cancel(this);
+            shooter.getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
         }
     }
 
     @Override
     public boolean isFinished() {
-        return shooter.getAmpHoming() && timer.get() > homingSecondsToFinish;
+        return timer.get() > homingSecondsToFinish;
     }
 
     @Override
     public void end(boolean interrupted) {
-        // System.err.println("homing amp finished");
-        shooter.getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+        System.err.println("homing amp finished");
         shooter.setAmpSetpoint(ShooterConstants.AMP_HARDSTOP);
-        shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
+        // shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         shooter.setHomingAmp(false);
     }
     

@@ -35,6 +35,8 @@ public class FeedShooterClean extends Command {
     public void end(boolean interrupted) {
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
         System.err.println("finishing shooter feed clean");
+        timer.stop();
+        timer.reset();
     }
 
 

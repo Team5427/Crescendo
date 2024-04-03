@@ -21,11 +21,11 @@ public class TargetSpeaker extends Command {
     private PIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 6.0; //FIXME
+    private static final double kP = 5.5; //FIXME
     private static final double kI = 0.0;
     private static final double kD = 0.15;
 
-    private static final double VISION_PARALLEL_P_SCALAR = 0.0; //increase to make PID stronger during movement
+    private static final double VISION_PARALLEL_P_SCALAR = 0.3; //increase to make PID stronger during movement
     private static final double OTF_ROT_PARALLEL = 9.0; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist\\
 
@@ -57,6 +57,7 @@ public class TargetSpeaker extends Command {
         Rotation2d rotError = Rotation2d.fromRadians(targetingInformation[3]);
         Rotation2d translationAngle = Rotation2d.fromRadians(targetingInformation[4]);
 
+        double angleEffort = 0.0;
 
         Rotation2d adjustmentSetpoint = new Rotation2d();
         ShootingConfiguration config;
@@ -69,30 +70,22 @@ public class TargetSpeaker extends Command {
                 0.0,
                 0.0 
             );   
+
+            angleEffort = tagCam.targetVisible() ? 
+            rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
+            -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());    
             
         } else {
-            config = new ShootingConfiguration( //EMERGENCY IF CANT SEE TARGET
-                ShooterConstants.SHOOTER_PIVOT_ACTIVE, 
-                5300, 
-                5300
-            );
+            config = ShooterConstants.SHUTTLE_CONFIGURATION;
         }
-
-        double angleEffort = tagCam.targetVisible() ? 
-        rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
-        -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());
-
 
         SteelTalonsLogger.post("On the fly adjustment", adjustmentSetpoint.getRadians());
 
         shooter.setShootingConfigSetpoints(config);
         // shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
 
-        if (tagCam.targetVisible()) {
-            rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);
-        } else {
-            rotPID.setP(Math.abs(parallelSpeed) * VISION_PARALLEL_P_SCALAR + kP);
-        }
+        rotPID.setP(MiscUtil.drivetrainSpeedMagnitude() * VISION_PARALLEL_P_SCALAR + kP);
+
         if (new XboxController(0).getLeftTriggerAxis() < 0.5) {
             drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
                 angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond

@@ -78,6 +78,10 @@ public class Shooter extends SubsystemBase {
     ampSetpoint = setpoint;
   }
 
+  public Rotation2d getAmpSetpoint() {
+    return ampSetpoint;
+  }
+
   public void setPivotSetpoint(Rotation2d setpoint) {
     // pivotMaster.resetController();
     pivotSetpoint = setpoint;
@@ -223,6 +227,7 @@ public class Shooter extends SubsystemBase {
     // SteelTalonsLogger.post("Amp Position", ampMotor.getPosition());
     SteelTalonsLogger.post("FLYWHEEL RAMPED", flywheelAtGoal());
     SteelTalonsLogger.post("Shooter Loaded", loaded());
+    SteelTalonsLogger.post("Shooter late beam break", !lateBeamBrake.get());
     SteelTalonsLogger.post("Note Ready To Shoot", inPosition());
     // SteelTalonsLogger.post("top in position", !beamBreak.get());
     SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());

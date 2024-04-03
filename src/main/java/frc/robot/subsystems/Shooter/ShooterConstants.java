@@ -43,10 +43,10 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_MAX_ROT = Rotation2d.fromDegrees(-55.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
-    public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-167.0);
+    public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-170.0);
 
     public static final double FLYWHEEL_STATIC_SPEED_RPM = 1000;
-    public static final double FLYWHEEL_AMP_SPEED_RPM = 5000;
+    public static final double FLYWHEEL_AMP_SPEED_RPM = 4000;
     public static final double FLYWHEEL_AUTON_SPEED_RPM = 5300;
     public static final double FLYWHEEL_REV_SPEED_RPM = 5000;
 
@@ -56,7 +56,7 @@ public class ShooterConstants {
     public static final double FEEDER_INTAKE_SPEED = 0.8;
 
     public static final ShootingConfiguration TESTING_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_ACTIVE, 5500, 5500);
-    public static final ShootingConfiguration SHUTTLE_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_SHUTTLE, 5500, 5500);
+    public static final ShootingConfiguration SHUTTLE_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_SHUTTLE, 3000, 3000);
     public static final ShootingConfiguration DEFAULT_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_STOW, FLYWHEEL_STATIC_SPEED_RPM, FLYWHEEL_STATIC_SPEED_RPM);
 
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
