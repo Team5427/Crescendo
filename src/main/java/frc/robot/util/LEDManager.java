@@ -14,13 +14,13 @@ public class LEDManager extends SubsystemBase {
     public static enum LEDState {
         kDisabled, //static red
         kEmpty, //static white
-        kIntaking, //flashing orange - 10 Hz
+        kIntaking, //flashing orange - 5 Hz
         kIntakeFull, //static blue
-        kHandingOff, //flashing blue - 10 Hz
+        kHandingOff, //flashing blue - 5 Hz
         kShooterLoaded, //static green
         kAmpSignal, //flashing yellow - 20 Hz
         kCoopSignal, //flashing purple - 20 Hz
-        kTargeting, //flashing green - 10 Hz
+        kTargeting, //flashing green - 5 Hz
         kShuttle //flashing red
     }
 
@@ -42,6 +42,11 @@ public class LEDManager extends SubsystemBase {
     private LEDState ledState;
 
     private int tick;
+
+    private final Color dimRed = new Color(0.5, 0, 0);
+    private final Color dimWhite = new Color(0.5, 0.5, 0.5);
+    private final Color dimBlue = new Color(0, 0, 0.5);
+    private final Color dimGreen = new Color(0, 0.5, 0);
 
     public LEDManager() {
         led = new AddressableLED(ledPort);
@@ -121,7 +126,7 @@ public class LEDManager extends SubsystemBase {
 
             case kIntaking:
                 this.currentColor = Color.kGray;
-                colorFreq = 20.0;
+                colorFreq = 5.0;
                 break;
             
             case kIntakeFull:
@@ -131,7 +136,7 @@ public class LEDManager extends SubsystemBase {
 
             case kHandingOff:
                 this.currentColor = Color.kBlue;
-                colorFreq = 20.0;
+                colorFreq = 5.0;
                 break;
 
             case kShooterLoaded:
@@ -141,22 +146,22 @@ public class LEDManager extends SubsystemBase {
 
             case kTargeting:
                 this.currentColor = Color.kDarkGreen;
-                colorFreq = 20.0;
+                colorFreq = 5.0;
                 break;
             
             case kAmpSignal:
                 this.currentColor = Color.kYellow;
-                colorFreq = 40.0;
+                colorFreq = 5.0;
                 break;
 
             case kCoopSignal:
                 this.currentColor = Color.kPurple;
-                colorFreq = 40.0;
+                colorFreq = 5.0;
                 break;
 
             case kShuttle:
                 this.currentColor = Color.kRed;
-                colorFreq = 20.0;
+                colorFreq = 5.0;
 
             default:
                 this.currentColor = Color.kRed;

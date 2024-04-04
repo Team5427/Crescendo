@@ -190,8 +190,8 @@ public class SwerveDrivetrain extends SubsystemBase {
             cv[i] = cv[i] * trigger;
         }
         
-        // return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], MiscUtil.isBlue() ? SteelTalonsLocalization.getInstance().getPose().getRotation() : SteelTalonsLocalization.getInstance().getPose().getRotation().plus(Rotation2d.fromDegrees(180))) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
-        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], getRotation()) : new ChassisSpeeds(cv[0], cv[1], cv[2]); //may cause issues, but doesn't screw with driving
+        return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], MiscUtil.isBlue() ? SteelTalonsLocalization.getInstance().getPose().getRotation() : SteelTalonsLocalization.getInstance().getPose().getRotation().plus(Rotation2d.fromDegrees(180))) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
+        // return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], getRotation()) : new ChassisSpeeds(cv[0], cv[1], cv[2]); //may cause issues, but doesn't screw with driving
 
     }
 

@@ -11,11 +11,11 @@ public class PilotingControls {
     public PilotingControls(CommandXboxController controller) {
 
         controller.y().onTrue(new InstantCommand(() -> {
+            SwerveDrivetrain.getInstance().resetGyro(new Rotation2d());
             SteelTalonsLocalization.getInstance().resetPose(
                 MiscUtil.isBlue() ? MiscUtil.resetPose()[0] : MiscUtil.resetPose()[1]
             );
             SteelTalonsLocalization.getInstance().resetCameras();
-            SwerveDrivetrain.getInstance().resetGyro(new Rotation2d());
         }, SteelTalonsLocalization.getInstance()));
 
         // controller.rightBumper().whileTrue(new TestShooterRanging());

@@ -25,8 +25,8 @@ public class TargetSpeaker extends Command {
     private static final double kI = 0.0;
     private static final double kD = 0.15;
 
-    private static final double VISION_PARALLEL_P_SCALAR = 0.3; //increase to make PID stronger during movement
-    private static final double OTF_ROT_PARALLEL = 9.0; //increase to make it compensate for parallel movement more
+    private static final double VISION_PARALLEL_P_SCALAR = 0.9; //increase to make PID stronger during movement
+    private static final double OTF_ROT_PARALLEL = 5.0; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist\\
 
 
@@ -62,7 +62,7 @@ public class TargetSpeaker extends Command {
         Rotation2d adjustmentSetpoint = new Rotation2d();
         ShootingConfiguration config;
 
-        // adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS WOW
+        adjustmentSetpoint = rotationalOTF(parallelSpeed, distance); //FIXME WHERE THE MATH IS WOW
         if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
