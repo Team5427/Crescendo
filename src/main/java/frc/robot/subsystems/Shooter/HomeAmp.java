@@ -41,11 +41,6 @@ public class HomeAmp extends Command {
         if (Math.abs(shooter.getShooterAmp().getVelocity()) > Units.degreesToRadians(homingTargetDegrees)) {
             timerContinueHoming();
         }
-        System.err.println("homing amp still timer: " + timer.get());
-        if (shooter.getAmpSetpoint().equals(ShooterConstants.AMP_DEPLOYED)) {
-            CommandScheduler.getInstance().cancel(this);
-            shooter.getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
-        }
     }
 
     @Override
@@ -56,6 +51,7 @@ public class HomeAmp extends Command {
     @Override
     public void end(boolean interrupted) {
         System.err.println("homing amp finished");
+        shooter.getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
         shooter.setAmpSetpoint(ShooterConstants.AMP_HARDSTOP);
         // shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         shooter.setHomingAmp(false);

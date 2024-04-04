@@ -29,11 +29,6 @@ public class ScoreAmp extends Command {
     }
 
     @Override
-    public void execute() {
-        shooter.setAmpSetpoint(ShooterConstants.AMP_DEPLOYED);
-    }
-
-    @Override
     public boolean isFinished() {
         return false;
     }
