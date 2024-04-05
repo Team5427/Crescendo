@@ -81,10 +81,10 @@ public class SteelTalonsLocalization extends SubsystemBase {
     }
 
     @Override
-    public void periodic() {
+    public void periodic() { // This is the place where feedback loop may occur
         SwerveDriveWheelPositions dtWheelPositions = SwerveDrivetrain.getInstance().getWheelPositions();
         Rotation2d gyroAngle = SwerveDrivetrain.getInstance().getRotation();
-        poseEstimator.update(gyroAngle, dtWheelPositions);
+        poseEstimator.update(gyroAngle, dtWheelPositions); // Acceleration of error
         if (DriverStation.isAutonomous()) {
             poseOdometry.update(gyroAngle, dtWheelPositions);
             field.setRobotPose(getOdometryPose());
@@ -118,6 +118,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         SteelTalonsLogger.post("targeting information angError", MiscUtil.targetingInformation()[3]);
         SteelTalonsLogger.post("targeting information translation Angle", MiscUtil.targetingInformation()[4]);
         SteelTalonsLogger.post("camera based targeting distance", RobotContainer.getTagCam().speakerDist());
+        SteelTalonsLogger.post("Pose", refPose.getTranslation());
     }
 
     public Pose2d getPose() {
