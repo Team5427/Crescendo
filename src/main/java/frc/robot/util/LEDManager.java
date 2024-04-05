@@ -126,7 +126,7 @@ public class LEDManager extends SubsystemBase {
 
             case kIntaking:
                 this.currentColor = Color.kGray;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
                 break;
             
             case kIntakeFull:
@@ -136,7 +136,7 @@ public class LEDManager extends SubsystemBase {
 
             case kHandingOff:
                 this.currentColor = Color.kBlue;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
                 break;
 
             case kShooterLoaded:
@@ -146,22 +146,22 @@ public class LEDManager extends SubsystemBase {
 
             case kTargeting:
                 this.currentColor = Color.kDarkGreen;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
                 break;
             
             case kAmpSignal:
                 this.currentColor = Color.kYellow;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
                 break;
 
             case kCoopSignal:
                 this.currentColor = Color.kPurple;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
                 break;
 
             case kShuttle:
                 this.currentColor = Color.kRed;
-                colorFreq = 5.0;
+                colorFreq = 10.0;
 
             default:
                 this.currentColor = Color.kRed;
