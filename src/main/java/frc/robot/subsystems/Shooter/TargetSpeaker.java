@@ -29,7 +29,6 @@ public class TargetSpeaker extends Command {
     private static final double OTF_ROT_PARALLEL = 5.0; //increase to make it compensate for parallel movement more
     //DEGREES - this value is meant for 2 meters dist\\
 
-
     public TargetSpeaker() {
         shooter = Shooter.getInstance();
         drivetrain = SwerveDrivetrain.getInstance();
@@ -86,7 +85,10 @@ public class TargetSpeaker extends Command {
 
         rotPID.setP(MiscUtil.drivetrainSpeedMagnitude() * VISION_PARALLEL_P_SCALAR + kP);
 
-        if (new XboxController(0).getLeftTriggerAxis() < 0.5) {
+        if (
+            (DriverStation.isTeleop() && new XboxController(0).getLeftTriggerAxis() < 0.5) ||
+            (DriverStation.isAutonomousEnabled() && MiscUtil.drivetrainSpeedMagnitude() < 0.75)
+        ) {
             drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
                 angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond
             ));
