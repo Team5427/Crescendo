@@ -54,6 +54,7 @@ public class SubsystemManager {
     }
 
     public static Command cumAndGo() {
+        // Lets cum 
         return new SequentialCommandGroup(
             new IntakeCommand().withTimeout(3.0),
             new Backshot().onlyIf(Intake.getInstance()::sensorCovered)

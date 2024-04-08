@@ -14,6 +14,7 @@ public class IntakeHandoff extends Command {
     public void initialize() {
         // System.err.println("RUNNIG INTAKE HANDOFF INIT");
         intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
+        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD_HANDOFF);
         intake.setLimits(60);
     }
 

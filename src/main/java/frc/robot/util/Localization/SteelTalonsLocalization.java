@@ -118,7 +118,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
         SteelTalonsLogger.post("targeting information angError", MiscUtil.targetingInformation()[3]);
         SteelTalonsLogger.post("targeting information translation Angle", MiscUtil.targetingInformation()[4]);
         SteelTalonsLogger.post("camera based targeting distance", RobotContainer.getTagCam().speakerDist());
-        SteelTalonsLogger.post("Pose", refPose.getTranslation());
+        // SteelTalonsLogger.post("Pose", refPose.getTranslation());
     }
 
     public Pose2d getPose() {
