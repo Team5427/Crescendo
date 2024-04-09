@@ -56,7 +56,7 @@ public class DrivetrainConstants {
     );
 
     public static final DriveConfig SHUTTLE_DRIVE_CONFIG = new DriveConfig(
-        Optional.of(new Rotation2d(-Math.PI / 6.5)), 
+        Optional.of(new Rotation2d(-Math.PI / 6.25)), 
         1.0, 
         0.0, 
         true
@@ -126,9 +126,9 @@ public class DrivetrainConstants {
         currConfigs.StatorCurrentLimitEnable = true;
         currConfigs.SupplyCurrentLimitEnable = true;
         currConfigs.StatorCurrentLimit = 65;
-        currConfigs.SupplyCurrentLimit = 60;
-        currConfigs.SupplyCurrentThreshold = 80;
-        currConfigs.SupplyTimeThreshold = 0.1;
+        currConfigs.SupplyCurrentLimit = 70;
+        currConfigs.SupplyCurrentThreshold = 90;
+        currConfigs.SupplyTimeThreshold = 0.25;
         motor.getConfigurator().apply(currConfigs);
 
         motor.setNeutralMode(NeutralModeValue.Brake);

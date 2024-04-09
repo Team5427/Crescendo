@@ -21,9 +21,9 @@ public class IntakeConstants {
     public static final Rotation2d HANDOFF_POS = new Rotation2d(Units.degreesToRadians(-7.0));
     public static final Rotation2d BACKSHOT_POSE = new Rotation2d(Units.degreesToRadians(-40.0));
 
-    public static final double INTAKE_SPEED_INTAKING = 6.0;
-    public static final double INTAKE_SPEED_HOLD = 0.75;
-    public static final double INTAKE_SPEED_HOLD_HANDOFF = 4.0;
+    public static final double INTAKE_SPEED_INTAKING = 7.0;
+    public static final double INTAKE_SPEED_HOLD = 0.75; // maybe 0.95
+    public static final double INTAKE_SPEED_HOLD_HANDOFF = 3.0;
     public static final double INTAKE_SPEED_EJECTING = -2.2;
     public static final double INTAKE_SPEED_EJECTING_MAX = -5.5;
     public static final double INTAKE_SPEED_ZERO = 0.0;
@@ -39,7 +39,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.isRotational = false;
         PIVOT_CONFIG.isRotational = true;
 
-        PIVOT_CONFIG.currentLimit = 55;
+        PIVOT_CONFIG.currentLimit = 65;
         // ROLLER_CONFIG.currentLimit = 30;
 
         ROLLER_CONFIG.id = ROLLER_MOTOR_ID;
@@ -51,7 +51,7 @@ public class IntakeConstants {
 
         ROLLER_CONFIG.maxVel = ROLLER_CONFIG.getStandardMaxVelocity();
         ROLLER_CONFIG.maxAccel = ROLLER_CONFIG.maxVel * 4;
-        PIVOT_CONFIG.maxVel = PIVOT_CONFIG.getStandardMaxVelocity();
+        PIVOT_CONFIG.maxVel = PIVOT_CONFIG.getStandardMaxVelocity() * 0.8;
         PIVOT_CONFIG.maxAccel = PIVOT_CONFIG.maxVel * 2.0;
 
         ROLLER_CONFIG.inverted = false;
@@ -62,7 +62,7 @@ public class IntakeConstants {
 
         ROLLER_CONFIG.kP = 0.0;
         ROLLER_CONFIG.kFF = 1.0 / ROLLER_CONFIG.maxVel;
-        PIVOT_CONFIG.kP = 6.0; // 5
-        PIVOT_CONFIG.kD = 0.3;
+        PIVOT_CONFIG.kP = 5.0; // 5
+        PIVOT_CONFIG.kD = 0.0;
     }
 }

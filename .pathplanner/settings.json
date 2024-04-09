@@ -5,12 +5,9 @@
   "pathFolders": [],
   "autoFolders": [
     "Basic Four Note",
-    "Bottom Four Disruption",
     "Bottom Four Note",
-    "Center Three Note",
-    "Upper Avoidance",
-    "Top Far Four Note",
-    "Upper 5 Note"
+    "Upper 5 Note",
+    "Upper Avoidance"
   ],
   "defaultMaxVel": 1.85,
   "defaultMaxAccel": 1.0,

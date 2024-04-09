@@ -163,6 +163,8 @@ public class SteelTalonsLocalization extends SubsystemBase {
             VecBuilder.fill(999.9, 999.9, 0.0), 
             VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
         );
+
+        instance = new SteelTalonsLocalization();
     }
 
     public Translation2d translationFromSpeaker() {

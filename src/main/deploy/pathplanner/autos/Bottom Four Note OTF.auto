@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.441908597946167,
-      "y": 5.573664665222168
+      "x": 1.3028137683868408,
+      "y": 4.0899786949157715
     },
-    "rotation": 0.0
+    "rotation": -44.356244988117155
   },
   "command": {
     "type": "sequential",
@@ -22,9 +22,22 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "C-1.1"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "B-1.1"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "B-1.2"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -42,6 +55,12 @@
                       "data": {
                         "name": "Complex Intake"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auton Shoot"
+                      }
                     }
                   ]
                 }
@@ -50,19 +69,26 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Auton Shoot"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "C-1.2"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "B-1.3"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "B-1.4"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -80,6 +106,12 @@
                       "data": {
                         "name": "Complex Intake"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auton Shoot"
+                      }
                     }
                   ]
                 }
@@ -88,19 +120,26 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Auton Shoot"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "C-1.3"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "B-1.5"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "B-1.6"
+                      }
+                    }
+                  ]
                 }
               },
               {
@@ -110,7 +149,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.75
+                        "waitTime": 1.0
                       }
                     },
                     {
@@ -118,22 +157,22 @@
                       "data": {
                         "name": "Complex Intake"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auton Shoot"
+                      }
                     }
                   ]
                 }
               }
             ]
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Auton Shoot"
-          }
         }
       ]
     }
   },
-  "folder": "Top Far Four Note",
+  "folder": "Bottom Four Note",
   "choreoAuto": true
 }
