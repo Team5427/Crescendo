@@ -24,7 +24,7 @@ public class OperatingControls {
 
     public OperatingControls(CommandXboxController operatingController) {
         operatingController.leftTrigger(0.1).onTrue(
-                SubsystemManager.getComplexIntakeCommand(operatingController).andThen(new HomeAmp()));
+                SubsystemManager.getComplexIntakeCommand().andThen(new HomeAmp()));
 
         operatingController.rightTrigger(0.1).whileTrue(
                 Intake.getInstance().getIntakeEjaculation());

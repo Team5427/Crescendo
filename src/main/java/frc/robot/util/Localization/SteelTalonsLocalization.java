@@ -154,17 +154,6 @@ public class SteelTalonsLocalization extends SubsystemBase {
         for (ApriltagCam cam : camList) {
             cam.resetCamera();
         }
-
-        this.poseEstimator = new SwerveDrivePoseEstimator(
-            DrivetrainConstants.SWERVE_DRIVE_KINEMATICS, 
-            SwerveDrivetrain.getInstance().getRotation(), 
-            SwerveDrivetrain.getInstance().getWheelPositions().positions, 
-            MiscUtil.isBlue() ? MiscUtil.resetPose()[0] : MiscUtil.resetPose()[1], 
-            VecBuilder.fill(999.9, 999.9, 0.0), 
-            VecBuilder.fill(0.03, 0.03, Double.MAX_VALUE)
-        );
-
-        instance = new SteelTalonsLocalization();
     }
 
     public Translation2d translationFromSpeaker() {

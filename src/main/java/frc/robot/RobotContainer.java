@@ -80,12 +80,8 @@ public class RobotContainer {
   }
 
   private void registerNamedCommands() {
-    NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand(null));
-    NamedCommands.registerCommand("Auton Shoot", new SequentialCommandGroup(
-      // new BumpFeederIn().withTimeout(1.0),
-      new WaitUntilCommand(Shooter.getInstance()::atStow).withTimeout(1.0),
-      new TargetSpeaker()
-    ));
+    NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
+    NamedCommands.registerCommand("Auton Shoot", SubsystemManager.getTargetingCommand());
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
     NamedCommands.registerCommand("Hardcode Sub Shot", new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION));
   }

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Backshot;
 import frc.robot.subsystems.Intake.HomeIntake;
@@ -20,10 +21,11 @@ import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
+import frc.robot.subsystems.Shooter.TargetSpeaker;
 
 public class SubsystemManager {
 
-    public static Command getComplexIntakeCommand(CommandXboxController operatingController) {
+    public static Command getComplexIntakeCommand() {
         return new SequentialCommandGroup(
                 new ConditionalCommand( // Intaking Note
                     Intake.getInstance().getIntakeCommand().withTimeout(3.0).onlyIf(() -> {return !Shooter.getInstance().loaded();}), 
@@ -33,6 +35,14 @@ public class SubsystemManager {
                     Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
                     Intake.getInstance().getIntakeHandoff()
                 ).onlyIf(Intake.getInstance()::sensorCovered)
+        );
+    }
+
+    public static Command getTargetingCommand() {
+        return new SequentialCommandGroup(
+            // new BumpFeederIn().withTimeout(1.0),
+            new WaitUntilCommand(Shooter.getInstance()::atStow).withTimeout(1.0),
+            new TargetSpeaker()
         );
     }
 
