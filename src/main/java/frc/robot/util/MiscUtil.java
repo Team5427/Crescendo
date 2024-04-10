@@ -150,7 +150,7 @@ public class MiscUtil {
             
         }
 
-        return new double[]{MiscUtil.isBlue() ? parallelSpeed : -parallelSpeed, MiscUtil.isBlue() ? perpSpeed : -perpSpeed, distance, angError.getRadians(), translationAngle.getRadians()};
+        return new double[]{MiscUtil.isBlue() ? -parallelSpeed : parallelSpeed, MiscUtil.isBlue() ? perpSpeed : -perpSpeed, distance, angError.getRadians(), translationAngle.getRadians()};
     }
 
     public static double DTrotToMeters(double rotations) {

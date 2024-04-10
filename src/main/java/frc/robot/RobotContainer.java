@@ -20,7 +20,9 @@ import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.BumpFeederIn;
+import frc.robot.subsystems.Shooter.HardCodeShot;
 import frc.robot.subsystems.Shooter.Shooter;
+import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TargetSpeaker;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
@@ -85,6 +87,7 @@ public class RobotContainer {
       new TargetSpeaker()
     ));
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
+    NamedCommands.registerCommand("Hardcode Sub Shot", new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION));
   }
 
   public static ObjectDetector getNoteCam() {

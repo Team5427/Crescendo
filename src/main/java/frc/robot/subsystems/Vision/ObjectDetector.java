@@ -25,7 +25,7 @@ public class ObjectDetector extends SubsystemBase {
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
-        pid = new PIDController(0.05, 0.0, 0.0);
+        pid = new PIDController(0.065, 0.0, 0.0);
 
     }
 

@@ -43,11 +43,6 @@ public class LEDManager extends SubsystemBase {
 
     private int tick;
 
-    private final Color dimRed = new Color(0.5, 0, 0);
-    private final Color dimWhite = new Color(0.5, 0.5, 0.5);
-    private final Color dimBlue = new Color(0, 0, 0.5);
-    private final Color dimGreen = new Color(0, 0.5, 0);
-
     public LEDManager() {
         led = new AddressableLED(ledPort);
         ledBuffer = new AddressableLEDBuffer(ledCount);

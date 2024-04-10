@@ -12,6 +12,7 @@ public class HardCodeShot extends Command {
     public HardCodeShot(ShootingConfiguration config) {
         shooter = Shooter.getInstance();
         this.config = config;
+        addRequirements(shooter);
     }
 
     @Override
@@ -36,5 +37,6 @@ public class HardCodeShot extends Command {
     @Override
     public void end(boolean interrupted) {
         shooter.setFeederSetpoint(ShooterConstants.FEEDER_HOLD_SPEED);
+        shooter.setShootingConfigSetpoints(ShooterConstants.DEFAULT_CONFIGURATION);
     }
 }
