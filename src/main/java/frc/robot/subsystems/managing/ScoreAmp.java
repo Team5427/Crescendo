@@ -30,8 +30,8 @@ public class ScoreAmp extends Command {
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_AMP);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_AMP_SPEED_RPM, ShooterConstants.FLYWHEEL_AMP_SPEED_RPM);
         drivetrain.setDriveConfig(DrivetrainConstants.AMP_DRIVE_CONFIG);
-        intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
-        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING / 3);
+        // intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
+        // intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_INTAKING / 3);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class ScoreAmp extends Command {
         shooter.setPivotSetpoint(ShooterConstants.SHOOTER_PIVOT_STOW);
         shooter.setFlywheelSetpoint(ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM, ShooterConstants.FLYWHEEL_STATIC_SPEED_RPM);
         drivetrain.setDriveConfig(DrivetrainConstants.DEFAULT_DRIVE_CONFIG);
-        intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
+        // intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
+        // intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD);
 
     }
 

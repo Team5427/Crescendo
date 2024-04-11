@@ -19,6 +19,7 @@ import frc.robot.subsystems.managing.SubsystemManager;
 import frc.robot.subsystems.managing.Unstuck;
 import frc.robot.util.LEDManager;
 import frc.robot.util.LEDManager.LEDState;
+import frc.robot.util.Localization.SteelTalonsLocalization;
 
 public class OperatingControls {
 
@@ -54,10 +55,12 @@ public class OperatingControls {
 
         operatingController.leftStick().whileTrue(new RunCommand(() -> {
                 LEDManager.getInstance().setState(LEDState.kAmpSignal);
+                SteelTalonsLocalization.getInstance().resetReturnPoseRot();
         }).handleInterrupt(LEDManager.getInstance()::resetStates));
 
         operatingController.rightStick().whileTrue(new RunCommand(() -> {
                 LEDManager.getInstance().setState(LEDState.kCoopSignal);
+                SteelTalonsLocalization.getInstance().resetReturnPoseRot();
         }).handleInterrupt(LEDManager.getInstance()::resetStates));
 
         

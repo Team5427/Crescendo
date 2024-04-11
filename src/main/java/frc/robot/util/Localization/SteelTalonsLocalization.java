@@ -42,6 +42,8 @@ public class SteelTalonsLocalization extends SubsystemBase {
     private SwerveDrivePoseEstimator poseEstimator;
     private SwerveDriveOdometry poseOdometry; //used in auton only  - for intake pathing
 
+    private Rotation2d returningPoseRot = new Rotation2d();
+
     private Field2d field;
 
     public SteelTalonsLocalization() {
@@ -105,6 +107,7 @@ public class SteelTalonsLocalization extends SubsystemBase {
                     poseEstimator.addVisionMeasurement(m.getPose(), m.getTimestamp(), m.getConfidence());
                     lastPose = Optional.of(m.getPose());
                     field.getObject(cam.getName()).setPose(m.getPose());
+                    returningPoseRot = m.getPose().getRotation();
                 } else {
                     lastPose = Optional.empty();
                 }
@@ -138,6 +141,10 @@ public class SteelTalonsLocalization extends SubsystemBase {
 
         lastPose = Optional.empty();
         refPose = newPose;
+    }
+
+    public void resetReturnPoseRot() {
+        resetPose(new Pose2d(getPose().getX(), getPose().getY(), returningPoseRot));
     }
 
     public void resetOdometryPose(Pose2d newPose) {

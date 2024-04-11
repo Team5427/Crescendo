@@ -109,7 +109,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public boolean atHandoff() {
-    return pivotAtGoal(1.0) && this.pivotSetpoint.equals(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
+    return pivotAtGoal(2.0) && this.pivotSetpoint.equals(ShooterConstants.SHOOTER_PIVOT_HANDOFF);
   }
 
   public boolean atStow() {

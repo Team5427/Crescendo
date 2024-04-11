@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase {
 
         TalonFXConfiguration config = new TalonFXConfiguration();
         config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = 50;
+        config.CurrentLimits.StatorCurrentLimit = 30;
 
         rollerTalon.getConfigurator().apply(config);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
@@ -113,7 +113,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean atHandoff() {
-        return atGoal(2.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS) && pivot.getSetPoint() == IntakeConstants.HANDOFF_POS.getRadians();
+        return atGoal(5.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS) && pivot.getSetPoint() == IntakeConstants.HANDOFF_POS.getRadians();
     }
 
     public boolean getHoming() {

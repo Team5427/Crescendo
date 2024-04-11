@@ -15,7 +15,7 @@ public class IntakeHandoff extends Command {
         // System.err.println("RUNNIG INTAKE HANDOFF INIT");
         intake.setPivotSetpoint(IntakeConstants.HANDOFF_POS);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_HOLD_HANDOFF);
-        intake.setLimits(60);
+        intake.setLimits(55);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class IntakeHandoff extends Command {
         // System.err.println("RUNNIG INTAKE HANDOFF END interrupted: " + interrupted);
         intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_ZERO);
         intake.setPivotSetpoint(IntakeConstants.STOWED_POS);
-        intake.setLimits(50);
+        intake.setLimits(45);
     }
 
 
