@@ -32,8 +32,12 @@ public class Intake extends SubsystemBase {
         rollerTalon = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID, "*");
 
         TalonFXConfiguration config = new TalonFXConfiguration();
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
         config.CurrentLimits.StatorCurrentLimitEnable = true;
-        config.CurrentLimits.StatorCurrentLimit = 30;
+        config.CurrentLimits.SupplyCurrentLimit = 60;
+        config.CurrentLimits.SupplyCurrentThreshold = 70;
+        config.CurrentLimits.SupplyTimeThreshold = 0.25;
+        config.CurrentLimits.StatorCurrentLimit = 45;
 
         rollerTalon.getConfigurator().apply(config);
         pivot = new SteelTalonsSparkMaxServo(IntakeConstants.PIVOT_CONFIG);
@@ -76,6 +80,11 @@ public class Intake extends SubsystemBase {
 
     public void setLimits(int num) {
         TalonFXConfiguration config = new TalonFXConfiguration();
+        config.CurrentLimits.SupplyCurrentLimitEnable = true;
+        config.CurrentLimits.StatorCurrentLimitEnable = true;
+        config.CurrentLimits.SupplyCurrentLimit = 50;
+        config.CurrentLimits.SupplyCurrentThreshold = 65;
+        config.CurrentLimits.SupplyTimeThreshold = 0.25;
         config.CurrentLimits.StatorCurrentLimit = num;
         rollerTalon.getConfigurator().apply(config);
     }

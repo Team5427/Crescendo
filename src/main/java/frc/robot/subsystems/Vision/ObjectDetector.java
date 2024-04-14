@@ -13,7 +13,7 @@ public class ObjectDetector extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
 
-    private static final double inRangeConst = 6.5;
+    private static final double inRangeConst = 12.0;
     private static final double xProportional = -0.03; // 0.1
     private PIDController pid;
 
@@ -25,7 +25,7 @@ public class ObjectDetector extends SubsystemBase {
 
     public ObjectDetector(String table) {
         this.table_m = NetworkTableInstance.getDefault().getTable(table);
-        pid = new PIDController(0.065, 0.0, 0.0);
+        pid = new PIDController(0.07, 0.0, 0.0);
 
     }
 

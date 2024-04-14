@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.FeedShooterClean;
+import frc.robot.subsystems.Shooter.HardCodeShot;
 import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
@@ -38,7 +39,7 @@ public class OperatingControls {
 
         operatingController.b().whileTrue(new TargetSpeaker());
         operatingController.povDown().onTrue(new FeedShooterClean());
-        operatingController.povUp().onTrue(new AutonShoot(false));
+        operatingController.povUp().onTrue(new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION));
 
         operatingController.y().whileTrue(new ScoreAmp());
 

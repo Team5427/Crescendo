@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3028137683868408,
+      "x": 1.3028137683868404,
       "y": 4.0899786949157715
     },
     "rotation": -44.356244988117155
@@ -11,12 +11,6 @@
     "type": "sequential",
     "data": {
       "commands": [
-        {
-          "type": "named",
-          "data": {
-            "name": "Auton Shoot"
-          }
-        },
         {
           "type": "parallel",
           "data": {
@@ -45,9 +39,15 @@
                 "data": {
                   "commands": [
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "Hardcode Sub Shot"
+                      }
+                    },
+                    {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 0.25
                       }
                     },
                     {
@@ -55,17 +55,17 @@
                       "data": {
                         "name": "Complex Intake"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auton Shoot"
+                      }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Auton Shoot"
           }
         },
         {
@@ -106,17 +106,17 @@
                       "data": {
                         "name": "Complex Intake"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auton Shoot"
+                      }
                     }
                   ]
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Auton Shoot"
           }
         },
         {
@@ -157,6 +157,12 @@
                       "data": {
                         "name": "Complex Intake"
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Auton Shoot"
+                      }
                     }
                   ]
                 }
@@ -165,9 +171,9 @@
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Auton Shoot"
+            "pathName": "B-1.7"
           }
         }
       ]

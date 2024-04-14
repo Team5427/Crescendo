@@ -35,7 +35,7 @@ public class TargetSpeaker extends Command {
         tagCam = RobotContainer.getTagCam();
         rotPID = new PIDController(kP, kI, kD);
         rotPID.enableContinuousInput(-Math.PI, Math.PI);
-        rotPID.setTolerance(Math.toRadians(4.5), Math.toRadians(2.0));
+        rotPID.setTolerance(Math.toRadians(4.0), Math.toRadians(2.0));
         addRequirements(shooter);
 
     }
@@ -65,7 +65,7 @@ public class TargetSpeaker extends Command {
         if (distance < 7.0) {
             config = ShooterConstants.SHOOTER_PIVOT_TARGET_MAP.get(distance).adjustBy(
                 Rotation2d.fromDegrees(ShooterConstants.SHOOTER_OTF_OFFSET_MAP.get(perpSpeed)).
-                minus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * ((DriverStation.isAutonomousEnabled() ? -3.5 : 1.5) / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
+                minus(Rotation2d.fromDegrees(Math.abs(translationAngle.getDegrees()) * ((-2.0) / 60.0) * 0.2 * (5 - distance))), //4 degrees of offset for 60 degree angle
                 0.0,
                 0.0 
             );   
@@ -76,6 +76,7 @@ public class TargetSpeaker extends Command {
             
         } else {
             config = ShooterConstants.SHUTTLE_CONFIGURATION;
+            angleEffort = 0;
         }
 
         SteelTalonsLogger.post("On the fly adjustment", adjustmentSetpoint.getRadians());
@@ -86,8 +87,8 @@ public class TargetSpeaker extends Command {
         rotPID.setP(MiscUtil.drivetrainSpeedMagnitude() * VISION_PARALLEL_P_SCALAR + kP);
 
         if (
-            (DriverStation.isTeleop() && new XboxController(0).getLeftTriggerAxis() < 0.5) ||
-            (DriverStation.isAutonomousEnabled() && MiscUtil.drivetrainSpeedMagnitude() < 0.75)
+            (DriverStation.isTeleop() && new XboxController(0).getLeftTriggerAxis() < 0.5 && distance < 7.00) ||
+            (DriverStation.isAutonomousEnabled() && MiscUtil.drivetrainSpeedMagnitude() < 1.5)
         ) {
             drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
                 angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond

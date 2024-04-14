@@ -24,7 +24,7 @@ public class HardCodeShot extends Command {
 
     @Override
     public void execute() {
-        if (timer.get() > 0.25) {
+        if (timer.get() > 0.15) {
             shooter.setFeederSetpoint(ShooterConstants.FEEDER_FEED_SPEED);
         }
     }

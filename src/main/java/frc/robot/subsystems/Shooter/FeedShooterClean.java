@@ -34,7 +34,7 @@ public class FeedShooterClean extends Command {
 
     @Override
     public boolean isFinished() {
-        return (!shooter.loaded() && timer.get() > 0.5 && !new XboxController(1).povDown(null).getAsBoolean()); //removed shooter at stow as a return parameter
+        return (!shooter.loaded() && timer.get() > 0.5); //removed shooter at stow as a return parameter
     }
 
     @Override

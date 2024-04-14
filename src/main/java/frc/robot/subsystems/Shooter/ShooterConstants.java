@@ -29,7 +29,7 @@ public class ShooterConstants {
 
     private static final double FEEDER_ROLLER_DIAMETER_METERS = Units.inchesToMeters(1.25);
 
-    public static final double FLYWHEEL_TOLERANCE_RPM = 200.0;
+    public static final double FLYWHEEL_TOLERANCE_RPM = 150.0;
     public static final double FEEDER_TOLERANCE_M_S = 0.2;
     public static final Rotation2d PIVOT_TOLERANCE_RAD = new Rotation2d(Math.toRadians(0.25));
     public static final Rotation2d AMP_TOLERANCE_RAD = new Rotation2d(Math.toRadians(1.25));
@@ -56,8 +56,8 @@ public class ShooterConstants {
     public static final double FEEDER_INTAKE_SPEED = 0.8;
 
     public static final ShootingConfiguration TESTING_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_ACTIVE, 5500, 5500);
-    public static final ShootingConfiguration FIRST_AUTON_SHOT_CONFIGURATION = new ShootingConfiguration(Rotation2d.fromDegrees(-12.0), 5500, 5500);
-    public static final ShootingConfiguration SHUTTLE_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_SHUTTLE, 3700, 3700);
+    public static final ShootingConfiguration FIRST_AUTON_SHOT_CONFIGURATION = new ShootingConfiguration(Rotation2d.fromDegrees(-26.0), 5500, 5500);
+    public static final ShootingConfiguration SHUTTLE_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_SHUTTLE, 3200, 3200);
     public static final ShootingConfiguration DEFAULT_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_STOW, FLYWHEEL_STATIC_SPEED_RPM, FLYWHEEL_STATIC_SPEED_RPM);
 
     public static InterpolatingTreeMap<Double, ShootingConfiguration> SHOOTER_PIVOT_TARGET_MAP = new InterpolatingTreeMap<Double, ShootingConfiguration>(
@@ -107,7 +107,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             2.38, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-31.5), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-32.25), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -116,7 +116,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             2.82, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-36.5), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-37.5), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -125,7 +125,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             3.28, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-40.8), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-42.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -134,7 +134,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             4.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-43.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-44.0), //SHOOTER ROTATION 
                 5300, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -143,7 +143,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             4.66, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-44.0), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-45.0), //SHOOTER ROTATION 
                 5100, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -152,7 +152,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             5.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-44.7), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-45.4), //SHOOTER ROTATION 
                 5100, //LEFT RPM
                 5300 //RIGHT RPM
             )
@@ -161,7 +161,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             5.5, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-45.2), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-46.7), //SHOOTER ROTATION 
                 5100, //LEFT RPM
                 5300 //RIGHT RPM
             )
