@@ -106,7 +106,9 @@ public class SteelTalonsLocalization extends SubsystemBase {
                     SteelTalonsLogger.post("Vision measurement", String.valueOf(m.getConfidence().get(0, 0)) + " - " + Timer.getFPGATimestamp());
                     poseEstimator.addVisionMeasurement(m.getPose(), m.getTimestamp(), m.getConfidence());
                     lastPose = Optional.of(m.getPose());
-                    field.getObject(cam.getName()).setPose(m.getPose());
+                    if (m.getConfidence().get(0, 0) == 0.01) {
+                        field.getObject(cam.getName()).setPose(m.getPose());
+                    }
                     returningPoseRot = m.getPose().getRotation();
                 } else {
                     lastPose = Optional.empty();

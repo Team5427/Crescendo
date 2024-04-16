@@ -53,10 +53,11 @@ public class ShooterConstants {
     public static final double FEEDER_HOLD_SPEED = -0.00; // 0.0
     public static final double FEEDER_BUMP_SPEED = 0.1;
     public static final double FEEDER_FEED_SPEED = 2.5;
-    public static final double FEEDER_INTAKE_SPEED = 0.8;
+    public static final double FEEDER_INTAKE_SPEED = 1.25;
 
     public static final ShootingConfiguration TESTING_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_ACTIVE, 5500, 5500);
     public static final ShootingConfiguration FIRST_AUTON_SHOT_CONFIGURATION = new ShootingConfiguration(Rotation2d.fromDegrees(-26.0), 5500, 5500);
+    public static final ShootingConfiguration SECOND_AUTON_SHOT_CONFIGURATION = new ShootingConfiguration(Rotation2d.fromDegrees(-40.0), 5500, 5500);
     public static final ShootingConfiguration SHUTTLE_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_SHUTTLE, 3200, 3200);
     public static final ShootingConfiguration DEFAULT_CONFIGURATION = new ShootingConfiguration(SHOOTER_PIVOT_STOW, FLYWHEEL_STATIC_SPEED_RPM, FLYWHEEL_STATIC_SPEED_RPM);
 

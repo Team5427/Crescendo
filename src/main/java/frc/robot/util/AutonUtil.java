@@ -233,11 +233,10 @@ public class AutonUtil extends SubsystemBase {
                 hasNote
             ),
             new ConditionalCommand(
-                shootSecond, 
+                shootSecond.andThen(bottomSideShootToMid), 
                 missSecondToThird, 
                 hasNote
-            ),
-            bottomSideShootToMid
+            )
         );
 
 

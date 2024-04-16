@@ -84,6 +84,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Auton Shoot", SubsystemManager.getTargetingCommand());
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
     NamedCommands.registerCommand("Hardcode Sub Shot", new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION));
+    NamedCommands.registerCommand("Hardcode Sub Shot Avoidance", new HardCodeShot(ShooterConstants.SECOND_AUTON_SHOT_CONFIGURATION));
   }
 
   public static ObjectDetector getNoteCam() {
