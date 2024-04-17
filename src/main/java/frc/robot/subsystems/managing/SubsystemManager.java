@@ -2,6 +2,7 @@ package frc.robot.subsystems.managing;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
@@ -29,9 +30,10 @@ public class SubsystemManager {
         return new SequentialCommandGroup(
                 new ConditionalCommand( // Intaking Note
                     Intake.getInstance().getIntakeCommand().withTimeout(3.0).onlyIf(() -> {return !Shooter.getInstance().loaded();}), 
-                    Intake.getInstance().getIntakeCommand(), 
+                    Intake.getInstance().getIntakeCommand(),                         
                     DriverStation::isAutonomous),
                 new ParallelCommandGroup(
+                    rumbleCommand(),
                     Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
                     Intake.getInstance().getIntakeHandoff()
                 ).onlyIf(Intake.getInstance()::sensorCovered)
@@ -69,5 +71,12 @@ public class SubsystemManager {
             new IntakeCommand().withTimeout(3.0),
             new Backshot().onlyIf(Intake.getInstance()::sensorCovered)
         );
+    }
+
+    public static Command rumbleCommand() {
+        return new RunCommand(() -> {
+            new XboxController(0).setRumble(RumbleType.kBothRumble, 0.9);
+            new XboxController(1).setRumble(RumbleType.kBothRumble, 0.9);
+        }).withTimeout(0.5);
     }
 }
