@@ -23,7 +23,7 @@ import frc.robot.util.MiscUtil;
 import frc.robot.util.STSmaxConfig;
 
 public class DrivetrainConstants {
-    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.88); // 3.88
+    public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.85); // 3.88
     public static final double TRACKWIDTH = Units.inchesToMeters(19.5);
     public static final double WHEELBASE = Units.inchesToMeters(19.5);
 

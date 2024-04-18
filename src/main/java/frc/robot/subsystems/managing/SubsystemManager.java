@@ -23,6 +23,7 @@ import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TargetSpeaker;
+import frc.robot.util.MiscUtil;
 
 public class SubsystemManager {
 
@@ -33,7 +34,7 @@ public class SubsystemManager {
                     Intake.getInstance().getIntakeCommand(),                         
                     DriverStation::isAutonomous),
                 new ParallelCommandGroup(
-                    rumbleCommand(),
+                    rumbleCommand().onlyIf(DriverStation::isTeleop),
                     Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
                     Intake.getInstance().getIntakeHandoff()
                 ).onlyIf(Intake.getInstance()::sensorCovered)
@@ -66,7 +67,7 @@ public class SubsystemManager {
     }
 
     public static Command cumAndGo() {
-        // Lets cum 
+        // Lets cum and go
         return new SequentialCommandGroup(
             new IntakeCommand().withTimeout(3.0),
             new Backshot().onlyIf(Intake.getInstance()::sensorCovered)
@@ -75,8 +76,11 @@ public class SubsystemManager {
 
     public static Command rumbleCommand() {
         return new RunCommand(() -> {
-            new XboxController(0).setRumble(RumbleType.kBothRumble, 0.9);
-            new XboxController(1).setRumble(RumbleType.kBothRumble, 0.9);
-        }).withTimeout(0.5);
+            new XboxController(0).setRumble(RumbleType.kBothRumble, 0.8);
+            new XboxController(1).setRumble(RumbleType.kBothRumble, 1.0);
+        }).withTimeout(0.4).andThen(new InstantCommand(() -> {
+            new XboxController(0).setRumble(RumbleType.kBothRumble, 0.0);
+            new XboxController(1).setRumble(RumbleType.kBothRumble, 0.0);
+        }));
     }
 }
