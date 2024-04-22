@@ -88,7 +88,7 @@ public class TargetSpeaker extends Command {
 
         if (
             (DriverStation.isTeleop() && new XboxController(0).getLeftTriggerAxis() < 0.5 && distance < 7.00) ||
-            (DriverStation.isAutonomousEnabled() && MiscUtil.drivetrainSpeedMagnitude() < 1.5)
+            (DriverStation.isAutonomousEnabled() && MiscUtil.drivetrainSpeedMagnitude() < 0.75)
         ) {
             drivetrain.adjustSpeeds(new ChassisSpeeds(0, 0, 
                 angleEffort - drivetrain.getSetpoint().omegaRadiansPerSecond
