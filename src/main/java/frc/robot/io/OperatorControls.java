@@ -2,12 +2,12 @@ package frc.robot.io;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
-public class PilotingControls {
+public class OperatorControls {
 
-    private final int kPort = 0;
+    private final int kPort = 1;
     private CommandXboxController joy;
 
-    public PilotingControls() {
+    public OperatorControls() {
         joy = new CommandXboxController(kPort);
     }
 
