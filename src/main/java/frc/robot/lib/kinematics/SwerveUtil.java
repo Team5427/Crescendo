@@ -3,7 +3,7 @@ package frc.robot.lib.kinematics;
 import frc.robot.lib.drivers.CANDeviceId;
 import frc.robot.lib.drivers.ComplexGearRatio;
 
-public class SwerveUtil {
+public final class SwerveUtil {
 
         public static final int kFrontLeftModuleIdx = 0;
         public static final int kFrontRightModuleIdx = 1;

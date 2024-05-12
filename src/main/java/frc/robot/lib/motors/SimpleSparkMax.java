@@ -36,6 +36,19 @@ public class SimpleSparkMax implements IMotorController {
         controller = sparkMax.getPIDController();
     }
 
+    public SimpleSparkMax(CANDeviceId id, MotorConfiguration configuration) {
+        this.id = id;
+
+        sparkMax = new CANSparkMax(this.id.getDeviceNumber(), MotorType.kBrushless);
+
+        relativeEncoder = sparkMax.getEncoder();
+        relativeEncoder.setMeasurementPeriod(10);
+
+        controller = sparkMax.getPIDController();
+        apply(configuration);
+    }
+
+    // This is HIGHLY recommended to call
     @Override
     public void apply(MotorConfiguration configuration) {
         this.configuration = configuration;
