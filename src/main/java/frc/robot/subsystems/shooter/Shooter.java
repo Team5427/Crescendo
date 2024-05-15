@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import frc.robot.lib.motors.SteelTalonFX;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.lib.drivers.CANDeviceId;
@@ -18,11 +19,13 @@ public class Shooter extends SubsystemBase {
     private ProfiledSparkMax pivotLeader;
     private ProfiledSparkMax pivotFollower;
 
-    private double topShooterSetpoint = 0.0;
-    private double bottomShooterSetpoint = 0.0;
-    private double feederSetpoint = 0.0;
-    private boolean isHomingPivot = false;
-    private boolean isHomingAmp = false;
+    public double topShooterSetpoint = 0.0;
+    public double bottomShooterSetpoint = 0.0;
+    public double feederSetpoint = 0.0;
+    public double pivotSetpoint = 0.0;
+    public double ampSetpoint = 0.0;
+    public boolean isHomingPivot = false;
+    public boolean isHomingAmp = false;
 
     private DigitalInput earlyBeamBrake;
     private DigitalInput lateBeamBrake;
@@ -60,21 +63,46 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    @Override
+    public void periodic() {
+        if (disabled) {
+            pivotLeader.setSetpoint(0);
+            feeder.setSetpoint(0);
+            ampStick.setSetpoint(0);
+            topMotor.setSetpoint(0);
+            bottomMotor.setSetpoint(0);
+        } else {
+            pivotLeader.setSetpoint(pivotSetpoint);
+            feeder.setSetpoint(feederSetpoint);
+            ampStick.setSetpoint(ampSetpoint);
+            topMotor.setSetpoint(topShooterSetpoint);
+            bottomMotor.setSetpoint(bottomShooterSetpoint);
+        }
+    }
+
     public void movePivot(Rotation2d setpoint) {
-        pivotLeader.setSetpoint(setpoint);
+        pivotSetpoint = setpoint.getRadians();
     }
 
     public void moveFeeder(double setpoint) {
-        feeder.setSetpoint(setpoint);
+        feederSetpoint = setpoint;
     }
 
     public void moveAmp(Rotation2d setpoint) {
-        ampStick.setSetpoint(setpoint);
+        ampSetpoint = setpoint.getRadians();
     }
 
-    public void moveShooters(double topSetpoint, double bottomSetpoint) {
-        topMotor.setSetpoint(topSetpoint);
-        bottomMotor.setSetpoint(bottomSetpoint);
+    public void movePivot(double speed) {
+        pivotLeader.setRawPercentage(speed);
+    }
+
+    public void moveAmp(double speed) {
+        ampStick.setRawPercentage(speed);
+    }
+
+    public void moveFlywheels(double topSetpoint, double bottomSetpoint) {
+        topShooterSetpoint = topSetpoint;
+        bottomShooterSetpoint = bottomSetpoint;
     }
 
     public double getAmpSetpoint() {
@@ -109,34 +137,78 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isStowed() {
-        if (pivotLeader.getSetpoint() == ShooterConstants.kStow.getRotations() && pivotLeader.getError() < 0.05) {
+        if (pivotSetpoint == ShooterConstants.kStow.getRadians()
+                && Math.abs(pivotLeader.getError()) < 0.05) {
             return true;
         }
         return false;
     }
 
     public boolean isHandoffing() {
-        if (pivotLeader.getSetpoint() == ShooterConstants.kHandoff.getRotations() && pivotLeader.getError() < 0.05) {
+        if (Math.abs(pivotLeader.getError()) < 0.05 && pivotSetpoint == ShooterConstants.kHandoff.getRadians()) {
             return true;
         }
         return false;
     }
 
     public boolean pivotAtGoal() {
-        if (pivotLeader.getError() < 0.05) {
+        if (Math.abs(pivotLeader.getError()) < 0.05) {
             return true;
         }
         return false;
     }
 
-    public boolean isReadyToAmp() {
-        if (pivotLeader.getSetpoint() == ShooterConstants.kShootAmp.getRotations() && pivotLeader.getError() < 0.05) {
+    public boolean pivotVelocityAtGoal() {
+        if (Math.abs(pivotLeader.getEncoderVelocity()) < Units.degreesToRadians(0.05)) {
             return true;
         }
         return false;
     }
 
-    public Shooter getInstance() {
+    public boolean ampAtGoal() {
+        if (Math.abs(ampStick.getError()) < 0.05) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isAmping() {
+        if (pivotLeader.getEncoderPosition() == ShooterConstants.kShootAmp.getRadians() && pivotAtGoal()
+                && ampAtGoal()) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isLoaded() {
+        return (!earlyBeamBrake.get() && !lateBeamBrake.get());
+    }
+
+    public boolean isPartiallyLoaded() {
+        return (!earlyBeamBrake.get() && lateBeamBrake.get());
+    }
+
+    public boolean brokenBeamBreak() { // might not use this
+        if (lateBeamBrake.get() == false && earlyBeamBrake.get() == true) {
+            return true;
+        }
+        return false;
+    }
+
+    public void home() {
+        pivotLeader.setEncoderPosition(0.0);
+        pivotFollower.setEncoderPosition(0.0);
+        ampStick.setEncoderPosition(0.0);
+        feeder.setEncoderPosition(0.0);
+        topMotor.setEncoderPosition(0.0);
+        bottomMotor.setEncoderPosition(0.0);
+    }
+
+    public ProfiledSparkMax getPivot() {
+        return pivotLeader;
+    }
+
+    public static Shooter getInstance() {
         return instance;
     }
 }

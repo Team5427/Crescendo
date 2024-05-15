@@ -15,7 +15,7 @@ public class ShooterConstants {
     public static final Rotation2d kDefaultShooting = new Rotation2d(80); // UPDATE
     public static final Rotation2d kShootAmp = new Rotation2d(90); // UPDATE
 
-    public static final double kFlywheelTolerance = .01; // UPDATE
+    public static final double kFlywheelTolerance = 0.01; // UPDATE
 
     public static final Rotation2d kStowAmp = new Rotation2d(0); // UPDATE
     public static final Rotation2d kIdleAmp = new Rotation2d(20); // UPDATE
