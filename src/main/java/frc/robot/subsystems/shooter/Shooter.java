@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.lib.drivers.CANDeviceId;
 import frc.robot.lib.drivers.SteelTalonsLogger;
 import frc.robot.lib.motors.MotorConfiguration;
@@ -20,7 +21,7 @@ public class Shooter extends SubsystemBase {
     private ProfiledSparkMax pivotFollower;
 
     public double topShooterSetpoint = 0.0;
-    public double bottomShooterSetpoint = 0.0;
+    public double bottomShooterSetpoint = 0.0; // Maybe 1 setpoint only?
     public double feederSetpoint = 0.0;
     public double pivotSetpoint = 0.0;
     public double ampSetpoint = 0.0;
@@ -34,7 +35,7 @@ public class Shooter extends SubsystemBase {
 
     private static Shooter instance;
 
-    public Shooter() {
+    private Shooter() {
         setName("Shooter");
         this.topMotor = new SimpleSparkMax(ShooterConstants.kTopMotorID);
         this.bottomMotor = new SimpleSparkMax(ShooterConstants.kBottomMotorID);
@@ -50,7 +51,7 @@ public class Shooter extends SubsystemBase {
 
         pivotFollower.getSparkMax().follow(pivotLeader.getSparkMax());
 
-        ShooterConstants.createConfigs();
+        // ShooterConstants.createConfigs();
 
         topMotor.apply(ShooterConstants.kTopMotorConfiguration);
         bottomMotor.apply(ShooterConstants.kBottomMotorConfiguration);
@@ -58,8 +59,6 @@ public class Shooter extends SubsystemBase {
         ampStick.apply(ShooterConstants.kAmpMotorConfiguration);
         pivotLeader.apply(ShooterConstants.kPivotLeaderMotorConfiguration);
         pivotFollower.apply(ShooterConstants.kPivotFollowerMotorConfiguration);
-
-        instance = this;
 
     }
 
@@ -80,7 +79,7 @@ public class Shooter extends SubsystemBase {
         }
     }
 
-    public void movePivot(Rotation2d setpoint) {
+    public void setPivot(Rotation2d setpoint) {
         pivotSetpoint = setpoint.getRadians();
     }
 
@@ -209,6 +208,11 @@ public class Shooter extends SubsystemBase {
     }
 
     public static Shooter getInstance() {
-        return instance;
+        if (instance == null) {
+            instance = new Shooter();
+            return instance;
+        } else {
+            return instance;
+        }
     }
 }

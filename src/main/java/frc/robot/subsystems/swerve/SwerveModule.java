@@ -6,6 +6,7 @@ import com.ctre.phoenix6.hardware.CANcoder;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import frc.robot.Constants.DriveTrainConstants;
 import frc.robot.lib.drivers.CANDeviceId;
 import frc.robot.lib.kinematics.ConstrainedChassisSpeeds;
 import frc.robot.lib.motors.MotorConfiguration;
@@ -37,14 +38,14 @@ public class SwerveModule {
     public SwerveModulePosition getModulePosition() {
         return new SwerveModulePosition(
                 MathUtils.rotationsToMeters(driveMotor.getEncoderVelocity(),
-                        SwerveDriveTrainConstants.kWheelDiamterMeters),
+                        DriveTrainConstants.kWheelDiamterMeters),
                 new Rotation2d(steerMotor.getEncoderPosition()));
     }
 
     public SwerveModuleState getModuleState() {
         return new SwerveModuleState(
                 MathUtils.rotationsToMeters(driveMotor.getEncoderVelocity(),
-                        SwerveDriveTrainConstants.kWheelDiamterMeters),
+                        DriveTrainConstants.kWheelDiamterMeters),
                 new Rotation2d(steerMotor.getEncoderPosition()));
     }
 
@@ -53,7 +54,7 @@ public class SwerveModule {
                 Rotation2d.fromRotations(encoder.getPosition().getValueAsDouble()));
 
         double velocitySetpoint = MathUtils.metersToRotations(optimizedState.speedMetersPerSecond,
-                SwerveDriveTrainConstants.kWheelDiamterMeters);
+                DriveTrainConstants.kWheelDiamterMeters);
 
         if (Math.abs(velocitySetpoint) > deadzone) {
             steerMotor.setSetpoint(optimizedState.angle.getRadians());
