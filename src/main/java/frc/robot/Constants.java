@@ -213,6 +213,7 @@ public final class Constants {
                 public static final Rotation2d kIntake = new Rotation2d(Units.degreesToRadians(200)); // UPDATE
                 public static final Rotation2d kHandoff = new Rotation2d(Units.degreesToRadians(30)); // UPDATE
                 public static final Rotation2d kStow = new Rotation2d(Units.degreesToRadians(80)); // UPDATE
+                public static final Rotation2d kHome = new Rotation2d(Units.degreesToRadians(0)); // UPDATE
                 public static final double kIdleSpeed = 0.1; // UPDATE
                 public static final double kIntakeSpeed = 0.8; // UPDATE
                 public static final CANDeviceId kPivotMotorID = new CANDeviceId(0); // UPDATE
