@@ -16,6 +16,5 @@ import lib.motors.MotorConfiguration;
  */
 public final class Constants {
 
-    public static final MotorConfiguration config = new MotorConfiguration();
 
 }
