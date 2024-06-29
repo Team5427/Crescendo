@@ -43,7 +43,7 @@ public class ShooterConstants {
     public static final Rotation2d SHOOTER_PIVOT_MAX_ROT = Rotation2d.fromDegrees(-55.0);
 
     public static final Rotation2d AMP_HARDSTOP = Rotation2d.fromDegrees(0.0);
-    public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-173.0);
+    public static final Rotation2d AMP_DEPLOYED = Rotation2d.fromDegrees(-171.0);
 
     public static final double FLYWHEEL_STATIC_SPEED_RPM = 1000;
     public static final double FLYWHEEL_AMP_SPEED_RPM = 1400;

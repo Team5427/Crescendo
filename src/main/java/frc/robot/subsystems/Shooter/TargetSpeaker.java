@@ -21,7 +21,7 @@ public class TargetSpeaker extends Command {
     private PIDController rotPID;
     private ObjectDetector tagCam;
 
-    private static final double kP = 5.5; //FIXME
+    private static final double kP = 5.4; //FIXME
     private static final double kI = 0.0;
     private static final double kD = 0.15;
 
@@ -73,7 +73,7 @@ public class TargetSpeaker extends Command {
             angleEffort = tagCam.targetVisible() ? 
             rotPID.calculate(Math.toRadians(RobotContainer.getTagCam().targetInfo()[0]), adjustmentSetpoint.getRadians()) : 
             -rotPID.calculate(rotError.getRadians(), adjustmentSetpoint.getRadians());    
-            
+            SteelTalonsLogger.post("Locked On", rotError.getDegrees() < 2);
         } else {
             config = ShooterConstants.SHUTTLE_CONFIGURATION;
             angleEffort = 0;

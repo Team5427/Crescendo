@@ -125,6 +125,16 @@ public class SteelTalonsSparkMaxServo {
         }
     }
 
+
+    /// Must be used ONLY for rotational motors
+    public double getErrorFromPosition(Rotation2d position){
+    if(config.isRotational){
+        return position.minus(new Rotation2d(getPosition())).getRadians();
+    } else{
+        return 0;
+    }
+    }
+
     public double getVelError() {
         return smaxController.getVelocityError();
     }

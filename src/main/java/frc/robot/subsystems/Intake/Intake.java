@@ -3,6 +3,9 @@ package frc.robot.subsystems.Intake;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.revrobotics.CANSparkBase;
+import com.revrobotics.REVLibError;
+import com.revrobotics.CANSparkBase.FaultID;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
@@ -26,6 +29,8 @@ public class Intake extends SubsystemBase {
     private static Intake instance;
 
     private boolean isHoming;
+
+    private boolean isStalled;
 
     public Intake () {
         IntakeConstants.configureIntake();
@@ -76,6 +81,10 @@ public class Intake extends SubsystemBase {
 
     public SteelTalonsSparkMaxServo getPivot() {
         return pivot;
+    }
+
+    public boolean isStalled(){
+        return isStalled;
     }
 
     public void setLimits(int num) {
@@ -139,9 +148,10 @@ public class Intake extends SubsystemBase {
 
             hardSetRoller(rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S); //rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S
         } else {
-            hardSetPivot(0.05);
+            hardSetPivot(0.125);
             hardSetRoller(0.0);
         }
+
         // CommandXboxController tester = new CommandXboxController(2);
         // hardSetPivot(tester.getLeftX());
         log();
@@ -177,6 +187,7 @@ public class Intake extends SubsystemBase {
         SteelTalonsLogger.post("Intake Loaded", sensorCovered());
         SteelTalonsLogger.post("intake at goal 5", atGoal(5));
         SteelTalonsLogger.post("intake setpoint roller", rollerSetpoint);
+        SteelTalonsLogger.post("Intake Pivot Stalled", pivot.getSmax().getFault(FaultID.kStall));
 
         // pivot.log();
     }

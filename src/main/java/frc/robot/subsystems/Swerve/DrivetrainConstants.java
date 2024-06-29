@@ -65,6 +65,9 @@ public class DrivetrainConstants {
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 1.0;
     public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 4;
 
+    public static final double KID_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 2.0;
+    public static final double KID_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 12;
+
     public static final double MAX_TRANSLATION_SPEED_M_PER_LOOP = 0.5;
 
     public static final int FRONT_LEFT_CANCODER_ID = 12;

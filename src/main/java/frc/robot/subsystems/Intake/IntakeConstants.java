@@ -39,7 +39,7 @@ public class IntakeConstants {
         ROLLER_CONFIG.isRotational = false;
         PIVOT_CONFIG.isRotational = true;
 
-        PIVOT_CONFIG.currentLimit = 45;
+        PIVOT_CONFIG.currentLimit = 50;
         // ROLLER_CONFIG.currentLimit = 30;
 
         ROLLER_CONFIG.id = ROLLER_MOTOR_ID;

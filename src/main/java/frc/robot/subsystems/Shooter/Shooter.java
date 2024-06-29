@@ -233,6 +233,7 @@ public class Shooter extends SubsystemBase {
     SteelTalonsLogger.post("shooter flywheel at goal", flywheelAtGoal());
     // SteelTalonsLogger.post("pivot at goal", pivotAtGoal());
     SteelTalonsLogger.post("pivot at goal 3", pivotAtGoal(3));
+    // SteelTalonsLogger.post("Locked On", flywheelAtGoal() && pivotAtGoal());
   }
 
   public Command getHomingCommand() {

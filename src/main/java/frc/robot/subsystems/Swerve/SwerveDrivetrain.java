@@ -185,6 +185,13 @@ public class SwerveDrivetrain extends SubsystemBase {
             // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
         }; 
 
+        // double[] cv = {
+        //     -controller.getLeftY() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
+        //     -controller.getLeftX() * DrivetrainConstants.MAX_TRANSLATION_SPEED_M_S_TELEOP, 
+        //     Math.copySign(Math.pow(Math.abs(controller.getRightX()), 2), -controller.getRightX()) * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP,
+        //     // -controller.getLeftX() * DrivetrainConstants.MAX_ROTATION_SPEED_RAD_S_TELEOP
+        // }; 
+
         double trigger = 1 - controller.getRightTriggerAxis();
         for (int i = 0; i  < cv.length; i++) {
             cv[i] = cv[i] * trigger;
