@@ -26,7 +26,7 @@ public class IntakeConstants {
     public static final double INTAKE_SPEED_INTAKING = 5.0;
     public static final double INTAKE_SPEED_HOLD = 0.75; // maybe 0.95
     public static final double INTAKE_SPEED_HOLD_HANDOFF = 2.5;
-    public static final double INTAKE_SPEED_EJECTING = -1.750;
+    public static final double INTAKE_SPEED_EJECTING = -2.750;
     public static final double INTAKE_SPEED_EJECTING_MAX = -5.5;
     public static final double INTAKE_SPEED_ZERO = 0.0;
 

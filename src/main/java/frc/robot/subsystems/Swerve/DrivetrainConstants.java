@@ -42,25 +42,22 @@ public class DrivetrainConstants {
     public static final double THRESHOLD_STOPPING_M_S_TUNING = 0.75;
 
     public static final DriveConfig DEFAULT_DRIVE_CONFIG = new DriveConfig(
-        Optional.empty(), 
-        1.0, 
-        0.0, 
-        true
-    );
+            Optional.empty(),
+            1.0,
+            0.0,
+            true);
 
     public static final DriveConfig AMP_DRIVE_CONFIG = new DriveConfig(
-        Optional.of(new Rotation2d(-Math.PI/2)), 
-        0.5, 
-        0.25, 
-        true
-    );
+            Optional.of(new Rotation2d(Math.PI / 2)),
+            0.5,
+            0.25,
+            true);
 
     public static final DriveConfig SHUTTLE_DRIVE_CONFIG = new DriveConfig(
-        Optional.of(new Rotation2d(-Math.PI / 5.9)), 
-        1.0, 
-        0.0, 
-        true
-    );
+            Optional.of(new Rotation2d(-Math.PI / 5.9)),
+            1.0,
+            0.0,
+            true);
 
     public static final double MAX_TRANSLATION_SPEED_M_S_TELEOP = MAX_PHYSICAL_SPEED_M_S * 1.0;
     public static final double MAX_ROTATION_SPEED_RAD_S_TELEOP = Math.PI * 4;
@@ -139,19 +136,19 @@ public class DrivetrainConstants {
 
     // public static STSmaxConfig configureDriveNeo(STSmaxConfig config) {
 
-    //     config.kP = 0.02;
-    //     config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
-    //     config.kD = 0.0;
+    // config.kP = 0.02;
+    // config.kFF = 1 / DrivetrainConstants.MAX_PHYSICAL_SPEED_M_S;
+    // config.kD = 0.0;
 
-    //     config.currentLimit = 40;
+    // config.currentLimit = 40;
 
-    //     config.isRotational = false;
+    // config.isRotational = false;
 
-    //     config.gearing = (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
-    //     config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
-    //     config.idleMode = IdleMode.kBrake;
+    // config.gearing = (16.0 / 50.0) * (28.0 / 16.0) * (15.0 / 45.0);
+    // config.finalDiameterMeters = WHEEL_DIAMETER_METERS;
+    // config.idleMode = IdleMode.kBrake;
 
-    //     return config;
+    // return config;
     // }
 
     public static STSmaxConfig configureSteerNeo(STSmaxConfig config) {

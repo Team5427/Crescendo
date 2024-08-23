@@ -61,7 +61,16 @@ public class OperatingControls {
                                                                                                                        // speed
                                                                                                                        // for
                                                                                                                        // shooting
-                operatingController.y().onTrue(new IntakeAmp());
+                operatingController.y().whileTrue(
+                                new InstantCommand(() -> {
+                                        SwerveDrivetrain.getInstance()
+                                                        .setDriveConfig(DrivetrainConstants.AMP_DRIVE_CONFIG);
+                                }));
+                operatingController.y().onFalse(new ParallelCommandGroup(
+                                new IntakeAmp(), new InstantCommand(() -> {
+                                        SwerveDrivetrain.getInstance()
+                                                        .setDriveConfig(DrivetrainConstants.DEFAULT_DRIVE_CONFIG);
+                                })));
                 // operatingController.y().whileTrue(new ScoreAmp()); // Scores into the amp
 
                 operatingController.x().whileTrue(new RunCommand(() -> {
