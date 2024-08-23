@@ -32,7 +32,7 @@ public class Intake extends SubsystemBase {
 
     private boolean isStalled;
 
-    public Intake () {
+    public Intake() {
         IntakeConstants.configureIntake();
         rollerTalon = new TalonFX(IntakeConstants.ROLLER_MOTOR_ID, "*");
 
@@ -53,7 +53,7 @@ public class Intake extends SubsystemBase {
         beamBreaker = new DigitalInput(IntakeConstants.BEAM_BREAKER_PORT);
         isHoming = false;
 
-        instance = this; 
+        instance = this;
     }
 
     public static Intake getInstance() {
@@ -62,9 +62,9 @@ public class Intake extends SubsystemBase {
 
     public void setPivotSetpoint(Rotation2d setpoint) {
         // if (setpoint.equals(IntakeConstants.INTAKING_POS)) {
-        //     pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel * 0.5);
+        // pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel * 0.5);
         // } else {
-        //     pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel); 
+        // pivot.setAccel(IntakeConstants.ROLLER_CONFIG.maxAccel);
         // }
         // pivot.resetController();
         // Timer.delay(0.15);
@@ -72,7 +72,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void setRollerSetpoint(double speed) {
-        this.rollerSetpoint = speed;       
+        this.rollerSetpoint = speed;
     }
 
     public TalonFX getRoller() {
@@ -83,7 +83,7 @@ public class Intake extends SubsystemBase {
         return pivot;
     }
 
-    public boolean isStalled(){
+    public boolean isStalled() {
         return isStalled;
     }
 
@@ -131,7 +131,8 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean atHandoff() {
-        return atGoal(5.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS) && pivot.getSetPoint() == IntakeConstants.HANDOFF_POS.getRadians();
+        return atGoal(5.0) && this.setpoint.equals(IntakeConstants.HANDOFF_POS)
+                && pivot.getSetPoint() == IntakeConstants.HANDOFF_POS.getRadians();
     }
 
     public boolean getHoming() {
@@ -141,14 +142,15 @@ public class Intake extends SubsystemBase {
     @Override
     public void periodic() {
         if (!isHoming) {
-            pivot.setSetpoint(setpoint.getRadians(), 
-            0.0
+            pivot.setSetpoint(setpoint.getRadians(),
+                    0.0
             // pivotFF.calculate(getPivot().getPosition(), pivot.getSetpointVelocity())
             );
 
-            hardSetRoller(rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S); //rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S
+            hardSetRoller(rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S); // rollerSetpoint /
+                                                                                         // IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S
         } else {
-            hardSetPivot(0.125);
+            hardSetPivot(0.75);
             hardSetRoller(0.0);
         }
 
@@ -159,6 +161,10 @@ public class Intake extends SubsystemBase {
 
     public Command getIntakeCommand() {
         return new IntakeCommand();
+    }
+
+    public Command getIntakeAmpingCommand() {
+        return new IntakeAmp();
     }
 
     public Command getHomingCommand() {
