@@ -58,7 +58,7 @@ public class RobotContainer {
     shooter = new Shooter();
 
     noteCam = new ObjectDetector("limelight-notecam"); // may need to move into intake subsystem
-    tagCam = new ObjectDetector("limelight-front"); //change to limelight-shooter
+    tagCam = new ObjectDetector("limelight-front"); // change to limelight-shooter
 
     leds = new LEDManager();
 
@@ -83,8 +83,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("Complex Intake", SubsystemManager.getComplexIntakeCommand());
     NamedCommands.registerCommand("Auton Shoot", SubsystemManager.getTargetingCommand());
     NamedCommands.registerCommand("Cum And Go", SubsystemManager.cumAndGo());
-    NamedCommands.registerCommand("Hardcode Sub Shot", new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION));
-    NamedCommands.registerCommand("Hardcode Sub Shot Avoidance", new HardCodeShot(ShooterConstants.SECOND_AUTON_SHOT_CONFIGURATION));
+    NamedCommands.registerCommand("Hardcode Sub Shot",
+        new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION));
+    NamedCommands.registerCommand("Hardcode Sub Shot Avoidance",
+        new HardCodeShot(ShooterConstants.SECOND_AUTON_SHOT_CONFIGURATION));
   }
 
   public static ObjectDetector getNoteCam() {

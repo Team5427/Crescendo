@@ -30,33 +30,37 @@ public class SubsystemManager {
     public static Command getComplexIntakeCommand() {
         return new SequentialCommandGroup(
                 new ConditionalCommand( // Intaking Note
-                    Intake.getInstance().getIntakeCommand().withTimeout(3.0).onlyIf(() -> {return !Shooter.getInstance().loaded();}), 
-                    Intake.getInstance().getIntakeCommand(),                         
-                    DriverStation::isAutonomous),
+                        Intake.getInstance().getIntakeCommand().withTimeout(3.0).onlyIf(() -> {
+                            return !Shooter.getInstance().loaded();
+                        }),
+                        Intake.getInstance().getIntakeCommand(),
+                        DriverStation::isAutonomous),
                 new ParallelCommandGroup(
-                    rumbleCommand().onlyIf(DriverStation::isTeleop),
-                    Shooter.getInstance().getShooterHandoff(), //hopefully never needs this
-                    Intake.getInstance().getIntakeHandoff()
-                ).onlyIf(Intake.getInstance()::sensorCovered)
-        );
+                        rumbleCommand().onlyIf(DriverStation::isTeleop),
+                        Shooter.getInstance().getShooterHandoff(), // hopefully never needs this
+                        Intake.getInstance().getIntakeHandoff()).onlyIf(Intake.getInstance()::sensorCovered));
+    }
+
+    public static Command intakeAmpCommand() {
+        return Intake.getInstance().getIntakeAmpingCommand().onlyIf(() -> {
+            return Intake.getInstance().sensorCovered();
+        });
     }
 
     public static Command getTargetingCommand() {
         return new SequentialCommandGroup(
-            // new BumpFeederIn().withTimeout(1.0),
-            new WaitUntilCommand(Shooter.getInstance()::atStow).withTimeout(1.0),
-            new TargetSpeaker()
-        );
+                // new BumpFeederIn().withTimeout(1.0),
+                new WaitUntilCommand(Shooter.getInstance()::atStow).withTimeout(1.0),
+                new TargetSpeaker());
     }
 
     public static Command homeAll() {
         return new ParallelCommandGroup(
-            new HomeIntake(),
-            new HomeShooter(),
-            new HomeAmp()
-        );
-    }   
-    
+                new HomeIntake(),
+                new HomeShooter(),
+                new HomeAmp());
+    }
+
     public static Command zeroAll() {
         return new InstantCommand(() -> {
             System.err.println("YIPPEE HOMED EVERYTHING");
@@ -69,9 +73,8 @@ public class SubsystemManager {
     public static Command cumAndGo() {
         // Lets cum and go
         return new SequentialCommandGroup(
-            new IntakeCommand().withTimeout(3.0),
-            new Backshot().onlyIf(Intake.getInstance()::sensorCovered)
-        );
+                new IntakeCommand().withTimeout(3.0),
+                new Backshot().onlyIf(Intake.getInstance()::sensorCovered));
     }
 
     public static Command rumbleCommand() {
