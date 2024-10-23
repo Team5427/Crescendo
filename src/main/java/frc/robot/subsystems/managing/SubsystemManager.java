@@ -18,7 +18,7 @@ import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeCommand;
 import frc.robot.subsystems.Intake.IntakeConstants;
 import frc.robot.subsystems.Shooter.BumpFeederIn;
-import frc.robot.subsystems.Shooter.HomeAmp;
+// import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.HomeShooter;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
@@ -57,8 +57,8 @@ public class SubsystemManager {
     public static Command homeAll() {
         return new ParallelCommandGroup(
                 new HomeIntake(),
-                new HomeShooter(),
-                new HomeAmp());
+                new HomeShooter());
+                // new HomeAmp());
     }
 
     public static Command zeroAll() {
@@ -66,7 +66,7 @@ public class SubsystemManager {
             System.err.println("YIPPEE HOMED EVERYTHING");
             Shooter.getInstance().getShooterPivot().setPosition(ShooterConstants.SHOOTER_PIVOT_HARDSTOP.getRadians());
             Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
-            Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+            // Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
         });
     }
 

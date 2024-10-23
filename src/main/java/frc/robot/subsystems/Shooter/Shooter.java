@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
   private SteelTalonsSparkMaxBangBang leftFlywheel;
   private SteelTalonsSparkMaxBangBang rightFlywheel;
   private SteelTalonsSparkMaxFlywheel feeder;
-  private SteelTalonsSparkMaxServo ampMotor;
+  // private SteelTalonsSparkMaxServo ampMotor;
   private SteelTalonsSparkMaxServo pivotMaster;
   private SteelTalonsSparkMaxServo pivotSlave;
 
@@ -46,8 +46,8 @@ public class Shooter extends SubsystemBase {
     rightFlywheel = new SteelTalonsSparkMaxBangBang(ShooterConstants.shooterRightFlywheelConfig);
     feeder = new SteelTalonsSparkMaxFlywheel(ShooterConstants.feederRollerConfig);
     feeder.disableLimiter();
-    ampMotor = new SteelTalonsSparkMaxServo(ShooterConstants.ampPivotConfig);
-    ampMotor.disableContinuousInput();
+    // ampMotor = new SteelTalonsSparkMaxServo(ShooterConstants.ampPivotConfig);
+    // ampMotor.disableContinuousInput();
 
     pivotMaster = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig);
     pivotSlave = new SteelTalonsSparkMaxServo(ShooterConstants.shooterPivotConfig, ShooterConstants.SHOOTER_PIVOT_SLAVE_MOTOR_ID);
@@ -120,17 +120,17 @@ public class Shooter extends SubsystemBase {
     return !atStow();
   }
 
-  public boolean ampAtGoal() {
-    return Math.abs(ampMotor.getError()) < ShooterConstants.AMP_TOLERANCE_RAD.getRadians();
-  }
+  // public boolean ampAtGoal() {
+  //   // return Math.abs(ampMotor.getError()) < ShooterConstants.AMP_TOLERANCE_RAD.getRadians();
+  // }
 
   public void hardSetPivot(double percent) {
     pivotMaster.setRaw(percent);
   }
 
-  public void hardSetAmp(double percent) {
-    ampMotor.setRaw(percent);
-  }
+  // public void hardSetAmp(double percent) {
+  //   ampMotor.setRaw(percent);
+  // }
 
   @Override
   public void periodic() {
@@ -159,11 +159,11 @@ public class Shooter extends SubsystemBase {
         ), 0.0);
     }
 
-    if (homingAmp) {
-      hardSetAmp(0.2);
-    } else {
-      ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
-    }
+    // if (homingAmp) {
+    //   hardSetAmp(0.2);
+    // } else {
+    //   ampMotor.setSetpoint(this.ampSetpoint.getRadians(), 0.0);
+    // }
 
     if (this.feederSetpoint == ShooterConstants.FEEDER_HOLD_SPEED && !inPosition() && loaded()) {
       feeder.setSetpoint(0.0, 0.0);
@@ -186,9 +186,9 @@ public class Shooter extends SubsystemBase {
     return pivotMaster;
   }
 
-  public SteelTalonsSparkMaxServo getShooterAmp() {
-    return ampMotor;
-  }
+  // public SteelTalonsSparkMaxServo getShooterAmp() {
+  //   return ampMotor;
+  // }
 
   public SteelTalonsSparkMaxFlywheel getFeeder() {
     return feeder;

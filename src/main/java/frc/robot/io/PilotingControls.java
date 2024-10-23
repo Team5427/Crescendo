@@ -3,6 +3,7 @@ package frc.robot.io;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.subsystems.Swerve.DrivetrainConstants;
 import frc.robot.subsystems.Swerve.SwerveDrivetrain;
 import frc.robot.util.MiscUtil;
 import frc.robot.util.Localization.SteelTalonsLocalization;
@@ -17,6 +18,10 @@ public class PilotingControls {
             );
             SteelTalonsLocalization.getInstance().resetCameras();
         }, SteelTalonsLocalization.getInstance()));
+
+        controller.rightBumper().onTrue(new InstantCommand(() -> {
+            SwerveDrivetrain.getInstance().setDriveConfig(DrivetrainConstants.DEFAULT_DRIVE_CONFIG);
+        }));
 
         // controller.rightBumper().whileTrue(new TestShooterRanging());
 

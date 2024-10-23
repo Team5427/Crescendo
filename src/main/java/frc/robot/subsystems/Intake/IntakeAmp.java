@@ -24,7 +24,7 @@ public class IntakeAmp extends Command {
     @Override
     public void initialize() {
         intake.setPivotSetpoint(IntakeConstants.AMPING_POS);
-        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_EJECTING);
+        intake.setRollerSetpoint(IntakeConstants.INTAKE_SPEED_AMPING);
         LEDManager.getInstance().setState(LEDState.kIntaking);
 
     }

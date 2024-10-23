@@ -150,7 +150,7 @@ public class Intake extends SubsystemBase {
             hardSetRoller(rollerSetpoint / IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S); // rollerSetpoint /
                                                                                          // IntakeConstants.MAX_KRAKEN_ROLLER_SPEED_M_S
         } else {
-            hardSetPivot(0.75);
+            hardSetPivot(0.075);
             hardSetRoller(0.0);
         }
 

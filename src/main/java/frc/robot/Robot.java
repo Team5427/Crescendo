@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeConstants;
-import frc.robot.subsystems.Shooter.HomeAmp;
+// import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.managing.SubsystemManager;
@@ -48,12 +48,12 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-    SteelTalonsLogger.post("zero button", RobotContainer.getLimitSwitch().get());
-    if (!RobotContainer.getLimitSwitch().get()) {
+    SteelTalonsLogger.post("zero button", !RobotContainer.getLimitSwitch().get());
+    if (RobotContainer.getLimitSwitch().get()) {
       LEDManager.getInstance().setState(LEDState.kEmpty);
       Shooter.getInstance().getShooterPivot().setPosition(new Rotation2d(-.0274).getRadians());
       Intake.getInstance().getPivot().setPosition(IntakeConstants.HARDSTOP_POS.getRadians());
-      Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
+      // Shooter.getInstance().getShooterAmp().setPosition(ShooterConstants.AMP_HARDSTOP.getRadians());
     } else {
       LEDManager.getInstance().setState(LEDState.kDisabled);
     }
@@ -85,7 +85,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
 
-    CommandScheduler.getInstance().schedule(new HomeAmp());
+    // CommandScheduler.getInstance().schedule(new HomeAmp());
   }
 
   @Override

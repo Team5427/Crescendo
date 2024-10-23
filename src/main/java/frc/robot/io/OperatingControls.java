@@ -1,17 +1,21 @@
 package frc.robot.io;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.Intake.IntakeAmp;
 import frc.robot.subsystems.Intake.IntakeCommand;
+import frc.robot.subsystems.Intake.IntakeConstants;
 import frc.robot.subsystems.Shooter.FeedShooter;
 import frc.robot.subsystems.Shooter.FeedShooterClean;
 import frc.robot.subsystems.Shooter.HardCodeShot;
-import frc.robot.subsystems.Shooter.HomeAmp;
+// import frc.robot.subsystems.Shooter.HomeAmp;
 import frc.robot.subsystems.Shooter.Shooter;
 import frc.robot.subsystems.Shooter.ShooterConstants;
 import frc.robot.subsystems.Shooter.TargetSpeaker;
@@ -34,7 +38,10 @@ public class OperatingControls {
                 // homes amp
 
                 operatingController.leftTrigger(0.1).onTrue(new ConditionalCommand(
-                                Intake.getInstance().getIntakeCommand(),
+                                new SequentialCommandGroup(
+                                        Intake.getInstance().getIntakeCommand(),
+                                        SubsystemManager.rumbleCommand()
+                                ),
                                 new ParallelCommandGroup(
                                                 Intake.getInstance().getIntakeHandoff(),
                                                 Shooter.getInstance().getShooterHandoff()),
@@ -47,12 +54,17 @@ public class OperatingControls {
 
                 // operatingController.leftBumper().whileTrue(new FeedShooter(5200,
                 // ShooterConstants.SHOOTER_PIVOT_ACTIVE, true));
-                operatingController.leftBumper().onTrue(new HomeAmp()); // Homes amp
+                // operatingController.leftBumper().onTrue(new HomeAmp()); // Homes amp
                 operatingController.rightBumper().onTrue(SubsystemManager.homeAll()); // Homes everything
 
                 operatingController.a().onTrue(new Unstuck()); // Preforms Unstuck action
 
-                operatingController.b().whileTrue(new TargetSpeaker()); // Aims the shooter to the speaker
+                operatingController.b().onTrue(new ParallelCommandGroup(
+                        Intake.getInstance().getIntakeHandoff(),
+                        Shooter.getInstance().getShooterHandoff()
+                ).onlyIf(() -> !Shooter.getInstance().loaded()));
+
+                operatingController.b().whileTrue(new TargetSpeaker().onlyIf(() -> Shooter.getInstance().loaded())); // Aims the shooter to the speaker
                 operatingController.povDown().onTrue(new FeedShooterClean()); // Feeds the note to the shooter manually
                 operatingController.povUp().onTrue(new HardCodeShot(ShooterConstants.FIRST_AUTON_SHOT_CONFIGURATION)); // Preset
                                                                                                                        // angle
@@ -72,6 +84,8 @@ public class OperatingControls {
                                                         .setDriveConfig(DrivetrainConstants.DEFAULT_DRIVE_CONFIG);
                                 })));
                 // operatingController.y().whileTrue(new ScoreAmp()); // Scores into the amp
+
+                // new IntakeAmp().onlyIf(() -> SwerveDrivetrain.getInstance().)
 
                 operatingController.x().whileTrue(new RunCommand(() -> {
                         SwerveDrivetrain.getInstance().setDriveConfig(DrivetrainConstants.SHUTTLE_DRIVE_CONFIG); // Prepares

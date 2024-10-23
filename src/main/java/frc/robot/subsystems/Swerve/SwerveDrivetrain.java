@@ -176,6 +176,15 @@ public class SwerveDrivetrain extends SubsystemBase {
         ChassisSpeeds speeds = DrivetrainConstants.SWERVE_DRIVE_KINEMATICS.toChassisSpeeds(states);
         return speeds;
     }
+    public SwerveModuleState[] getModuleStates() {
+        SwerveModuleState[] states = new SwerveModuleState[]{
+            modules.get(0).getModuleState(),
+            modules.get(1).getModuleState(),
+            modules.get(2).getModuleState(),
+            modules.get(3).getModuleState(),
+        };
+        return states;
+    }
 
     public ChassisSpeeds getDriveSpeeds(CommandXboxController controller) {
         double[] cv = {
@@ -210,6 +219,8 @@ public class SwerveDrivetrain extends SubsystemBase {
         SteelTalonsLogger.post("y speed", getVelocityVector().vyMetersPerSecond);
         SteelTalonsLogger.post("Delta Time", Timer.getFPGATimestamp() - lastTime);
         SteelTalonsLogger.post("speed magnitude", MiscUtil.drivetrainSpeedMagnitude());
+        SteelTalonsLogger.logSwerve(getModuleStates());
+        SteelTalonsLogger.post("Chassis Rotation", getRotation().getRotations());
         modules.get(0).log("front left");
         // modules.get(1).log("front right");
         // modules.get(2).log("back left");
