@@ -31,7 +31,7 @@ public class ShooterConstants {
 
     public static final double FLYWHEEL_TOLERANCE_RPM = 150.0;
     public static final double FEEDER_TOLERANCE_M_S = 0.2;
-    public static final Rotation2d PIVOT_TOLERANCE_RAD = new Rotation2d(Math.toRadians(0.25));
+    public static final Rotation2d PIVOT_TOLERANCE_RAD = new Rotation2d(Math.toRadians(0.2));
     public static final Rotation2d AMP_TOLERANCE_RAD = new Rotation2d(Math.toRadians(1.25));
 
     public static final Rotation2d SHOOTER_PIVOT_HARDSTOP = Rotation2d.fromDegrees(0.0);
@@ -126,16 +126,16 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             3.28, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-40.09), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-41.5), //SHOOTER ROTATION 
                 5400, //LEFT RPM
                 5400 //RIGHT RPM
             )
         );
 
         // SHOOTER_PIVOT_TARGET_MAP.put(
-        //     4.0, //DISTANCE METERS
+        //     3.5, //DISTANCE METERS
         //     new ShootingConfiguration(
-        //         Rotation2d.fromDegrees(-41.8), //SHOOTER ROTATION 
+        //         Rotation2d.fromDegrees(-40.3), //SHOOTER ROTATION 
         //         5400, //LEFT RPM
         //         5400 //RIGHT RPM
         //     )
@@ -144,7 +144,7 @@ public class ShooterConstants {
         SHOOTER_PIVOT_TARGET_MAP.put(
             4.0, //DISTANCE METERS
             new ShootingConfiguration(
-                Rotation2d.fromDegrees(-40.8), //SHOOTER ROTATION 
+                Rotation2d.fromDegrees(-42.9), //SHOOTER ROTATION 
                 5400, //LEFT RPM
                 5400 //RIGHT RPM
             )

@@ -18,7 +18,7 @@ public class IntakeConstants {
 
     public static final Rotation2d STOWED_POS = new Rotation2d(Units.degreesToRadians(-76.0));
     public static final Rotation2d INTAKING_POS = new Rotation2d(Units.degreesToRadians(-216.0)); // -210
-    public static final Rotation2d AMPING_POS = new Rotation2d(Units.degreesToRadians(-93.0));
+    public static final Rotation2d AMPING_POS = new Rotation2d(Units.degreesToRadians(-95.0));
     public static final Rotation2d HARDSTOP_POS = new Rotation2d(Units.degreesToRadians(0.0));
     public static final Rotation2d HANDOFF_POS = new Rotation2d(Units.degreesToRadians(-7.0));
     public static final Rotation2d BACKSHOT_POSE = new Rotation2d(Units.degreesToRadians(-40.0));
