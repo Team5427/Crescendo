@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.io.EricControls;
 import frc.robot.io.OperatingControls;
 import frc.robot.io.PilotingControls;
 import frc.robot.subsystems.Climber.Climber;
@@ -75,8 +76,9 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    new PilotingControls(new CommandXboxController(0));
-    new OperatingControls(new CommandXboxController(1));
+    // new PilotingControls(new CommandXboxController(0));
+    // new OperatingControls(new CommandXboxController(1));
+    new EricControls(new CommandXboxController(0));
   }
 
   private void registerNamedCommands() {
