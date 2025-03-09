@@ -1,12 +1,5 @@
 {
-  "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.4688453674316406,
-      "y": 5.547971725463867
-    },
-    "rotation": -8.90687133961214e-27
-  },
+  "version": "2025.0",
   "command": {
     "type": "sequential",
     "data": {
@@ -133,6 +126,7 @@
       ]
     }
   },
+  "resetOdom": true,
   "folder": "Basic Four Note",
   "choreoAuto": true
 }

@@ -1,12 +1,5 @@
 {
-  "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.4196351766586304,
-      "y": 7.318119525909424
-    },
-    "rotation": 8.069567172413545e-19
-  },
+  "version": "2025.0",
   "command": {
     "type": "sequential",
     "data": {
@@ -179,6 +172,7 @@
       ]
     }
   },
+  "resetOdom": true,
   "folder": "Upper Avoidance",
   "choreoAuto": true
 }

@@ -1,12 +1,5 @@
 {
-  "version": 1.0,
-  "startingPose": {
-    "position": {
-      "x": 1.4245039224624634,
-      "y": 5.536125659942627
-    },
-    "rotation": -2.846204909011108e-27
-  },
+  "version": "2025.0",
   "command": {
     "type": "sequential",
     "data": {
@@ -163,6 +156,7 @@
       ]
     }
   },
+  "resetOdom": true,
   "folder": "Upper 5 Note",
   "choreoAuto": true
 }

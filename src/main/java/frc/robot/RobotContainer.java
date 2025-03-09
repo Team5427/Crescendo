@@ -76,9 +76,9 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
-    // new PilotingControls(new CommandXboxController(0));
-    // new OperatingControls(new CommandXboxController(1));
-    new EricControls(new CommandXboxController(0));
+    new PilotingControls(new CommandXboxController(0));
+    new OperatingControls(new CommandXboxController(1));
+    // new EricControls(new CommandXboxController(0));
   }
 
   private void registerNamedCommands() {

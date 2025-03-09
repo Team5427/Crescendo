@@ -203,7 +203,7 @@ public class SwerveDrivetrain extends SubsystemBase {
 
         double trigger = 1 - controller.getRightTriggerAxis();
         for (int i = 0; i  < cv.length; i++) {
-            cv[i] = cv[i] * trigger;
+            cv[i] = cv[i] * trigger * 0.5;
         }
         
         return driveConfig.getFieldOp() ? ChassisSpeeds.fromFieldRelativeSpeeds(cv[0], cv[1], cv[2], MiscUtil.isBlue() ? SteelTalonsLocalization.getInstance().getPose().getRotation() : SteelTalonsLocalization.getInstance().getPose().getRotation().plus(Rotation2d.fromDegrees(180))) : new ChassisSpeeds(cv[0], cv[1], cv[2]);
